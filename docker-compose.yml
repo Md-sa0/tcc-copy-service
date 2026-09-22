@@ -1,0 +1,84 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-copy}
+      POSTGRES_USER: ${POSTGRES_USER:-copy}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-copy_local}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks: [data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7.4-alpine
+    restart: unless-stopped
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-redis_local}
+    command: ["sh", "-c", "exec redis-server --appendonly yes --requirepass \"$$REDIS_PASSWORD\" --maxmemory 256mb --maxmemory-policy noeviction"]
+    volumes:
+      - redis_data:/data
+    networks: [data]
+    healthcheck:
+      test: ["CMD-SHELL", "REDISCLI_AUTH=$$REDIS_PASSWORD redis-cli ping | grep PONG"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build: .
+    restart: unless-stopped
+    environment:
+      APP_ENV: ${APP_ENV:-development}
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-copy}:${POSTGRES_PASSWORD:-copy_local}@postgres:5432/${POSTGRES_DB:-copy}
+      REDIS_URL: redis://:${REDIS_PASSWORD:-redis_local}@redis:6379/0
+      LLM_PROVIDER: ${LLM_PROVIDER:-mock}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash}
+      API_KEY: ${API_KEY:-}
+      PROMPT_VERSION: ${PROMPT_VERSION:-retail-v1}
+      CACHE_TTL_SECONDS: ${CACHE_TTL_SECONDS:-86400}
+      GENERATION_TIMEOUT_SECONDS: ${GENERATION_TIMEOUT_SECONDS:-90}
+      RETRY_ATTEMPTS: ${RETRY_ATTEMPTS:-3}
+      RETRY_BASE_SECONDS: ${RETRY_BASE_SECONDS:-1}
+      CORS_ORIGINS: '${CORS_ORIGINS:-["http://localhost:8080","http://localhost:5173"]}'
+    networks: [data, edge]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/ready', timeout=5)"]
+      interval: 10s
+      timeout: 6s
+      retries: 12
+      start_period: 20s
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"
+    networks: [edge]
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8080/"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  postgres_data:
+  redis_data:
+networks:
+  data:
+    internal: true
+  edge:
