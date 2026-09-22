@@ -1,0 +1,38 @@
+{
+  "detail": [
+    {
+      "type": "missing",
+      "loc": [
+        "body",
+        "name"
+      ],
+      "msg": "Field required",
+      "input": {
+        "product_id": "SKU-BELLA-TESTE-ERRO",
+        "category": "Cuidados com a Pele",
+        "target_audience": "Utilizadores que procuram hidratação",
+        "technical_attributes": {
+          "volume": "30ml"
+        },
+        "tone_of_voice": "persuasive"
+      }
+    },
+    {
+      "type": "missing",
+      "loc": [
+        "body",
+        "key_benefits"
+      ],
+      "msg": "Field required",
+      "input": {
+        "product_id": "SKU-BELLA-TESTE-ERRO",
+        "category": "Cuidados com a Pele",
+        "target_audience": "Utilizadores que procuram hidratação",
+        "technical_attributes": {
+          "volume": "30ml"
+        },
+        "tone_of_voice": "persuasive"
+      }
+    }
+  ]
+}

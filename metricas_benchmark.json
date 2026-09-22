@@ -1,0 +1,18 @@
+[
+  {
+    "item": 1,
+    "sku": "SKU-BELLA-001",
+    "status_code": 200,
+    "total_client_ms": 53667.43,
+    "internal_api_ms": 53633.88,
+    "model_used": "gemini-2.5-flash"
+  },
+  {
+    "item": 2,
+    "sku": "SKU-BELLA-002",
+    "status_code": 200,
+    "total_client_ms": 17440.37,
+    "internal_api_ms": 17438.36,
+    "model_used": "gemini-2.5-flash"
+  }
+]

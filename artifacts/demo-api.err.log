@@ -1,0 +1,1 @@
+{"request_id": "874740b8-ba84-407a-998c-864991a86e50", "path": "/api/v1/products", "method": "GET", "kind": "api", "latency_ms": 5.048000000897446, "cache_status": "BYPASS", "status_code": 200, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}

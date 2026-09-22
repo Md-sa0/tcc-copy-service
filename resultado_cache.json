@@ -1,0 +1,14 @@
+[
+  {
+    "cenario": "Sem Cache (Cache Miss)",
+    "tempo_total_ms": 13780.9,
+    "tempo_interno_api_ms": 13745.34,
+    "cache_hit": false
+  },
+  {
+    "cenario": "Com Cache (Cache Hit)",
+    "tempo_total_ms": 1.64,
+    "tempo_interno_api_ms": 0.03,
+    "cache_hit": true
+  }
+]
