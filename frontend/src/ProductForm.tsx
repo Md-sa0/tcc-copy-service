@@ -82,7 +82,7 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
       <div className="panel-heading">
         <div>
           <span className="eyebrow">01 / INFORMAÇÕES DO PRODUTO</span>
-          <h2>{product ? "Editar produto" : "O que vamos divulgar?"}</h2>
+          <h2>{product ? "Editar produto" : "Cadastrar produto"}</h2>
         </div>
         {product && (
           <button
@@ -105,8 +105,10 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
               required
               maxLength={64}
               placeholder="FONE-001"
+              aria-label="SKU"
               {...field("sku")}
             />
+            <small>Código único escolhido por você, como FONE-001.</small>
           </label>
           <label>
             Categoria{" "}
@@ -147,7 +149,10 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
             placeholder={"Conectividade: Bluetooth 5.3\nAutonomia: 24 horas"}
             {...field("attributes")}
           />
-          <small>Um atributo: valor por linha. Até 30 atributos.</small>
+          <small>
+            Escreva uma característica por linha, como Material: algodão. Até 30
+            características.
+          </small>
         </label>
         <label>
           Benefícios comprovados{" "}
@@ -164,7 +169,7 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
           </small>
         </label>
         <div className="tone-heading">
-          <span className="eyebrow">02 / PERSONALIDADE DA MENSAGEM</span>
+          <span className="eyebrow">02 / ESTILO DO TEXTO</span>
           <span>Tom de voz</span>
         </div>
         <div className="tone-grid">
@@ -191,6 +196,20 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
             </label>
           ))}
         </div>
+        <p className="field-explanation" aria-live="polite">
+          {
+            {
+              persuasivo:
+                "Persuasivo: destaca os benefícios para incentivar a compra.",
+              descontraído:
+                "Descontraído: usa uma linguagem informal e próxima do leitor.",
+              institucional:
+                "Institucional: apresenta o produto de forma objetiva e formal.",
+              promocional:
+                "Promocional: dá destaque à oferta, sem inventar preços ou descontos.",
+            }[tone]
+          }
+        </p>
         {error && (
           <div className="error-box" role="alert">
             {error}
@@ -216,7 +235,8 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
         </div>
       </fieldset>
       <p className="form-note">
-        Validação estrita · Saída JSON estruturada · Cache SHA-256
+        Salvar guarda apenas o cadastro. Gerar conteúdo salva o produto e
+        solicita os três textos.
       </p>
     </form>
   );

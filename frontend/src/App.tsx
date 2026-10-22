@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import {
   Activity,
   ArrowUpRight,
@@ -17,7 +17,7 @@ import {
   X,
 } from "lucide-react";
 import { api, setAccessKey } from "./api";
-import Dashboard from "./Dashboard";
+import Guide, { type Runtime } from "./Guide";
 import ProductForm from "./ProductForm";
 import Previews from "./Previews";
 import type {
@@ -29,13 +29,14 @@ import type {
   Tone,
 } from "./types";
 
-type View = "generator" | "catalog" | "metrics";
+const Dashboard = lazy(() => import("./Dashboard"));
+
+type View = "generator" | "catalog" | "metrics" | "guide";
 export default function App() {
-  const [view, setView] = useState<View>("generator");
-  const [health, setHealth] = useState<{
-    provider: string;
-    model: string;
-  } | null>(null);
+  const [view, setView] = useState<View>(
+    window.location.hash === "#como-funciona" ? "guide" : "generator",
+  );
+  const [health, setHealth] = useState<Runtime | null>(null);
   const [product, setProduct] = useState<Product | null>(null);
   const [result, setResult] = useState<Generation | null>(null);
   const [busy, setBusy] = useState(false),
@@ -55,7 +56,7 @@ export default function App() {
     window.scrollTo({ top: 0, left: 0 });
   }, [view]);
   useEffect(() => {
-    api<{ provider: string; model: string }>("/health")
+    api<Runtime>("/health")
       .then(setHealth)
       .catch(() => setHealth(null));
   }, [revision]);
@@ -139,7 +140,7 @@ export default function App() {
       setDeleteTarget(null);
       setOffset(0);
       setRevision((v) => v + 1);
-      setToast("Produto e copies removidos.");
+      setToast("Produto e textos removidos.");
     } catch (e) {
       setToast(e instanceof Error ? e.message : "Falha ao excluir.");
     } finally {
@@ -153,10 +154,12 @@ export default function App() {
   }
   const title =
     view === "generator"
-      ? "Uma ideia. Todos os canais."
+      ? "Gerar textos para um produto"
       : view === "catalog"
-        ? "Seu catálogo, organizado."
-        : "Da geração à evidência.";
+        ? "Catálogo de produtos"
+        : view === "guide"
+          ? "Como usar o CopyLab"
+          : "Resultados das requisições";
   return (
     <div className="app-shell">
       <aside className="sidebar">
@@ -179,16 +182,17 @@ export default function App() {
           <span className="workspace-icon">M</span>
           <div>
             <strong>Laboratório de conteúdo</strong>
-            <small>Workspace acadêmico</small>
+            <small>Projeto acadêmico · iCEV</small>
           </div>
           <ChevronRight size={15} />
         </div>
-        <span className="nav-label">WORKSPACE</span>
+        <span className="nav-label">MENU</span>
         <nav>
           {(
             [
               { id: "generator", label: "Estúdio de criação", Icon: Sparkles },
               { id: "catalog", label: "Catálogo de produtos", Icon: Boxes },
+              { id: "guide", label: "Como funciona", Icon: FileText },
               {
                 id: "metrics",
                 label: "Métricas de engenharia",
@@ -211,10 +215,10 @@ export default function App() {
         <div className="sidebar-bottom">
           <div className="architecture-note">
             <Activity size={18} />
-            <strong>Projetado para medir.</strong>
+            <strong>Acompanhe as gerações</strong>
             <p>
-              Conteúdo estruturado, cache determinístico e dados para cada
-              decisão.
+              Consulte os textos salvos e o tempo de resposta na tela de
+              métricas.
             </p>
             <span>FastAPI + Gemini + Redis</span>
           </div>
@@ -229,13 +233,15 @@ export default function App() {
       <div className="main-shell">
         <header className="topbar">
           <div>
-            Workspace <ChevronRight size={14} />
+            CopyLab <ChevronRight size={14} />
             <strong>
               {view === "generator"
                 ? "Estúdio de criação"
                 : view === "catalog"
                   ? "Catálogo"
-                  : "Métricas de engenharia"}
+                  : view === "guide"
+                    ? "Como funciona"
+                    : "Métricas de engenharia"}
             </strong>
           </div>
           <div>
@@ -259,18 +265,22 @@ export default function App() {
             <div>
               <span className="eyebrow">
                 {view === "generator"
-                  ? "CONTEÚDO COM INTELIGÊNCIA"
+                  ? "CRIAÇÃO DE TEXTOS"
                   : view === "catalog"
                     ? "BASE DE PRODUTOS"
-                    : "OBSERVABILIDADE & PESQUISA"}
+                    : view === "guide"
+                      ? "ROTEIRO DE DEMONSTRAÇÃO"
+                      : "OBSERVABILIDADE & PESQUISA"}
               </span>
               <h1>{title}</h1>
               <p>
                 {view === "generator"
-                  ? "Transforme atributos do produto em conteúdo que conecta."
+                  ? "Cadastre o produto, escolha o tom e gere textos para Instagram, WhatsApp e sua loja."
                   : view === "catalog"
-                    ? "Gerencie a fonte de verdade das suas próximas campanhas."
-                    : "Acompanhe desempenho, reaproveitamento e consumo da aplicação."}
+                    ? "Busque um produto para editar seus dados, gerar textos ou consultar versões anteriores."
+                    : view === "guide"
+                      ? "Veja por onde começar e faça um teste com um produto de exemplo."
+                      : "Acompanhe desempenho, reaproveitamento e consumo da aplicação."}
               </p>
             </div>
             <span className="version-tag">
@@ -281,7 +291,8 @@ export default function App() {
             <div className="demo-banner">
               <Sparkles size={16} />
               <span>
-                Modo demonstração · conteúdo simulado, sem chamadas ao Gemini.
+                Modo demonstração · IA simulada · Banco: {health.database} ·
+                Cache: {health.cache}.
               </span>
             </div>
           )}
@@ -356,8 +367,8 @@ export default function App() {
                         <DatabaseBadge status={result.cache_status} />
                         <code>{result.copy.input_hash}</code>
                         <small>
-                          SHA-256 dos dados canônicos · A versão exibida pode
-                          ser consultada no histórico.
+                          Este código identifica os dados usados na geração.
+                          Alterar o produto ou o tom muda o código.
                         </small>
                       </div>
                     </>
@@ -382,13 +393,13 @@ export default function App() {
                       </div>
                       <h2>
                         {busy
-                          ? "Preparando sua próxima campanha…"
-                          : "Boas histórias começam\ncom bons produtos."}
+                          ? "Gerando os textos…"
+                          : "Os textos aparecerão aqui"}
                       </h2>
                       <p>
                         {busy
-                          ? "Validando os dados e preparando as saídas estruturadas. Isso pode levar alguns instantes."
-                          : "Preencha os detalhes ao lado. O CopyLab cuida da primeira versão para cada canal."}
+                          ? "Aguarde a resposta. Os textos serão salvos no histórico do produto."
+                          : "Preencha os campos do produto e clique em Gerar conteúdo. Depois, selecione o canal para ler e copiar o texto."}
                       </p>
                       {busy && <LoaderCircle className="spin" size={24} />}
                       <div className="channel-pills">
@@ -397,19 +408,19 @@ export default function App() {
                         <span>E-commerce</span>
                       </div>
                       <div className="empty-bottom">
-                        <CheckCircle2 size={16} /> Cada saída é validada antes
-                        de chegar até você.
+                        <CheckCircle2 size={16} /> Revise os textos antes de
+                        usá-los nos seus canais.
                       </div>
                     </section>
                   )}
                   <div className="editorial-note">
                     <span>↗</span>
                     <div>
-                      <strong>Os detalhes fazem a diferença.</strong>
+                      <strong>O que informar no cadastro</strong>
                       <p>
-                        Benefícios específicos e atributos completos ajudam a
-                        criar mensagens mais relevantes. Revise o conteúdo antes
-                        de publicar.
+                        Informe características que você possa confirmar, como
+                        material, tamanho e autonomia. Evite vantagens que o
+                        produto não oferece.
                       </p>
                     </div>
                   </div>
@@ -511,7 +522,18 @@ export default function App() {
               </div>
             </>
           )}
-          {view === "metrics" && <Dashboard key={revision} />}
+          {view === "guide" && (
+            <Guide
+              runtime={health}
+              onBusy={setBusy}
+              onProduct={selectProduct}
+            />
+          )}
+          {view === "metrics" && (
+            <Suspense fallback={<p role="status">Carregando métricas…</p>}>
+              <Dashboard key={revision} />
+            </Suspense>
+          )}
           <footer className="page-footer">
             <span>
               CopyLab · Automação de conteúdo para o varejo eletrônico
@@ -582,7 +604,7 @@ export default function App() {
           >
             <h2 id="delete-title">Excluir {deleteTarget.name}?</h2>
             <p>
-              O produto e suas copies serão excluídos permanentemente. A
+              O produto e seus textos serão excluídos permanentemente. A
               auditoria das requisições será preservada.
             </p>
             <div className="form-actions">

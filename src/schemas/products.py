@@ -1,5 +1,5 @@
 import unicodedata
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Annotated
 from uuid import UUID
 
@@ -8,6 +8,12 @@ from pydantic import BaseModel, ConfigDict, Field, StringConstraints, field_vali
 
 class StrictSchema(BaseModel):
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True, from_attributes=True)
+
+    @field_validator("created_at", "updated_at", check_fields=False)
+    @classmethod
+    def utc_timestamp(cls, value: datetime) -> datetime:
+        # SQLite returns naive UTC timestamps; expose an explicit offset to browsers.
+        return value.replace(tzinfo=UTC) if value.tzinfo is None else value.astimezone(UTC)
 
 
 def clean(value: str) -> str:

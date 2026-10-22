@@ -59,10 +59,10 @@ export default function Previews({
     <section className="panel preview-panel">
       <div className="panel-heading">
         <div>
-          <span className="eyebrow">SAÍDA ESTRUTURADA</span>
-          <h2>Pronto para cada canal</h2>
+          <span className="eyebrow">TEXTOS GERADOS</span>
+          <h2>Textos por canal</h2>
         </div>
-        <span className="badge green">Validado</span>
+        <span className="badge green">Formato conferido</span>
       </div>
       <div className="tabs" role="tablist" aria-label="Canais de marketing">
         {(["instagram", "whatsapp", "seo"] as const).map((t) => (
@@ -88,7 +88,7 @@ export default function Previews({
               <div className="avatar">c.</div>
               <div>
                 <strong>sua.marca</strong>
-                <small>Conteúdo para o seu próximo post</small>
+                <small>Prévia de publicação</small>
               </div>
               <MoreHorizontal size={19} />
             </div>
@@ -97,7 +97,7 @@ export default function Previews({
               <span className="art-label">EM DESTAQUE</span>
               <h3>{copy.input_snapshot.product.name}</h3>
               <span className="art-caption">
-                Uma nova história começa aqui.
+                Ilustração da prévia; não é uma foto do produto.
               </span>
               <div className="art-mark">c.</div>
             </div>

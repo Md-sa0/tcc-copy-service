@@ -9,7 +9,4 @@ export default defineConfig({
       "/health": "http://127.0.0.1:8000",
     },
   },
-  build: {
-    rollupOptions: { output: { manualChunks: { charts: ["recharts"] } } },
-  },
 });

@@ -10,6 +10,7 @@ copylab/
 ├── docs/
 │   ├── API.md
 │   ├── ARCHITECTURE.md
+│   ├── ARTICLE_READINESS.md
 │   ├── BENCHMARK.md
 │   ├── FILE_TREE.md
 │   ├── OPERATIONS.md
@@ -19,6 +20,7 @@ copylab/
 │   │   ├── api.ts
 │   │   ├── App.tsx
 │   │   ├── Dashboard.tsx
+│   │   ├── Guide.tsx
 │   │   ├── main.tsx
 │   │   ├── Previews.tsx
 │   │   ├── ProductForm.tsx
@@ -89,6 +91,7 @@ copylab/
 ├── Capítulo 4 - Resultados e Discussão (TCC).pdf
 ├── docker-compose.yml
 ├── Dockerfile
+├── iniciar-demo.cmd
 ├── pyproject.toml
 ├── README.md
 ├── requirements-dev.txt
@@ -98,3 +101,5 @@ copylab/
 ├── Seção de Resultados e Discussão - TCC.pdf
 └── test_falhas.py
 ```
+
+- `docs/PROJECT_REVIEW.md`: parecer técnico, correções, verificações e pendências para o experimento real.

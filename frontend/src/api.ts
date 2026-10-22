@@ -1,4 +1,13 @@
 let accessKey = "";
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    public status: number,
+    public cacheStatus: string | null = null,
+  ) {
+    super(message);
+  }
+}
 export function setAccessKey(value: string) {
   accessKey = value;
 }
@@ -10,11 +19,17 @@ export async function api<T>(
   const headers = new Headers(options.headers);
   if (options.body) headers.set("Content-Type", "application/json");
   if (accessKey) headers.set("X-API-Key", accessKey);
-  const response = await fetch(path, {
+  let response: Response;
+  try {
+    response = await fetch(path, {
     ...options,
     headers,
     signal: options.signal ?? AbortSignal.timeout(270000),
   });
+  } catch (error) {
+    if (options.signal?.aborted) throw error;
+    throw new Error("Não foi possível conectar à API. Na demonstração local, abra iniciar-demo.cmd na pasta do projeto, mantenha a janela aberta e atualize esta página.");
+  }
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));
     const detail = body.detail;
@@ -28,7 +43,7 @@ export async function api<T>(
       : typeof detail === "string"
         ? detail
         : `Falha na requisição (${response.status})`;
-    throw new Error(message);
+    throw new ApiError(message, response.status, response.headers.get("X-Cache-Status"));
   }
   if (response.status === 204) return undefined as T;
   return response.json() as Promise<T>;

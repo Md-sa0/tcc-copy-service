@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     gemini_api_key: SecretStr = SecretStr("")
     llm_provider: Literal["gemini", "mock"] = "mock"
     gemini_model: str = "gemini-2.5-flash"
-    prompt_version: str = "retail-v1"
+    prompt_version: str = "retail-v2"
     cache_ttl_seconds: int = Field(default=86400, ge=1, le=2592000)
     generation_timeout_seconds: int = Field(default=90, ge=5, le=240)
     retry_attempts: int = Field(default=3, ge=1, le=5)

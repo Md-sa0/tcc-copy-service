@@ -22,12 +22,22 @@ return 0
 """
 
 
-async def read_cached(cache, key: str) -> CopyRead | None:
+async def read_cached(cache, key: str, snapshot: dict) -> CopyRead | None:
     value = await cache.get(key)
     if value is None:
         return None
     try:
-        return CopyRead.model_validate_json(value)
+        cached = CopyRead.model_validate_json(value)
+        if (
+            cached.input_snapshot == snapshot
+            and cached.input_hash == input_hash(snapshot)
+            and str(cached.product_id) == snapshot["product_id"]
+            and cached.tone_of_voice == snapshot["tone_of_voice"]
+            and cached.model_name == snapshot["model"]
+        ):
+            return cached
+        await cache.delete(key)
+        return None
     except ValidationError:
         await cache.delete(key)
         return None
@@ -40,6 +50,14 @@ def hit(request: Request, copy: CopyRead) -> GenerateResponse:
 
 
 async def generate_copy(request: Request, session, payload) -> GenerateResponse:
+    try:
+        async with asyncio.timeout(request.app.state.settings.generation_timeout_seconds):
+            return await _generate_copy(request, session, payload)
+    except TimeoutError as exc:
+        raise HTTPException(504, "Tempo limite da geração excedido") from exc
+
+
+async def _generate_copy(request: Request, session, payload) -> GenerateResponse:
     product = await session.get(Product, payload.product_id)
     if product is None:
         raise HTTPException(404, "Produto não encontrado")
@@ -56,59 +74,52 @@ async def generate_copy(request: Request, session, payload) -> GenerateResponse:
     # Release the read transaction before potentially waiting on the remote provider.
     await session.rollback()
     try:
-        cached = await read_cached(cache, key)
+        cached = await read_cached(cache, key, snapshot)
         if cached:
             return hit(request, cached)
-        deadline = time.monotonic() + settings.generation_timeout_seconds + 5
         while not acquired:
             acquired = await cache.set(lock_key, owner, nx=True, ex=settings.generation_timeout_seconds + 15)
             if acquired:
                 break
-            if time.monotonic() >= deadline:
-                raise HTTPException(
-                    503, "Geração em andamento; tente novamente", headers={"Retry-After": "5"}
-                )
             await asyncio.sleep(0.1)
-            cached = await read_cached(cache, key)
+            cached = await read_cached(cache, key, snapshot)
             if cached:
                 return hit(request, cached)
 
         # Another worker can have completed between our first GET and lock acquisition.
-        cached = await read_cached(cache, key)
+        cached = await read_cached(cache, key, snapshot)
         if cached:
             return hit(request, cached)
         request.state.cache_status = "MISS"
         started = time.perf_counter()
-        # Bounds the whole critical section; the Redis lease exceeds this timeout.
-        async with asyncio.timeout(settings.generation_timeout_seconds):
-            result = await request.app.state.provider.generate(snapshot)
-            request.state.tokens_used = result.tokens
-            row = GeneratedCopy(
-                product_id=payload.product_id,
-                input_hash=digest,
-                tone_of_voice=payload.tone_of_voice,
-                input_snapshot=snapshot,
-                instagram_copy=result.content.instagram.model_dump(),
-                whatsapp_copy=result.content.whatsapp.model_dump(),
-                seo_copy=result.content.ecommerce_seo.model_dump(),
-                model_name=settings.model_name,
-                inference_time_ms=(time.perf_counter() - started) * 1000,
-                tokens_used=result.tokens,
-            )
-            session.add(row)
-            try:
-                await session.commit()
-            except IntegrityError as exc:
-                await session.rollback()
-                raise HTTPException(409, "O produto foi removido durante a geração") from exc
-            await session.refresh(row)
-            output = CopyRead.model_validate(row)
-            try:
-                await cache.setex(key, settings.cache_ttl_seconds, output.model_dump_json())
-            except RedisError:
-                # SQL is the durable source of truth; a failed cache write must not hide saved content.
-                logger.warning("cache_write_failed", extra={"input_hash": digest})
-            return GenerateResponse(copy=output, cache_status="MISS")
+        result = await request.app.state.provider.generate(snapshot)
+        request.state.tokens_used = result.tokens
+        row = GeneratedCopy(
+            product_id=payload.product_id,
+            input_hash=digest,
+            tone_of_voice=payload.tone_of_voice,
+            input_snapshot=snapshot,
+            instagram_copy=result.content.instagram.model_dump(),
+            whatsapp_copy=result.content.whatsapp.model_dump(),
+            seo_copy=result.content.ecommerce_seo.model_dump(),
+            model_name=settings.model_name,
+            inference_time_ms=(time.perf_counter() - started) * 1000,
+            tokens_used=result.tokens,
+        )
+        session.add(row)
+        try:
+            await session.commit()
+        except IntegrityError as exc:
+            await session.rollback()
+            raise HTTPException(409, "O produto foi removido durante a geração") from exc
+        await session.refresh(row)
+        output = CopyRead.model_validate(row)
+        try:
+            await cache.setex(key, settings.cache_ttl_seconds, output.model_dump_json())
+        except RedisError:
+            # SQL is the durable source of truth; a failed cache write must not hide saved content.
+            logger.warning("cache_write_failed", extra={"input_hash": digest})
+        return GenerateResponse(copy=output, cache_status="MISS")
     except RedisError as exc:
         raise HTTPException(
             503, "Cache indisponível; geração suspensa para evitar chamadas duplicadas"
@@ -116,6 +127,7 @@ async def generate_copy(request: Request, session, payload) -> GenerateResponse:
     except TimeoutError as exc:
         raise HTTPException(504, "Tempo limite da geração excedido") from exc
     except GenerationError as exc:
+        request.state.tokens_used = exc.tokens_used
         raise HTTPException(exc.status_code, exc.message) from exc
     finally:
         if acquired:

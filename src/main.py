@@ -27,6 +27,11 @@ def create_app(settings: Settings | None = None, *, sessions=None, cache=None, p
         else:
             app.state.sessions = sessions
         app.state.cache = cache if cache is not None else create_cache(settings.redis_url)
+        async with app.state.sessions() as session:
+            app.state.database_kind = session.bind.dialect.name
+        app.state.cache_kind = (
+            "simulado" if type(app.state.cache).__module__.startswith("fakeredis") else "redis"
+        )
         app.state.provider = (
             provider
             if provider is not None
@@ -58,7 +63,13 @@ def create_app(settings: Settings | None = None, *, sessions=None, cache=None, p
 
     @app.get("/health", tags=["Operação"])
     async def health():
-        return {"status": "online", "provider": settings.llm_provider, "model": settings.model_name}
+        return {
+            "status": "online",
+            "provider": settings.llm_provider,
+            "model": settings.model_name,
+            "database": app.state.database_kind,
+            "cache": app.state.cache_kind,
+        }
 
     @app.get("/health/ready", tags=["Operação"])
     async def ready():

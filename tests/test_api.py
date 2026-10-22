@@ -1,4 +1,5 @@
 import asyncio
+import json
 from unittest.mock import AsyncMock
 from uuid import uuid4
 
@@ -13,6 +14,17 @@ async def create(client, payload):
     response = await client.post("/api/v1/products", json=payload)
     assert response.status_code == 201, response.text
     return response.json()
+
+
+async def test_health_reports_actual_dependencies_without_secrets(stack):
+    client, app, _, _ = stack
+    response = await client.get("/health")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["database"] == app.state.database_kind
+    assert data["cache"] in ("redis", "simulado")
+    assert data["provider"] == "mock"
+    assert "database_url" not in data and "api_key" not in data
 
 
 async def test_catalog_crud_and_validation(stack, product_payload):
@@ -187,3 +199,62 @@ async def test_strict_product_contract(stack, product_payload, field, value):
     result = await client.post("/api/v1/products", json={**product_payload, field: value})
     assert result.status_code == 422, result.text
     assert provider.calls == 0
+
+
+async def test_cache_rejects_valid_copy_from_another_product(stack, product_payload):
+    client, _, provider, cache = stack
+    first = await create(client, product_payload)
+    other = await create(client, {**product_payload, "sku": "OTHER"})
+    a = (await client.post("/api/v1/copies/generate", json={"product_id": first["id"]})).json()["copy"]
+    b = (await client.post("/api/v1/copies/generate", json={"product_id": other["id"]})).json()["copy"]
+    await cache.setex(f"copy:sha256:{a['input_hash']}", 30, json.dumps(b))
+    response = await client.post("/api/v1/copies/generate", json={"product_id": first["id"]})
+    assert response.json()["copy"]["product_id"] == first["id"]
+    assert response.json()["cache_status"] == "MISS"
+    assert provider.calls == 3
+
+
+async def test_deadline_includes_wait_for_lock(stack, product_payload):
+    from src.models import Product
+    from src.services.hashing import canonical_input, input_hash
+
+    client, app, provider, cache = stack
+    product = await create(client, product_payload)
+    app.state.settings.generation_timeout_seconds = 1
+    from uuid import UUID
+
+    snapshot = canonical_input(
+        Product(id=UUID(product["id"]), **product_payload), "persuasivo", app.state.settings
+    )
+    key = f"lock:copy:sha256:{input_hash(snapshot)}"
+    await cache.set(key, "another-worker", ex=30)
+    response = await asyncio.wait_for(
+        client.post("/api/v1/copies/generate", json={"product_id": product["id"]}), timeout=3
+    )
+    assert response.status_code == 504
+    assert provider.calls == 0
+    assert await cache.get(key) == "another-worker"
+
+
+async def test_invalid_provider_output_tokens_are_audited(stack, product_payload, monkeypatch):
+    client, _, provider, _ = stack
+    product = await create(client, product_payload)
+    monkeypatch.setattr(
+        provider, "generate", AsyncMock(side_effect=GenerationError("Inválido", tokens_used=150))
+    )
+    response = await client.post("/api/v1/copies/generate", json={"product_id": product["id"]})
+    assert response.status_code == 502
+    history = (await client.get("/api/v1/metrics/requests", params={"kind": "generation"})).json()
+    assert history["items"][0]["tokens_used"] == 150
+    assert (await client.get("/api/v1/copies")).json()["total"] == 0
+
+
+async def test_api_dates_have_explicit_utc_offset(stack, product_payload):
+    from datetime import datetime, timedelta
+
+    client, _, _, _ = stack
+    product = await create(client, product_payload)
+    copy = (await client.post("/api/v1/copies/generate", json={"product_id": product["id"]})).json()["copy"]
+    history = (await client.get("/api/v1/metrics/requests")).json()["items"]
+    for row in [product, copy, *history]:
+        assert datetime.fromisoformat(row["created_at"]).utcoffset() == timedelta(0)

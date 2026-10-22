@@ -27,8 +27,16 @@ def percentile(values: list[float], percentile_value: float) -> float | None:
     return ordered[left] + (ordered[right] - ordered[left]) * (position - left)
 
 
+def parse_api_latency(value: str | None) -> float | None:
+    try:
+        seconds = float(value)
+        return seconds * 1000 if math.isfinite(seconds) and seconds >= 0 else None
+    except (ValueError, TypeError):
+        return None
+
+
 def summarize(rows: list[dict]) -> dict:
-    valid = [row for row in rows if row["status_code"] == 200]
+    valid = [row for row in rows if row["status_code"] == 200 and not row.get("error")]
     hit = [row["client_latency_ms"] for row in valid if row["cache_status"] == "HIT"]
     miss = [row["client_latency_ms"] for row in valid if row["cache_status"] == "MISS"]
     used = sum(row["tokens_used"] for row in valid)
@@ -42,7 +50,7 @@ def summarize(rows: list[dict]) -> dict:
         "estimated_tokens_saved": saved,
         "estimated_token_savings_percent": saved / (used + saved) * 100 if used + saved else None,
         "latency_savings_percent": (1 - statistics.mean(hit) / statistics.mean(miss)) * 100
-        if hit and miss
+        if hit and miss and statistics.mean(miss) > 0
         else None,
     }
     for name, values in (("hit", hit), ("miss", miss)):
@@ -118,7 +126,7 @@ async def run(args):
                     row.update(
                         status_code=response.status_code,
                         cache_status=response.headers.get("X-Cache-Status", "BYPASS"),
-                        api_latency_ms=float(response.headers.get("X-Process-Time", 0)) * 1000,
+                        api_latency_ms=parse_api_latency(response.headers.get("X-Process-Time")),
                         request_id=response.headers.get("X-Request-ID", ""),
                     )
                     if response.status_code == 200:
@@ -128,6 +136,8 @@ async def run(args):
                         row[key] = body["copy"]["tokens_used"]
                     else:
                         row["error"] = f"HTTP {response.status_code}"
+                except (ValueError, KeyError, TypeError) as exc:
+                    row["error"] = f"InvalidResponse:{type(exc).__name__}"
                 except httpx.HTTPError as exc:
                     row["error"] = type(exc).__name__
                 row["client_latency_ms"] = round((time.perf_counter() - t0) * 1000, 3)

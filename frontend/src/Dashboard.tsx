@@ -32,31 +32,45 @@ export default function Dashboard() {
     [revision, setRevision] = useState(0);
   const [error, setError] = useState(""),
     [loading, setLoading] = useState(false);
+  const [live, setLive] = useState(true);
+  const [updatedAt, setUpdatedAt] = useState<Date | null>(null);
   useEffect(() => {
     const controller = new AbortController();
-    setLoading(true);
-    setError("");
-    Promise.all([
-      api<Summary>(`/api/v1/metrics/summary?hours=${hours}`, {
-        signal: controller.signal,
-      }),
-      api<Page<Metric>>(
-        `/api/v1/metrics/requests?hours=${hours}&offset=${offset}&limit=10&kind=generation`,
-        { signal: controller.signal },
-      ),
-    ])
-      .then(([s, h]) => {
-        setSummary(s);
-        setHistory(h);
-      })
-      .catch((e) => {
-        if (!controller.signal.aborted) setError(e.message);
-      })
-      .finally(() => {
+    let timer: number | undefined;
+    let running = false;
+    async function refresh() {
+      if (running || controller.signal.aborted) return;
+      if (document.hidden) return;
+      running = true;
+      setLoading(true);
+      try {
+        const [s, h] = await Promise.all([
+          api<Summary>(`/api/v1/metrics/summary?hours=${hours}`, { signal: controller.signal }),
+          api<Page<Metric>>(`/api/v1/metrics/requests?hours=${hours}&offset=${offset}&limit=10&kind=generation`, { signal: controller.signal }),
+        ]);
+        if (!controller.signal.aborted) {
+          setSummary(s);
+          setHistory(h);
+          setUpdatedAt(new Date());
+          setError("");
+        }
+      } catch (e) {
+        if (!controller.signal.aborted) setError(e instanceof Error ? e.message : "Falha ao atualizar métricas.");
+      } finally {
+        running = false;
         if (!controller.signal.aborted) setLoading(false);
-      });
-    return () => controller.abort();
-  }, [hours, offset, revision]);
+      }
+    }
+    void refresh();
+    if (live) timer = window.setInterval(() => void refresh(), 1000);
+    const visible = () => { if (live && !document.hidden) void refresh(); };
+    document.addEventListener("visibilitychange", visible);
+    return () => {
+      controller.abort();
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", visible);
+    };
+  }, [hours, offset, revision, live]);
   const data = [
     { name: "Cache miss", latency: summary?.miss_latency_ms ?? null },
     { name: "Cache hit", latency: summary?.hit_latency_ms ?? null },
@@ -64,8 +78,14 @@ export default function Dashboard() {
   return (
     <div className="dashboard">
       <div className="section-toolbar">
-        <p>Medições da API, persistidas no PostgreSQL.</p>
+        <p>{live ? "Atualização automática a cada segundo" : "Atualização automática pausada"}
+          {updatedAt && <> · Última leitura: {updatedAt.toLocaleTimeString("pt-BR")}</>}
+          {error && " · Conexão indisponível; exibindo a última leitura"}
+        </p>
         <div>
+          <button className="button secondary" aria-pressed={live} onClick={() => setLive(v => !v)}>
+            {live ? "Pausar atualização" : "Retomar atualização"}
+          </button>
           <select
             aria-label="Período das métricas"
             value={hours}
@@ -108,7 +128,7 @@ export default function Dashboard() {
             Icon: Activity,
           },
           {
-            label: "Taxa de cache hit",
+            label: "Respostas reaproveitadas (HIT)",
             value: number(
               summary?.cache_hit_ratio == null
                 ? null
@@ -119,9 +139,9 @@ export default function Dashboard() {
             Icon: Database,
           },
           {
-            label: "Economia de latência",
+            label: "Redução do tempo de resposta",
             value: number(summary?.latency_savings_percent, "%"),
-            note: "Comparação das médias hit / miss",
+            note: "Média dos HITs comparada à dos MISSes",
             Icon: Zap,
           },
           {
@@ -144,7 +164,7 @@ export default function Dashboard() {
           <div className="panel-heading">
             <div>
               <span className="eyebrow">DESEMPENHO</span>
-              <h2>Menos espera, mais conteúdo</h2>
+              <h2>Tempo médio de resposta</h2>
             </div>
             <span className="badge">Média · ms</span>
           </div>
@@ -195,11 +215,12 @@ export default function Dashboard() {
           </p>
         </section>
         <section className="panel methodology">
-          <span className="eyebrow">TRANSPARÊNCIA EXPERIMENTAL</span>
-          <h2>O que estamos medindo</h2>
+          <span className="eyebrow">COMO LER OS RESULTADOS</span>
+          <h2>O que os números significam</h2>
           <p>
-            O cache evita uma nova inferência para os mesmos atributos, tom,
-            modelo e versão do prompt.
+            HIT: o texto foi recuperado do cache. MISS: houve uma nova geração.
+            O gráfico compara o tempo médio dessas respostas. Falhas ficam no
+            histórico, mas não entram nas médias de sucesso.
           </p>
           <dl>
             <div>

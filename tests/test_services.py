@@ -52,7 +52,7 @@ async def test_provider_recovers_and_validates_output(product_payload):
     generated = await provider.generate({})
     assert generated.tokens == 150
     config = call.call_args.kwargs["config"]
-    assert config.response_schema is MarketingOutput
+    assert config.response_json_schema == MarketingOutput.model_json_schema()
     invalid = json.loads(response.text)
     invalid["ecommerce_seo"]["meta_title"] = "x" * 61
     call.side_effect = None
@@ -95,3 +95,45 @@ def test_benchmark_math():
     assert summary["estimated_token_savings_percent"] == 50
     assert summary["errors"] == 1
     assert percentile([1, 2, 3, 4, 5], 0.95) == 4.8
+
+
+@pytest.mark.parametrize("content", ['{"invalid":true}', None])
+async def test_provider_preserves_usage_for_rejected_content(content):
+    provider = GeminiProvider.__new__(GeminiProvider)
+    provider.settings = Settings(_env_file=None, llm_provider="mock")
+    call = AsyncMock(
+        return_value=SimpleNamespace(text=content, usage_metadata=SimpleNamespace(total_token_count=150))
+    )
+    provider.client = SimpleNamespace(aio=SimpleNamespace(models=SimpleNamespace(generate_content=call)))
+    with pytest.raises(GenerationError) as error:
+        await provider.generate({})
+    assert error.value.tokens_used == 150
+    assert call.await_count == 1
+
+
+@pytest.mark.parametrize(
+    "value,expected", [(None, None), ("bad", None), ("NaN", None), ("-1", None), ("0.125", 125.0)]
+)
+def test_benchmark_missing_or_invalid_latency_is_not_zero(value, expected):
+    from seed_and_benchmark import parse_api_latency
+
+    assert parse_api_latency(value) == expected
+
+
+def test_benchmark_invalid_success_and_zero_baseline():
+    rows = [
+        dict(
+            status_code=200,
+            cache_status=status,
+            client_latency_ms=0,
+            tokens_used=0,
+            estimated_tokens_saved=0,
+            error="",
+        )
+        for status in ("HIT", "MISS")
+    ]
+    rows.append({**rows[0], "error": "InvalidResponse:ValueError"})
+    result = summarize(rows)
+    assert result["errors"] == 1
+    assert result["successful"] == 2
+    assert result["latency_savings_percent"] is None

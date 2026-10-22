@@ -29,7 +29,7 @@ try {
     .getByLabel("Benefícios comprovados")
     .fill("Uso sem fios\nEstojo para transporte");
   await page.getByRole("button", { name: "Gerar conteúdo" }).click();
-  await page.getByRole("heading", { name: "Pronto para cada canal" }).waitFor();
+  await page.getByRole("heading", { name: "Textos por canal" }).waitFor();
   await page.screenshot({
     path: `${output}/studio-generated.png`,
     fullPage: true,
@@ -106,9 +106,35 @@ try {
   await page
     .getByRole("heading", { name: "Nenhum produto encontrado" })
     .waitFor();
+  await page
+    .getByRole("button", { name: "Como funciona", exact: true })
+    .click();
+  await page
+    .getByRole("button", { name: "Executar demonstração", exact: true })
+    .click();
+  await page
+    .getByText("As quatro verificações passaram.", { exact: true })
+    .waitFor();
+  assert.equal(await page.locator(".guide-observation").count(), 4);
+  assert.equal(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+    true,
+  );
+  const downloadPromise = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Baixar relatório JSON" }).click();
+  const download = await downloadPromise;
+  await download.saveAs("../artifacts/guide-report.json");
+  await page.setViewportSize({ width: 1440, height: 1080 });
+  await page.evaluate(() => scrollTo(0, 0));
+  await page.screenshot({
+    path: `${output}/guide-desktop.png`,
+    fullPage: true,
+  });
   assert.deepEqual(errors, []);
   console.log(
-    "E2E passed: create, generate, cache hit, clipboard, channel previews, metrics, search, edit, delete, mobile layout.",
+    "E2E passed: CRUD, generation, cache, clipboard, previews, metrics, mobile, guided demonstration and report download.",
   );
 } finally {
   await browser.close();

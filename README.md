@@ -94,6 +94,10 @@ O código está completo no repositório, sem blocos omitidos. Entradas principa
 
 ### Demonstração sem Docker neste computador
 
+Neste computador, também é possível dar dois cliques em `iniciar-demo.cmd` na pasta do projeto.
+A página **Como funciona** identifica os componentes ativos e executa uma demonstração de validação, cache e mudança de tom, com relatório JSON para download.
+Consulte [o roteiro de demonstração e preparação do artigo](docs/ARTICLE_READINESS.md) para distinguir implementação, evidência simulada e validação real.
+
 Com a `.venv` e o build em `frontend/dist` já preparados, abra o terminal do VS Code na raiz do projeto e execute:
 
 ```powershell
@@ -155,3 +159,16 @@ O projeto fornece uma base operacional para implantação. A liberação de prod
 
 - [Google: Structured Outputs e Pydantic](https://ai.google.dev/gemini-api/docs/generate-content/structured-output)
 - [SQLAlchemy: extensão asyncio](https://docs.sqlalchemy.org/en/20/orm/extensions/asyncio.html)
+
+Revisão técnica e pendências para o artigo: [docs/PROJECT_REVIEW.md](docs/PROJECT_REVIEW.md).
+
+Responsividade e medições locais: [docs/RESPONSIVENESS.md](docs/RESPONSIVENESS.md). O GitHub Actions também verifica o layout em cinco larguras e guarda as capturas como artefatos da execução.
+## Atualização de 22/10/2026
+
+- Geração real com Gemini validada localmente, com saídas estruturadas via `response_json_schema` e instruções específicas por canal. Os textos precisam de revisão humana para verificar afirmações não comprovadas.
+- Para executar com Gemini: configurar `GEMINI_API_KEY` no `.env` e abrir `iniciar-gemini.cmd`. Esse modo usa SQLite e cache simulado; não representa validação de PostgreSQL/Redis. As chamadas podem consumir a cota da API.
+- Para demonstração sem chamadas externas: `iniciar-demo.cmd`.
+- Métricas consultadas automaticamente a cada segundo, com pausa manual e suspensão das consultas quando a aba está oculta. Não há geração artificial de tráfego.
+- Mensagem de conexão orienta reiniciar a API quando estiver desligada.
+- Dez produtos de exemplo estão definidos em `scripts/seed_data.py`. Para popular e gerar exemplos em modo simulado: `python seed_and_benchmark.py --url http://localhost:8082 --reuse-catalog --repeats 1`. Em modo Gemini esse comando faz chamadas reais.
+- Banco local, logs e pacotes baixados ficam fora do versionamento; os dados existentes no computador foram preservados.

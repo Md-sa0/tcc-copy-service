@@ -9,3 +9,11 @@ node_modules/
 
 frontend/dist/
 *.tsbuildinfo
+
+# Configurações privadas e novos dados locais de execução
+.env.*
+!.env.example
+*.db
+*.db-shm
+*.db-wal
+artifacts/
