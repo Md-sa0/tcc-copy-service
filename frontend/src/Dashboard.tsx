@@ -1,3 +1,4 @@
+import { Button, StatCard, Card, Alert, PanelHeader } from "./components/ui";
 import { useEffect, useState } from "react";
 import {
   Activity,
@@ -83,9 +84,9 @@ export default function Dashboard() {
           {error && " · Conexão indisponível; exibindo a última leitura"}
         </p>
         <div>
-          <button className="button secondary" aria-pressed={live} onClick={() => setLive(v => !v)}>
+          <Button className="button secondary" aria-pressed={live} onClick={() => setLive(v => !v)}>
             {live ? "Pausar atualização" : "Retomar atualização"}
-          </button>
+          </Button>
           <select
             aria-label="Período das métricas"
             value={hours}
@@ -99,19 +100,19 @@ export default function Dashboard() {
             <option value={168}>Últimos 7 dias</option>
             <option value={720}>Últimos 30 dias</option>
           </select>
-          <button
+          <Button
             className="button secondary"
             disabled={loading}
             onClick={() => setRevision((v) => v + 1)}
           >
             <RefreshCw size={15} className={loading ? "spin" : ""} /> Atualizar
-          </button>
+          </Button>
         </div>
       </div>
       {error && (
-        <div className="error-box" role="alert">
+        <Alert>
           {error}
-        </div>
+        </Alert>
       )}
       {summary?.provider === "mock" && (
         <div className="demo-banner">
@@ -151,23 +152,12 @@ export default function Dashboard() {
             Icon: ArrowDownRight,
           },
         ].map((s) => (
-          <section className="panel stat" key={s.label}>
-            <s.Icon size={18} />
-            <span>{s.label}</span>
-            <strong>{s.value}</strong>
-            <small>{s.note}</small>
-          </section>
+          <StatCard key={s.label} label={s.label} value={s.value} note={s.note} icon={<s.Icon size={18} />} />
         ))}
       </div>
       <div className="chart-grid">
-        <section className="panel chart-panel">
-          <div className="panel-heading">
-            <div>
-              <span className="eyebrow">DESEMPENHO</span>
-              <h2>Tempo médio de resposta</h2>
-            </div>
-            <span className="badge">Média · ms</span>
-          </div>
+        <Card className="chart-panel">
+          <PanelHeader eyebrow="DESEMPENHO" title="Tempo médio de resposta" action={<span className="badge">Média · ms</span>} />
           {summary?.successful_generations ? (
             <div className="chart">
               <ResponsiveContainer width="100%" height="100%">
@@ -213,8 +203,8 @@ export default function Dashboard() {
             Latência interna, anterior à gravação da auditoria. Não inclui o
             percurso de rede.
           </p>
-        </section>
-        <section className="panel methodology">
+        </Card>
+        <Card className="methodology">
           <span className="eyebrow">COMO LER OS RESULTADOS</span>
           <h2>O que os números significam</h2>
           <p>
@@ -243,9 +233,9 @@ export default function Dashboard() {
             estimativa. “—” indica amostra insuficiente. Falhas não entram nas
             médias de sucesso. O histórico inclui todos os modelos.
           </small>
-        </section>
+        </Card>
       </div>
-      <section className="panel history-panel">
+      <Card className="history-panel">
         <div className="panel-heading">
           <div>
             <span className="eyebrow">RASTREABILIDADE</span>
@@ -301,20 +291,20 @@ export default function Dashboard() {
         </div>
         <div className="pagination">
           <span>{history?.total ?? 0} resultados</span>
-          <button
+          <Button
             disabled={offset === 0 || loading}
             onClick={() => setOffset(Math.max(0, offset - 10))}
           >
             Anterior
-          </button>
-          <button
+          </Button>
+          <Button
             disabled={!history || offset + 10 >= history.total || loading}
             onClick={() => setOffset(offset + 10)}
           >
             Próxima
-          </button>
+          </Button>
         </div>
-      </section>
+      </Card>
     </div>
   );
 }

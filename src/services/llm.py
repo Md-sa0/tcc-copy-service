@@ -1,5 +1,6 @@
 import asyncio
 import json
+import logging
 import random
 from dataclasses import dataclass
 
@@ -39,6 +40,25 @@ class GeminiProvider:
         self.client.close()
 
     async def generate(self, snapshot: dict) -> LLMResult:
+        try:
+            return await self._generate(snapshot)
+        except GenerationError as exc:
+            cause = exc.__cause__
+            if not isinstance(cause, ValidationError):
+                raise
+            issues = cause.errors(include_input=False, include_url=False)
+            logging.getLogger(__name__).warning("provider_schema_rejected: %s", issues)
+            # One bounded correction; the request-wide timeout still applies.
+            feedback = json.dumps(issues, ensure_ascii=False)
+            try:
+                result = await self._generate(snapshot, feedback)
+            except GenerationError as retry_error:
+                retry_error.tokens_used += exc.tokens_used
+                raise
+            result.tokens += exc.tokens_used
+            return result
+
+    async def _generate(self, snapshot: dict, feedback: str = "") -> LLMResult:
         for attempt in range(self.settings.retry_attempts):
             tokens = 0
             try:
@@ -65,7 +85,9 @@ class GeminiProvider:
                             "Não invente URLs, preços, estoque, garantias, depoimentos ou urgência. "
                             "Tom promocional não autoriza inventar promoção. Não prometa benefícios "
                             "médicos. Evite repetição entre campos e não inclua placeholders. "
-                            "Antes de responder, revise clareza, fidelidade aos dados e limites de caracteres."
+                            "Antes de responder, revise clareza, fidelidade aos dados e limites de caracteres. "
+                            "Prefira título SEO com até 50 caracteres e descrição com até 140 para deixar margem. "
+                            + ("A tentativa anterior falhou nestas validações. Corrija e devolva todos os campos: " + feedback if feedback else "")
                         ),
                         response_mime_type="application/json",
                         response_json_schema=MarketingOutput.model_json_schema(),

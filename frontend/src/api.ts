@@ -28,7 +28,7 @@ export async function api<T>(
   });
   } catch (error) {
     if (options.signal?.aborted) throw error;
-    throw new Error("Não foi possível conectar à API. Na demonstração local, abra iniciar-demo.cmd na pasta do projeto, mantenha a janela aberta e atualize esta página.");
+    throw new Error("Não foi possível conectar à API. Abra iniciar-gemini.cmd na pasta do projeto para usar a IA real, ou iniciar-demo.cmd para a simulação. Mantenha a janela aberta e atualize esta página.");
   }
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));

@@ -1664,3 +1664,54 @@ td small {
   .sidebar nav { gap: 4px; min-width: 0; }
   .sidebar nav button { padding: 10px 8px; min-width: 44px; min-height: 44px; }
 }
+@media (max-width: 740px) {
+  .dashboard .section-toolbar > div { flex-wrap: wrap; gap: 8px; }
+  .dashboard .section-toolbar > div > button { flex: 1 1 auto; }
+  .dashboard .section-toolbar select { min-width: 0; max-width: 100%; }
+}
+
+/* Keyboard access and readable form controls on touch devices. */
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid #28634b; outline-offset: 3px; }
+@media (max-width: 740px) {
+  input, textarea, select { font-size: 16px; }
+}
+
+/* Shared visual system built with Tailwind utilities. */
+:root { color: #183b37; background: #f4f7fa; }
+.main-shell { background: radial-gradient(ellipse at top right, #e5f3f0 0%, transparent 48%), #f4f7fa; }
+.sidebar { @apply bg-white border-slate-200; }
+.topbar { @apply bg-white/90 border-slate-200; }
+.panel { @apply rounded-2xl border-slate-200 bg-white shadow-sm; }
+.panel-heading { @apply border-slate-100; }
+.page-heading h1 { @apply font-bold tracking-tight; }
+.eyebrow { @apply tracking-widest text-teal-700; }
+.ui-button { @apply transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-600; }
+.button { @apply rounded-xl font-semibold; }
+.button.primary { @apply bg-teal-800 text-white shadow-sm; }
+.button.primary:hover:not(:disabled) { @apply bg-teal-900; }
+.button.secondary { @apply border-slate-200 bg-white text-slate-700; }
+.button.secondary:hover:not(:disabled) { @apply bg-slate-50 border-teal-300; }
+.sidebar nav button.active { @apply bg-teal-50 text-teal-900 rounded-xl; }
+.stat-icon { @apply flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal-700; }
+.stat { @apply gap-3; }
+.stat > strong { @apply tracking-tight text-slate-900; }
+.stat > small { @apply text-slate-500; }
+input, textarea, select { @apply rounded-xl border-slate-200 bg-white; }
+input:hover, textarea:hover, select:hover { @apply border-slate-300; }
+.badge { @apply rounded-full; }
+.catalog-card { @apply transition-shadow duration-150 hover:shadow-md; }
+.tabs { @apply bg-slate-50; }
+.tabs button.active { @apply text-teal-900 border-teal-700 bg-white; }
+.toast { @apply rounded-2xl shadow-lg; }
+@media (prefers-reduced-motion: reduce) { .ui-button, .catalog-card { transition: none; } }
+/* Readable mobile data tables: scroll the table, not the page. */
+.table-scroll { max-width: 100%; }
+.table-scroll table { min-width: 780px; }
+.table-scroll td code { min-width: 200px; }
+.table-scroll th { color: #475569; font-size: 11px; }
+.table-scroll td { color: #475569; font-size: 12px; }
+@media (max-width: 740px) {
+  .dashboard .section-toolbar > div { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
+  .dashboard .section-toolbar select { grid-column: 1 / -1; grid-row: 1; width: 100%; }
+  .dashboard .section-toolbar .button { padding: 12px 8px; font-size: 12px; }
+}

@@ -71,13 +71,14 @@ async def test_generation_cache_persistence_and_metrics(stack, product_payload):
     assert all(row["request_id"] for row in history["items"])
 
 
-async def test_same_hash_concurrency_calls_provider_once(stack, product_payload):
+@pytest.mark.parametrize("concurrency", [5, 30])
+async def test_same_hash_concurrency_calls_provider_once(stack, product_payload, concurrency):
     client, _, provider, _ = stack
     product = await create(client, product_payload)
     results = await asyncio.gather(
-        *(client.post("/api/v1/copies/generate", json={"product_id": product["id"]}) for _ in range(5))
+        *(client.post("/api/v1/copies/generate", json={"product_id": product["id"]}) for _ in range(concurrency))
     )
-    assert [r.status_code for r in results] == [200] * 5, [r.text for r in results]
+    assert [r.status_code for r in results] == [200] * concurrency, [r.text for r in results]
     assert provider.calls == 1
     assert sum(r.json()["cache_status"] == "MISS" for r in results) == 1
 

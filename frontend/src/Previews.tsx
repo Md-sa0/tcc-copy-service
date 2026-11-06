@@ -1,3 +1,4 @@
+import { Button, Card, PanelHeader } from "./components/ui";
 import {
   Check,
   Copy as CopyIcon,
@@ -56,17 +57,11 @@ export default function Previews({
     }
   }
   return (
-    <section className="panel preview-panel">
-      <div className="panel-heading">
-        <div>
-          <span className="eyebrow">TEXTOS GERADOS</span>
-          <h2>Textos por canal</h2>
-        </div>
-        <span className="badge green">Formato conferido</span>
-      </div>
+    <Card className="preview-panel">
+      <PanelHeader eyebrow="TEXTOS GERADOS" title="Textos por canal" action={<span className="badge green">Formato conferido</span>} />
       <div className="tabs" role="tablist" aria-label="Canais de marketing">
         {(["instagram", "whatsapp", "seo"] as const).map((t) => (
-          <button
+          <Button
             key={t}
             role="tab"
             aria-selected={t === tab}
@@ -78,7 +73,7 @@ export default function Previews({
               : t === "instagram"
                 ? "Instagram"
                 : "WhatsApp"}
-          </button>
+          </Button>
         ))}
       </div>
       <div className="preview-stage" role="tabpanel">
@@ -99,7 +94,6 @@ export default function Previews({
               <span className="art-caption">
                 Ilustração da prévia; não é uma foto do produto.
               </span>
-              <div className="art-mark">c.</div>
             </div>
             <div className="social-body">
               <div className="social-actions">
@@ -171,11 +165,11 @@ export default function Previews({
             Tom {copy.tone_of_voice} · {copy.tokens_used} tokens
           </small>
         </span>
-        <button className="button secondary" onClick={clipboard}>
+        <Button className="button secondary" onClick={clipboard}>
           {copied ? <Check size={16} /> : <CopyIcon size={16} />}{" "}
           {copied ? "Copiado" : "Copiar texto"}
-        </button>
+        </Button>
       </div>
-    </section>
+    </Card>
   );
 }

@@ -1,3 +1,4 @@
+import { Button } from "./components/ui";
 import { lazy, Suspense, useEffect, useState } from "react";
 import {
   Activity,
@@ -181,8 +182,8 @@ export default function App() {
         <div className="workspace">
           <span className="workspace-icon">M</span>
           <div>
-            <strong>Laboratório de conteúdo</strong>
-            <small>Projeto acadêmico · iCEV</small>
+            <strong>Central de conteúdo</strong>
+            <small>Operações de conteúdo</small>
           </div>
           <ChevronRight size={15} />
         </div>
@@ -200,7 +201,7 @@ export default function App() {
               },
             ] as const
           ).map((item) => (
-            <button
+            <Button
               disabled={busy}
               key={item.id}
               className={view === item.id ? "selected" : ""}
@@ -209,7 +210,7 @@ export default function App() {
               <item.Icon size={19} />
               {item.label}
               {view === item.id && <span className="nav-dot" />}
-            </button>
+            </Button>
           ))}
         </nav>
         <div className="sidebar-bottom">
@@ -223,9 +224,9 @@ export default function App() {
             <span>FastAPI + Gemini + Redis</span>
           </div>
           <div className="academic">
-            <div className="academic-logo">iCEV</div>
+            <div className="academic-logo">CopyLab</div>
             <span>
-              Engenharia de Software<small>Projeto de conclusão de curso</small>
+              Conteúdo multicanal<small>Gestão de campanhas</small>
             </span>
           </div>
         </div>
@@ -249,15 +250,15 @@ export default function App() {
               <i />
               {health ? "API conectada" : "API indisponível"}
             </span>
-            <button
+            <Button
               className="icon-button"
               aria-label="Configurar chave de acesso"
               title="Chave de acesso à API"
               onClick={() => setShowKey(true)}
             >
               <KeyRound size={18} />
-            </button>
-            <span className="user-avatar">MD</span>
+            </Button>
+            <span className="user-avatar">CL</span>
           </div>
         </header>
         <main>
@@ -336,7 +337,7 @@ export default function App() {
                         ÚLTIMAS VERSÕES DO PRODUTO
                       </span>
                       {history.map((copy) => (
-                        <button
+                        <Button
                           disabled={busy}
                           key={copy.id}
                           onClick={() =>
@@ -354,7 +355,7 @@ export default function App() {
                             </small>
                           </span>
                           <ArrowUpRight size={15} />
-                        </button>
+                        </Button>
                       ))}
                     </section>
                   )}
@@ -442,7 +443,7 @@ export default function App() {
                     }}
                   />
                 </label>
-                <button
+                <Button
                   className="button primary"
                   onClick={() => {
                     setProduct(null);
@@ -451,7 +452,7 @@ export default function App() {
                   }}
                 >
                   <Plus size={17} /> Novo produto
-                </button>
+                </Button>
               </div>
               {catalogError && (
                 <div className="error-box" role="alert">
@@ -464,13 +465,13 @@ export default function App() {
                   <article className="panel catalog-card" key={item.id}>
                     <div>
                       <span className="badge">{item.category}</span>
-                      <button
+                      <Button
                         className="icon-button"
                         aria-label={`Excluir ${item.name}`}
                         onClick={() => setDeleteTarget(item)}
                       >
                         <Trash2 size={16} />
-                      </button>
+                      </Button>
                     </div>
                     <small>{item.sku}</small>
                     <h2>{item.name}</h2>
@@ -479,12 +480,12 @@ export default function App() {
                       {item.key_benefits.length} benefícios ·{" "}
                       {Object.keys(item.technical_attributes).length} atributos
                     </span>
-                    <button
+                    <Button
                       className="button secondary"
                       onClick={() => selectProduct(item)}
                     >
                       Editar e gerar <ArrowUpRight size={16} />
-                    </button>
+                    </Button>
                   </article>
                 ))}
               </div>
@@ -504,21 +505,21 @@ export default function App() {
                 </div>
               )}
               <div className="pagination">
-                <span>{catalog?.total ?? 0} produtos</span>
-                <button
+                <span>{catalogError ? "Catálogo indisponível" : catalogLoading ? "Carregando produtos…" : `${catalog?.total ?? 0} produtos`}</span>
+                <Button
                   disabled={offset === 0 || catalogLoading}
                   onClick={() => setOffset(Math.max(0, offset - 12))}
                 >
                   Anterior
-                </button>
-                <button
+                </Button>
+                <Button
                   disabled={
                     !catalog || offset + 12 >= catalog.total || catalogLoading
                   }
                   onClick={() => setOffset(offset + 12)}
                 >
                   Próxima
-                </button>
+                </Button>
               </div>
             </>
           )}
@@ -538,7 +539,7 @@ export default function App() {
             <span>
               CopyLab · Automação de conteúdo para o varejo eletrônico
             </span>
-            <span>Marcus David Nascimento de Sá · iCEV</span>
+            <span>Gestão de conteúdo publicitário</span>
           </footer>
         </main>
       </div>
@@ -546,9 +547,9 @@ export default function App() {
         <div className="toast" role="status">
           <CheckCircle2 size={19} />
           <span>{toast}</span>
-          <button aria-label="Fechar notificação" onClick={() => setToast("")}>
+          <Button aria-label="Fechar notificação" onClick={() => setToast("")}>
             <X size={16} />
-          </button>
+          </Button>
         </div>
       )}
       {showKey && (
@@ -582,14 +583,14 @@ export default function App() {
               />
             </label>
             <div className="form-actions">
-              <button
+              <Button
                 type="button"
                 className="button secondary"
                 onClick={() => setShowKey(false)}
               >
                 Cancelar
-              </button>
-              <button className="button primary">Aplicar</button>
+              </Button>
+              <Button className="button primary">Aplicar</Button>
             </div>
           </form>
         </div>
@@ -608,20 +609,20 @@ export default function App() {
               auditoria das requisições será preservada.
             </p>
             <div className="form-actions">
-              <button
+              <Button
                 className="button secondary"
                 disabled={busy}
                 onClick={() => setDeleteTarget(null)}
               >
                 Cancelar
-              </button>
-              <button
+              </Button>
+              <Button
                 className="button danger"
                 disabled={busy}
                 onClick={remove}
               >
                 Excluir produto
-              </button>
+              </Button>
             </div>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import { Button } from "./components/ui";
 import { ArrowRight, LoaderCircle, Save, X } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import { ZodError } from "zod";
@@ -85,7 +86,7 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
           <h2>{product ? "Editar produto" : "Cadastrar produto"}</h2>
         </div>
         {product && (
-          <button
+          <Button
             type="button"
             title="Novo produto"
             aria-label="Limpar seleção"
@@ -94,7 +95,7 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
             onClick={onClear}
           >
             <X size={19} />
-          </button>
+          </Button>
         )}
       </div>
       <fieldset disabled={busy}>
@@ -216,22 +217,22 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
           </div>
         )}
         <div className="form-actions">
-          <button
+          <Button
             type="submit"
             value="save"
             className="button secondary"
             title="Salvar sem gerar"
           >
             <Save size={16} /> Salvar
-          </button>
-          <button type="submit" value="generate" className="button primary">
+          </Button>
+          <Button type="submit" value="generate" className="button primary">
             {busy ? (
               <LoaderCircle size={18} className="spin" />
             ) : (
               <ArrowRight size={18} />
             )}{" "}
             {busy ? "Processando…" : "Gerar conteúdo"}
-          </button>
+          </Button>
         </div>
       </fieldset>
       <p className="form-note">

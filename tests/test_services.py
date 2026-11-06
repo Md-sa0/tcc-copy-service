@@ -107,8 +107,8 @@ async def test_provider_preserves_usage_for_rejected_content(content):
     provider.client = SimpleNamespace(aio=SimpleNamespace(models=SimpleNamespace(generate_content=call)))
     with pytest.raises(GenerationError) as error:
         await provider.generate({})
-    assert error.value.tokens_used == 150
-    assert call.await_count == 1
+    assert error.value.tokens_used == (300 if content else 150)
+    assert call.await_count == (2 if content else 1)
 
 
 @pytest.mark.parametrize(
@@ -137,3 +137,19 @@ def test_benchmark_invalid_success_and_zero_baseline():
     assert result["errors"] == 1
     assert result["successful"] == 2
     assert result["latency_savings_percent"] is None
+
+async def test_provider_repairs_schema_once_and_counts_all_tokens(product_payload):
+    valid = await MockProvider().generate({"product": product_payload, "tone_of_voice": "persuasivo"})
+    provider = GeminiProvider.__new__(GeminiProvider)
+    provider.settings = Settings(_env_file=None, llm_provider="mock")
+    invalid = valid.content.model_dump()
+    invalid['ecommerce_seo']['meta_title'] = 'x' * 61
+    call = AsyncMock(side_effect=[
+        SimpleNamespace(text=json.dumps(invalid), usage_metadata=SimpleNamespace(total_token_count=100)),
+        SimpleNamespace(text=valid.content.model_dump_json(), usage_metadata=SimpleNamespace(total_token_count=120)),
+    ])
+    provider.client = SimpleNamespace(aio=SimpleNamespace(models=SimpleNamespace(generate_content=call)))
+    result = await provider.generate({})
+    assert result.tokens == 220
+    assert call.await_count == 2
+    assert 'meta_title' in call.call_args.kwargs['config'].system_instruction

@@ -1,3 +1,4 @@
+import { Button } from "./components/ui";
 import { useState } from "react";
 import { api, ApiError } from "./api";
 import type { Generation, Product } from "./types";
@@ -246,30 +247,30 @@ export default function Guide({
           mantém seu histórico.
         </p>
         <div className="form-actions">
-          <button
+          <Button
             className="button primary"
             disabled={running || runtime?.provider !== "mock"}
             onClick={demonstrate}
           >
             {running ? "Executando verificações…" : "Executar demonstração"}
-          </button>
+          </Button>
           {report && (
-            <button
+            <Button
               disabled={running}
               className="button secondary"
               onClick={download}
             >
               Baixar relatório JSON
-            </button>
+            </Button>
           )}
           {product && (
-            <button
+            <Button
               disabled={running}
               className="button secondary"
               onClick={() => onProduct(product)}
             >
               Ver produto e textos
-            </button>
+            </Button>
           )}
         </div>
         {runtime?.provider !== "mock" && (
