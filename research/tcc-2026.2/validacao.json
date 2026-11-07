@@ -1,0 +1,21 @@
+{
+  "statistics": "all aggregate and per-run statistics match CSV",
+  "source_hashes": 22,
+  "script_hash": "match",
+  "pytest": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "43",
+    "time": "5.963",
+    "timestamp": "2026-11-06T12:25:18.139745-03:00",
+    "hostname": "mddavi_d"
+  },
+  "abstract_words": {
+    "Resumo": 242,
+    "Abstract": 221
+  },
+  "threshold": 0.174337858895484,
+  "weighted_ms": 27.816456000000002
+}

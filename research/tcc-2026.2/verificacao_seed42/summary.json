@@ -1,0 +1,115 @@
+{
+  "miss": {
+    "n": 40,
+    "mean_ms": 107.160615,
+    "median_ms": 107.05295000000001,
+    "stdev_ms": 2.790094564204793,
+    "p95_ms": 110.8702,
+    "minimum_ms": 96.8423,
+    "maximum_ms": 113.3525
+  },
+  "hit": {
+    "n": 160,
+    "mean_ms": 8.021065625,
+    "median_ms": 7.57385,
+    "stdev_ms": 1.1219618023995435,
+    "p95_ms": 9.853064999999999,
+    "minimum_ms": 6.8032,
+    "maximum_ms": 15.1871
+  },
+  "requests": 200,
+  "errors": 0,
+  "provider_calls": 40,
+  "tokens_real": 0,
+  "latency_reduction_mean_percent": 92.51491266170878,
+  "baseline": {
+    "n": 40,
+    "mean_ms": 90.119535,
+    "median_ms": 91.82215,
+    "stdev_ms": 4.8767753017090065,
+    "p95_ms": 94.705315,
+    "minimum_ms": 80.689,
+    "maximum_ms": 95.1819
+  },
+  "baseline_provider_calls": 40,
+  "by_run": [
+    {
+      "run": 1,
+      "miss": {
+        "n": 40,
+        "mean_ms": 107.160615,
+        "median_ms": 107.05295000000001,
+        "stdev_ms": 2.790094564204793,
+        "p95_ms": 110.8702,
+        "minimum_ms": 96.8423,
+        "maximum_ms": 113.3525
+      },
+      "hit": {
+        "n": 160,
+        "mean_ms": 8.021065625,
+        "median_ms": 7.57385,
+        "stdev_ms": 1.1219618023995435,
+        "p95_ms": 9.853064999999999,
+        "minimum_ms": 6.8032,
+        "maximum_ms": 15.1871
+      },
+      "baseline": {
+        "n": 40,
+        "mean_ms": 90.119535,
+        "median_ms": 91.82215,
+        "stdev_ms": 4.8767753017090065,
+        "p95_ms": 94.705315,
+        "minimum_ms": 80.689,
+        "maximum_ms": 95.1819
+      }
+    }
+  ],
+  "concurrency": [
+    {
+      "run": 1,
+      "concurrency": 5,
+      "requests": 5,
+      "provider_calls": 1,
+      "makespan_ms": 160.6679,
+      "misses": 1,
+      "hits": 4,
+      "errors": 0
+    },
+    {
+      "run": 1,
+      "concurrency": 10,
+      "requests": 10,
+      "provider_calls": 1,
+      "makespan_ms": 295.7049,
+      "misses": 1,
+      "hits": 9,
+      "errors": 0
+    },
+    {
+      "run": 1,
+      "concurrency": 30,
+      "requests": 30,
+      "provider_calls": 1,
+      "makespan_ms": 640.6544,
+      "misses": 1,
+      "hits": 29,
+      "errors": 0
+    }
+  ],
+  "sqlite_reopen": [
+    {
+      "run": 1,
+      "count_before": 44,
+      "count_after": 44
+    }
+  ],
+  "break_even": {
+    "provider_mean_ms": 90.119535,
+    "overhead_ms": 17.041080000000008,
+    "hit_mean_ms": 8.021065625,
+    "threshold_ratio": 0.17188982709152048,
+    "reference": "direct provider, not an equivalent HTTP endpoint",
+    "hypothetical_1500_ms_ratio": 0.011292812446267,
+    "model": "T(p)=(1-p)*(L+O)+p*H; beneficial relative to L if p>O/(L+O-H)"
+  }
+}

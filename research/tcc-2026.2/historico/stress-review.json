@@ -1,0 +1,1467 @@
+{
+  "summary": [
+    {
+      "concurrency": 5,
+      "requests": 80,
+      "errors": 0,
+      "median_ms": 11.7,
+      "p95_ms": 281.9
+    },
+    {
+      "concurrency": 10,
+      "requests": 80,
+      "errors": 0,
+      "median_ms": 32.1,
+      "p95_ms": 320.6
+    },
+    {
+      "concurrency": 20,
+      "requests": 80,
+      "errors": 0,
+      "median_ms": 90.6,
+      "p95_ms": 418.7
+    }
+  ],
+  "observations": [
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 281.90299999982926
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 290.631699999949
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 298.6865000000307
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 3.521699999964767
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 26.24300000002222
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 12.345099999947706
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 2.92330000002039
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 2.9383999999481603
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 9.124299999939467
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 47.039999999924476
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 341.2637999999788
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 3.021700000090277
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 8.937300000070536
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 11.89650000014808
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 30.762099999947168
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 6.423000000040702
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 428.919599999972
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 10.747100000116916
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 4.659299999957511
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 35.49449999991339
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 117.70719999981338
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 9.723600000143051
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 5.226799999945797
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 33.90520000016295
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 114.8972999999387
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 11.465799999996307
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 3.301599999986138
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 3.165500000022803
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 8.980500000006941
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 9.60480000003372
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 2.9053000000658358
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 127.90049999989606
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 8.18570000001273
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 18.678599999930157
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 74.20900000010988
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 5.072700000027908
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 6.966400000010253
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 15.282999999953972
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 6.076200000052268
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 138.75710000002073
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 10.528100000101404
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 27.79729999997471
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 59.94929999997112
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 2.7831999998397805
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 8.393800000021656
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 29.07220000020061
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 159.0092999999797
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 2.874399999882371
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 16.333099999883416
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 90.13760000016191
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 2.6168999997935316
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 2.863299999944502
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 23.434499999893887
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 8.687099999860948
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 2.7748999998493673
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 69.34030000002167
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 8.283800000072006
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 18.087299999933748
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 128.27409999999873
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 2.648899999940113
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 8.243200000151774
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 30.657499999961146
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 103.31289999999171
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 2.5974000000132946
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 8.235000000013315
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 9.809600000153296
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 2.6003999998920335
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 31.268700000055105
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 144.6622999999363
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 8.997000000135813
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 34.70449999986158
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 4.284300000108487
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 112.76389999989078
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 9.192700000085097
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 2.7463000001262117
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 32.925400000067384
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 120.8380999999008
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 32.15989999989688
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 63.99839999994583
+    },
+    {
+      "concurrency": 5,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 113.0095999999412
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 13.095799999973678
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 14.751600000181497
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 6.644499999993059
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 6.504700000050434
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 29.640900000003967
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 2.6361000000179047
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 2.7425000000675936
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 9.899200000063502
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 8.604000000104861
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 2.718500000128188
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 76.68200000011893
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 8.136800000102085
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 32.22239999990961
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 11.195499999985259
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 3.013200000168581
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 8.317900000065492
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 9.080199999971228
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 2.521300000125848
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 31.579400000055102
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 118.47000000011576
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 10.222099999964485
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 34.50320000001739
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 4.392699999925753
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 169.91409999991447
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 8.455299999923227
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 2.800799999931769
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 32.68849999994927
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 179.56500000013875
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 9.768099999973856
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 33.06320000001506
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 4.033600000184379
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 97.93390000004365
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 8.771000000024287
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 4.655899999988833
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 94.42699999999604
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 11.405299999978524
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 48.682300000109535
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 37.491399999908026
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 92.17910000006668
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 8.350899999868489
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 30.841000000009444
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 293.5824000001048
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 295.9780999999566
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 95.04199999992125
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 10.821299999861367
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 30.870099999901868
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 4.82800000008865
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 61.6903000000093
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 37.582299999940005
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 108.40009999992617
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 38.293399999929534
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 385.76820000002954
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 10.089400000197202
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 5.587699999978213
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 80.30140000005304
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 418.7481999999818
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 64.99329999996917
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 32.01779999994869
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 124.03000000017528
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 18.429900000001
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 94.96050000007017
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 44.755900000154725
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 166.4647000000059
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 56.25370000007024
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 29.997999999977765
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 44.94509999994989
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 77.09449999993012
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 21.356599999990067
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 46.22519999998076
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 4.190099999959784
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 24.710199999844917
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 9.814700000106313
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 63.564600000063365
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 186.18639999999687
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 320.58839999990596
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 95.35510000000613
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 344.04639999979736
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 148.088400000006
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 249.52439999992748
+    },
+    {
+      "concurrency": 10,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 731.2801000000491
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 21.602599999823724
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 23.289900000008856
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 25.39699999988443
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 31.17840000004435
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 30.78049999999166
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 59.57080000007409
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 52.02750000012202
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 2.999499999987165
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 3.1549999998787825
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 10.535000000118089
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 9.019000000080268
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 76.82150000005095
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 6.179200000133278
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 78.51740000000973
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 120.37680000003093
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 3.2616999999390828
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 30.150699999921926
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 17.476600000009057
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 12.23970000000918
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 3.2238999999663065
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 20.23559999997815
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 13.156200000139506
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 185.36250000011023
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 29.386200000089957
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 9.745599999860133
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 94.9494000001323
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 111.1966000000848
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 25.801400000091235
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 232.82069999982014
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 19.3570000001273
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 70.76209999991079
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 56.452000000035696
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 14.282800000046336
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 26.049700000157827
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 46.51659999990443
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 15.775200000007317
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 221.7083000000457
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 280.4000000000997
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 16.161000000010972
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 25.570799999968585
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 79.04819999998836
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 313.78140000015264
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 314.1507000000274
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 319.3921000001865
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 35.136499999907755
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 310.16680000016095
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 369.7277999999642
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 89.29630000011457
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 382.5360000000728
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 136.3909000001513
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 138.4802000000036
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 83.00209999993058
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 402.0980000000236
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 418.6849999998685
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 110.69859999997789
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 250.01990000009755
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 173.6479999999574
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 87.02319999997599
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 466.1823999999797
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 106.03380000020479
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 496.73890000008214
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 99.78849999993145
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 191.46870000008676
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 114.04279999987921
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 493.31019999999626
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 85.66560000008394
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 189.70139999987623
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 92.00020000002951
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 234.0475000000879
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 183.35750000005646
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/requests?limit=10",
+      "status": 200,
+      "ms": 89.13850000021739
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 173.93319999996493
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 125.85420000004888
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/metrics/summary",
+      "status": 200,
+      "ms": 120.31580000007125
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 277.56589999989956
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 151.02550000005976
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 202.47549999999137
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/copies?limit=10",
+      "status": 200,
+      "ms": 249.88419999999678
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 374.40409999999247
+    },
+    {
+      "concurrency": 20,
+      "path": "/api/v1/products?limit=12",
+      "status": 200,
+      "ms": 686.5866000000551
+    }
+  ]
+}

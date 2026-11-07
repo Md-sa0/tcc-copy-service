@@ -1,0 +1,245 @@
+{
+  "miss": {
+    "n": 120,
+    "mean_ms": 107.27562083333333,
+    "median_ms": 107.09049999999999,
+    "stdev_ms": 2.6083891896510347,
+    "p95_ms": 111.73423500000001,
+    "minimum_ms": 97.0984,
+    "maximum_ms": 115.3065
+  },
+  "hit": {
+    "n": 480,
+    "mean_ms": 7.9516647916666665,
+    "median_ms": 7.454750000000001,
+    "stdev_ms": 1.2027629722525002,
+    "p95_ms": 9.84268,
+    "minimum_ms": 6.6547,
+    "maximum_ms": 20.4558
+  },
+  "requests": 600,
+  "errors": 0,
+  "provider_calls": 120,
+  "tokens_real": 0,
+  "latency_reduction_mean_percent": 92.58763106668884,
+  "baseline": {
+    "n": 120,
+    "mean_ms": 89.959695,
+    "median_ms": 92.39625000000001,
+    "stdev_ms": 5.201701734990841,
+    "p95_ms": 95.35018000000001,
+    "minimum_ms": 80.0868,
+    "maximum_ms": 96.2784
+  },
+  "baseline_provider_calls": 120,
+  "by_run": [
+    {
+      "run": 1,
+      "miss": {
+        "n": 40,
+        "mean_ms": 107.41931,
+        "median_ms": 107.217,
+        "stdev_ms": 2.107578821569482,
+        "p95_ms": 110.726155,
+        "minimum_ms": 101.981,
+        "maximum_ms": 112.2013
+      },
+      "hit": {
+        "n": 160,
+        "mean_ms": 8.108419375,
+        "median_ms": 7.61165,
+        "stdev_ms": 1.4485390946108285,
+        "p95_ms": 10.18594,
+        "minimum_ms": 6.7765,
+        "maximum_ms": 20.4558
+      },
+      "baseline": {
+        "n": 40,
+        "mean_ms": 89.7833425,
+        "median_ms": 92.20335,
+        "stdev_ms": 5.055279406967176,
+        "p95_ms": 94.74536,
+        "minimum_ms": 80.1175,
+        "maximum_ms": 95.7638
+      }
+    },
+    {
+      "run": 2,
+      "miss": {
+        "n": 40,
+        "mean_ms": 107.1194125,
+        "median_ms": 107.2584,
+        "stdev_ms": 3.510910810907541,
+        "p95_ms": 111.87263,
+        "minimum_ms": 97.0984,
+        "maximum_ms": 115.3065
+      },
+      "hit": {
+        "n": 160,
+        "mean_ms": 7.9312425,
+        "median_ms": 7.42185,
+        "stdev_ms": 1.1849718818175026,
+        "p95_ms": 9.84268,
+        "minimum_ms": 6.7455,
+        "maximum_ms": 14.9061
+      },
+      "baseline": {
+        "n": 40,
+        "mean_ms": 90.546385,
+        "median_ms": 92.6644,
+        "stdev_ms": 5.000463567923299,
+        "p95_ms": 95.22043000000001,
+        "minimum_ms": 80.0868,
+        "maximum_ms": 96.003
+      }
+    },
+    {
+      "run": 3,
+      "miss": {
+        "n": 40,
+        "mean_ms": 107.28814,
+        "median_ms": 106.96424999999999,
+        "stdev_ms": 1.9862636381936463,
+        "p95_ms": 110.23214499999999,
+        "minimum_ms": 103.7381,
+        "maximum_ms": 113.3974
+      },
+      "hit": {
+        "n": 160,
+        "mean_ms": 7.8153325,
+        "median_ms": 7.401999999999999,
+        "stdev_ms": 0.9010213780576913,
+        "p95_ms": 9.46894,
+        "minimum_ms": 6.6547,
+        "maximum_ms": 10.1485
+      },
+      "baseline": {
+        "n": 40,
+        "mean_ms": 89.5493575,
+        "median_ms": 92.10835,
+        "stdev_ms": 5.607367355171209,
+        "p95_ms": 96.03146500000001,
+        "minimum_ms": 80.2554,
+        "maximum_ms": 96.2784
+      }
+    }
+  ],
+  "concurrency": [
+    {
+      "run": 1,
+      "concurrency": 5,
+      "requests": 5,
+      "provider_calls": 1,
+      "makespan_ms": 164.7108,
+      "misses": 1,
+      "hits": 4,
+      "errors": 0
+    },
+    {
+      "run": 1,
+      "concurrency": 10,
+      "requests": 10,
+      "provider_calls": 1,
+      "makespan_ms": 281.6456,
+      "misses": 1,
+      "hits": 9,
+      "errors": 0
+    },
+    {
+      "run": 1,
+      "concurrency": 30,
+      "requests": 30,
+      "provider_calls": 1,
+      "makespan_ms": 652.0835,
+      "misses": 1,
+      "hits": 29,
+      "errors": 0
+    },
+    {
+      "run": 2,
+      "concurrency": 5,
+      "requests": 5,
+      "provider_calls": 1,
+      "makespan_ms": 162.6727,
+      "misses": 1,
+      "hits": 4,
+      "errors": 0
+    },
+    {
+      "run": 2,
+      "concurrency": 10,
+      "requests": 10,
+      "provider_calls": 1,
+      "makespan_ms": 249.8903,
+      "misses": 1,
+      "hits": 9,
+      "errors": 0
+    },
+    {
+      "run": 2,
+      "concurrency": 30,
+      "requests": 30,
+      "provider_calls": 1,
+      "makespan_ms": 530.6137,
+      "misses": 1,
+      "hits": 29,
+      "errors": 0
+    },
+    {
+      "run": 3,
+      "concurrency": 5,
+      "requests": 5,
+      "provider_calls": 1,
+      "makespan_ms": 166.5701,
+      "misses": 1,
+      "hits": 4,
+      "errors": 0
+    },
+    {
+      "run": 3,
+      "concurrency": 10,
+      "requests": 10,
+      "provider_calls": 1,
+      "makespan_ms": 290.6999,
+      "misses": 1,
+      "hits": 9,
+      "errors": 0
+    },
+    {
+      "run": 3,
+      "concurrency": 30,
+      "requests": 30,
+      "provider_calls": 1,
+      "makespan_ms": 561.7504,
+      "misses": 1,
+      "hits": 29,
+      "errors": 0
+    }
+  ],
+  "sqlite_reopen": [
+    {
+      "run": 1,
+      "count_before": 44,
+      "count_after": 44
+    },
+    {
+      "run": 2,
+      "count_before": 44,
+      "count_after": 44
+    },
+    {
+      "run": 3,
+      "count_before": 44,
+      "count_after": 44
+    }
+  ],
+  "break_even": {
+    "provider_mean_ms": 89.959695,
+    "overhead_ms": 17.31592583333334,
+    "hit_mean_ms": 7.9516647916666665,
+    "threshold_ratio": 0.174337858895484,
+    "reference": "direct provider, not an equivalent HTTP endpoint",
+    "hypothetical_1500_ms_ratio": 0.011472330623081664,
+    "model": "T(p)=(1-p)*(L+O)+p*H; beneficial relative to L if p>O/(L+O-H)"
+  }
+}

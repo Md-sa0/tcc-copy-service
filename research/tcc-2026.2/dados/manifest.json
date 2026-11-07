@@ -1,0 +1,61 @@
+{
+  "timestamp_utc": "2026-11-06T15:26:06.944156+00:00",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "python": "3.14.7",
+  "transport": "httpx ASGITransport in-process; no TCP or browser",
+  "database": "SQLite temporary files",
+  "cache": "FakeRedis; no Redis server",
+  "provider": "MockProvider; intentional asyncio.sleep(0.08); zero real LLM tokens",
+  "rounds": 3,
+  "products": 10,
+  "tones": [
+    "persuasivo",
+    "descontra\u00eddo",
+    "institucional",
+    "promocional"
+  ],
+  "warmups_excluded": 6,
+  "seed_base": 20261106,
+  "baseline": "direct MockProvider.generate(snapshot); snapshot preparation outside timer; before/after cached group randomized",
+  "sequential_repeat_order": "MISS followed by four HIT; product/tone case order shuffled per run",
+  "versions": {
+    "fastapi": "0.141.1",
+    "pydantic": "2.13.5",
+    "sqlalchemy": "2.0.54",
+    "httpx": "0.28.1",
+    "fakeredis": "2.38.0",
+    "redis": "6.4.0",
+    "aiosqlite": "0.22.1",
+    "google-genai": "1.75.0"
+  },
+  "git_head": "0c8d2a61ec7d513c56026b0a9f85f1572e39d66d",
+  "git_dirty": false,
+  "git_tags": [
+    "tcc-2026.2"
+  ],
+  "source_sha256": {
+    "src\\__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src\\core\\__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src\\core\\cache.py": "72e4fbace5d732d9eacf296444b8b2a8c55b3e3695a11ea30e741d8925dc16c3",
+    "src\\core\\config.py": "a8c5262cd41274b74655c25e67ecdbf1a30ccdfae88fce72d6449f3ac7816aa4",
+    "src\\core\\database.py": "2299e9921f71f2e597900e7e04a0568d2e25c2c99aaa2c707c37249d769c4581",
+    "src\\core\\dependencies.py": "fd84e79d3750f562e6ff0074a5350df4213341b602a671d628e5b64d1885dbc7",
+    "src\\core\\middleware.py": "e2286c023bba455da93b5ae0e0ee517ebe8bf96b785a4060a577c7c678a9efbc",
+    "src\\main.py": "b8760f00920cd65222f151f7762c85d4d96fa8d0214ca80f86e61975d36818ba",
+    "src\\models\\__init__.py": "44f61d2719525ace7fdebffcc0e527ba2e20bfa52cd1758afa8e6c09773768e3",
+    "src\\models\\entities.py": "478a5f5ed30305294a886231c2d85cb2ee91b8d80acd2636d29b979d65f8a8c7",
+    "src\\routers\\__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src\\routers\\copies.py": "10d053344fe998219b29dba549a6a03c6d7b351242d26569d77879c3357b327d",
+    "src\\routers\\metrics.py": "bdd758dec0bed143a39be27748804200b16aa2bf7a49c2fe58b3bd75bddda4cf",
+    "src\\routers\\products.py": "bcd63e837396a87ae273d83a91e21dde4653658649a3b9ba80ae69381afa1b64",
+    "src\\schemas\\__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src\\schemas\\copies.py": "7ef9db0d3aee7579ccd8908f9879a8fd06a50853937e0d4b5ed21c5ea3cb8da1",
+    "src\\schemas\\metrics.py": "883eea1b223cd655737b01a6562c1493e47541fb270bc85c4cc01e969dbeb597",
+    "src\\schemas\\products.py": "95a4006da04a188a53561b45276cdaa7552f233594bec6decdb6295f82360491",
+    "src\\services\\__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src\\services\\generation.py": "0ff226d2efe71527d49e4ba79871652e81c9d1f542d4297a8be3e39e111c24d5",
+    "src\\services\\hashing.py": "87ae9c44278c516e918011397d773f9af078f038d2401f358d111cfec7ac9c07",
+    "src\\services\\llm.py": "9ae79bc0c0187318986c68582762d1b148a8ee02eae610d8652f55f68aa3849b"
+  },
+  "script_sha256": "ac683eb30bb98f5ee1e702596e588994eccad5f1e012928b4af0b3141d90025e"
+}
