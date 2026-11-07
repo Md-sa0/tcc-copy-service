@@ -22,8 +22,8 @@ cd copylab-ensaio
 py -3.14 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
 .\.venv\Scripts\python.exe -m pytest --junitxml=artifacts/repro-pytest.xml
-.\.venv\Scripts\python.exe scripts/article_experiment.py --seed 20261106 --rounds 3
-.\.venv\Scripts\python.exe scripts/article_experiment.py --seed 42 --rounds 1
+.\.venv\Scripts\python.exe -m scripts.article_experiment --seed 20261106 --rounds 3
+.\.venv\Scripts\python.exe -m scripts.article_experiment --seed 42 --rounds 1
 ```
 
 Para fixar as versões, acrescente `-c CAMINHO/constraints-windows-py314.txt` à instalação. Mantenha o pacote extraído fora do checkout para não criar arquivos não rastreados. Em macOS/Linux, use `python3 -m venv .venv` e `.venv/bin/python`.
@@ -33,3 +33,7 @@ O script recusa árvore Git suja. Não usar `--allow-dirty` para coleta do artig
 Não são necessárias credenciais do Gemini ou servidores PostgreSQL/Redis para este ensaio. Ele usa SQLite, FakeRedis e MockProvider, com espera programada de 80 ms; esta espera não equivale à duração medida. As medições são locais em ASGITransport, sem TCP/navegador. A linha de base é chamada direta ao provedor, não um endpoint equivalente. Não mede qualidade publicitária nem economia financeira real. Novas execuções terão tempos diferentes; preservar seus próprios manifestos e não sobrescrever dados publicados.
 
 Os hashes de fontes são dos bytes Windows: conversão CRLF/LF em outro checkout pode alterar o hash sem alterar o código. Compare com `source_snapshot` para auditar os bytes exatos.
+
+## Correção documental r1
+
+A revisão r1 corrige os comandos para execução como módulo Python e acrescenta `seed_and_benchmark.py` ao snapshot, pois fornece a função de percentil importada pelo ensaio. Os dados experimentais e a tag de código não foram alterados. A versão anterior dos dados permanece preservada em `dados-tcc-2026.2`; esta versão usa `dados-tcc-2026.2-r1`.
