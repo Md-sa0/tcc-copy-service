@@ -18,13 +18,13 @@ async def summary(
     hours: int = Query(default=24, ge=1, le=8760),
     session: AsyncSession = Depends(get_session),
 ):
-    settings = request.app.state.settings
+    model_name = request.app.state.runtime_model_name
     cutoff = datetime.now(UTC) - timedelta(hours=hours)
     # Include schema/auth failures with no model in the error count; never mix successful models.
     filters = [
         ApiMetric.kind == "generation",
         ApiMetric.created_at >= cutoff,
-        (ApiMetric.model_name == settings.model_name) | ApiMetric.model_name.is_(None),
+        (ApiMetric.model_name == model_name) | ApiMetric.model_name.is_(None),
     ]
     success = ApiMetric.status_code.between(200, 299)
     hit = success & (ApiMetric.cache_status == "HIT")
@@ -45,8 +45,8 @@ async def summary(
     tokens, saved = row.tokens or 0, row.saved or 0
     return {
         "hours": hours,
-        "model_name": settings.model_name,
-        "provider": settings.llm_provider,
+        "model_name": model_name,
+        "provider": request.app.state.runtime_provider,
         "generation_requests": row.total,
         "successful_generations": row.successes or 0,
         "errors": row.total - (row.successes or 0),

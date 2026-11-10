@@ -58,14 +58,21 @@ async def generate_copy(request: Request, session, payload) -> GenerateResponse:
 
 
 async def _generate_copy(request: Request, session, payload) -> GenerateResponse:
+    if request.app.state.provider_config_error:
+        raise HTTPException(503, request.app.state.provider_config_error)
     product = await session.get(Product, payload.product_id)
     if product is None:
         raise HTTPException(404, "Produto não encontrado")
     settings = request.app.state.settings
-    snapshot = canonical_input(product, payload.tone_of_voice, settings)
+    snapshot = canonical_input(
+        product,
+        payload.tone_of_voice,
+        settings,
+        request.app.state.runtime_model_name,
+    )
     digest = input_hash(snapshot)
     request.state.input_hash = digest
-    request.state.model_name = settings.model_name
+    request.state.model_name = request.app.state.runtime_model_name
     cache = request.app.state.cache
     key = f"copy:sha256:{digest}"
     lock_key = f"lock:{key}"
@@ -92,7 +99,7 @@ async def _generate_copy(request: Request, session, payload) -> GenerateResponse
             return hit(request, cached)
         request.state.cache_status = "MISS"
         started = time.perf_counter()
-        result = await request.app.state.provider.generate(snapshot)
+        result = await request.app.state.provider_manager.generate(snapshot)
         request.state.tokens_used = result.tokens
         row = GeneratedCopy(
             product_id=payload.product_id,
@@ -102,7 +109,7 @@ async def _generate_copy(request: Request, session, payload) -> GenerateResponse
             instagram_copy=result.content.instagram.model_dump(),
             whatsapp_copy=result.content.whatsapp.model_dump(),
             seo_copy=result.content.ecommerce_seo.model_dump(),
-            model_name=settings.model_name,
+            model_name=request.app.state.runtime_model_name,
             inference_time_ms=(time.perf_counter() - started) * 1000,
             tokens_used=result.tokens,
         )

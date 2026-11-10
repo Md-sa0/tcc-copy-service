@@ -59,7 +59,7 @@ export default function Previews({
     <section className="panel preview-panel">
       <div className="panel-heading">
         <div>
-          <span className="eyebrow">TEXTOS GERADOS</span>
+          <span className="eyebrow">Textos gerados</span>
           <h2>Textos por canal</h2>
         </div>
         <span className="badge green">Formato conferido</span>

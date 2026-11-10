@@ -2,6 +2,7 @@ import asyncio
 import logging
 from contextlib import asynccontextmanager
 
+from cryptography.fernet import Fernet, InvalidToken
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
@@ -11,8 +12,10 @@ from src.core.config import Settings, get_settings
 from src.core.database import create_database
 from src.core.dependencies import authenticate
 from src.core.middleware import TelemetryMiddleware
-from src.routers import copies, metrics, products
-from src.services.llm import GeminiProvider, MockProvider
+from src.models import ProviderCredential
+from src.routers import copies, metrics, products, settings as settings_router
+from src.services.llm import MockProvider, OpenAICompatibleProvider
+from src.services.provider_manager import ProviderManager
 
 
 def create_app(settings: Settings | None = None, *, sessions=None, cache=None, provider=None) -> FastAPI:
@@ -32,15 +35,42 @@ def create_app(settings: Settings | None = None, *, sessions=None, cache=None, p
         app.state.cache_kind = (
             "simulado" if type(app.state.cache).__module__.startswith("fakeredis") else "redis"
         )
-        app.state.provider = (
-            provider
-            if provider is not None
-            else (GeminiProvider(settings) if settings.llm_provider == "gemini" else MockProvider())
-        )
+        provider_instance = provider if provider is not None else MockProvider()
+        app.state.runtime_provider = "mock"
+        app.state.runtime_model_name = settings.model_name
+        app.state.provider_config_error = None
+        async with app.state.sessions() as session:
+            credential = await session.get(ProviderCredential, 1)
+            if credential is not None:
+                encryption_key = settings.settings_encryption_key.get_secret_value()
+                if not encryption_key:
+                    app.state.provider_config_error = (
+                        "A chave criptografada do provedor não pode ser carregada. "
+                        "Configure SETTINGS_ENCRYPTION_KEY no .env e reinicie a API."
+                    )
+                else:
+                    try:
+                        api_key = Fernet(encryption_key.encode("ascii")).decrypt(
+                            credential.encrypted_api_key.encode("ascii")
+                        ).decode("utf-8")
+                        provider_instance = OpenAICompatibleProvider(
+                            api_key=api_key,
+                            base_url=credential.base_url,
+                            model=credential.model,
+                        )
+                        app.state.runtime_provider = "openai-compatible"
+                        app.state.runtime_model_name = credential.model
+                    except (ValueError, UnicodeEncodeError, InvalidToken) as exc:
+                        app.state.provider_config_error = (
+                            "A chave criptografada não pôde ser descriptografada. "
+                            "Verifique SETTINGS_ENCRYPTION_KEY."
+                        )
+                        logging.error("provider_configuration_decryption_failed")
+        app.state.provider_manager = ProviderManager(provider_instance)
         try:
             yield
         finally:
-            await app.state.provider.close()
+            await app.state.provider_manager.close()
             await app.state.cache.aclose()
             if engine is not None:
                 await engine.dispose()
@@ -59,14 +89,15 @@ def create_app(settings: Settings | None = None, *, sessions=None, cache=None, p
     api.include_router(products.router)
     api.include_router(copies.router)
     api.include_router(metrics.router)
+    api.include_router(settings_router.router)
     app.include_router(api)
 
     @app.get("/health", tags=["Operação"])
     async def health():
         return {
             "status": "online",
-            "provider": settings.llm_provider,
-            "model": settings.model_name,
+            "provider": app.state.runtime_provider,
+            "model": app.state.runtime_model_name,
             "database": app.state.database_kind,
             "cache": app.state.cache_kind,
         }

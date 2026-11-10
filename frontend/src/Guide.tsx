@@ -184,14 +184,6 @@ export default function Guide({
           <span>
             Cache <strong>{runtime?.cache ?? "Não verificado"}</strong>
           </span>
-          <span>
-            Geração{" "}
-            <strong>
-              {runtime?.provider === "mock"
-                ? "IA simulada"
-                : (runtime?.model ?? "Não verificada")}
-            </strong>
-          </span>
         </div>
         <p>
           O cadastro e o histórico são gravados no banco informado acima. No

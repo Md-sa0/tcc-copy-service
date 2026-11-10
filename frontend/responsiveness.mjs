@@ -18,7 +18,10 @@ try {
     });
     const start = performance.now();
     await page.goto(base);
-    await page.getByText('API conectada', { exact: true }).waitFor();
+    await page.waitForFunction(async () => {
+      const response = await fetch('/health');
+      return response.ok;
+    });
     await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
     const readyMs = performance.now() - start;
     const metrics = await page.evaluate(() => ({ paints: performance.getEntriesByType('paint').map(e => ({ name: e.name, ms: e.startTime })), jsBytes: performance.getEntriesByType('resource').filter(e => e.name.endsWith('.js')).reduce((a,e)=>a+e.decodedBodySize,0), longTasks: window.reviewLongTasks }));
@@ -36,7 +39,10 @@ try {
   for (const width of [320, 390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto(base);
-    await page.getByText('API conectada', { exact: true }).waitFor();
+    await page.waitForFunction(async () => {
+      const response = await fetch('/health');
+      return response.ok;
+    });
     for (const [button, title] of screens) {
       const start = performance.now();
       await page.getByRole('button', { name: button, exact: true }).click();

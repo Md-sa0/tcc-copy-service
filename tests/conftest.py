@@ -45,7 +45,7 @@ async def stack(tmp_path):
         await cache.flushdb()
     else:
         cache = FakeRedis(decode_responses=True)
-    settings = Settings(_env_file=None, app_env="test", llm_provider="mock", api_key="", retry_base_seconds=0)
+    settings = Settings(_env_file=None, app_env="test", api_key="")
     provider = CountingProvider()
     app = create_app(settings, sessions=sessions, cache=cache, provider=provider)
     async with app.router.lifespan_context(app):

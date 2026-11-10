@@ -16,7 +16,10 @@ page.on("pageerror", (error) => errors.push(error.message));
 const sku = `UI-${Date.now()}`;
 try {
   await page.goto(baseURL);
-  await page.getByText("API conectada").waitFor();
+  await page.waitForFunction(async () => {
+    const response = await fetch("/health");
+    return response.ok;
+  });
   await page.screenshot({ path: `${output}/studio-empty.png`, fullPage: true });
   await page.getByLabel("SKU", { exact: true }).fill(sku);
   await page.getByLabel("Categoria", { exact: true }).fill("Eletrônicos");

@@ -113,12 +113,6 @@ export default function Dashboard() {
           {error}
         </div>
       )}
-      {summary?.provider === "mock" && (
-        <div className="demo-banner">
-          Demonstração: latências do simulador, sem consumo de tokens. Estes
-          dados não representam desempenho do Gemini.
-        </div>
-      )}
       <div className="stat-grid">
         {[
           {

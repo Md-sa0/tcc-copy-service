@@ -81,7 +81,7 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
     <form className="panel product-form" onSubmit={submit}>
       <div className="panel-heading">
         <div>
-          <span className="eyebrow">01 / INFORMAÇÕES DO PRODUTO</span>
+          <span className="eyebrow">Informações do produto</span>
           <h2>{product ? "Editar produto" : "Cadastrar produto"}</h2>
         </div>
         {product && (
@@ -169,7 +169,7 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
           </small>
         </label>
         <div className="tone-heading">
-          <span className="eyebrow">02 / ESTILO DO TEXTO</span>
+          <span className="eyebrow">Estilo do texto</span>
           <span>Tom de voz</span>
         </div>
         <div className="tone-grid">

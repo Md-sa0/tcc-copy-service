@@ -50,7 +50,7 @@ Substitua o UUID pelo `id` retornado no cadastro. Tons: `persuasivo`, `descontra
 
 A resposta contém `copy` (ID, produto, hash, snapshot, três canais, modelo, inferência, tokens, data) e `cache_status`. `copy.tokens_used` é o consumo da inferência original daquela versão, mesmo no HIT; o consumo da requisição atual é zero no HIT e fica em `api_metrics.tokens_used`.
 
-Instagram: `hook`, `caption`, `hashtags`, `call_to_action`. WhatsApp: `message`, `call_to_action`. SEO: `meta_title` (até 60), `meta_description` (até 160), `bullet_points`, `long_description`. Não há truncamento silencioso do texto real recebido do Gemini: resposta fora do schema retorna 502.
+Instagram: `hook`, `caption`, `hashtags`, `call_to_action`. WhatsApp: `message`, `call_to_action`. SEO: `meta_title` (até 60), `meta_description` (até 160), `bullet_points`, `long_description`. Resposta do provedor fora do schema retorna 502, sem truncamento silencioso.
 
 ## Headers
 
@@ -67,12 +67,12 @@ Instagram: `hook`, `caption`, `hashtags`, `call_to_action`. WhatsApp: `message`,
 | 409 | SKU duplicado ou produto excluído durante geração |
 | 422 | Contrato de entrada inválido |
 | 429 | Limite do Nginx atingido |
-| 502 | Falha não transitória/saída inválida do Gemini |
+| 502 | Falha do provedor ou saída inválida |
 | 503 | Redis indisponível, contenção prolongada, falha de transporte ou 429/503 esgotados |
 | 504 | Timeout total ou de comunicação com o provedor |
 | 500 | Falha interna não prevista; resposta sem segredos |
 
-Falhas transitórias do Gemini são tentadas até `RETRY_ATTEMPTS` no total. Não se repetem erros 400/401 nem JSON inválido. Nginx pode rejeitar requisições antes da API; esses eventos aparecem nos logs do proxy, não em `api_metrics`.
+Falhas do provedor são sanitizadas e retornadas sem tentativas automáticas adicionais. Nginx pode rejeitar requisições antes da API; esses eventos aparecem nos logs do proxy, não em `api_metrics`.
 
 ## Migração do protótipo
 

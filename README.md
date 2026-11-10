@@ -1,6 +1,6 @@
 # CopyLab · Conteúdo publicitário multicanal
 
-Aplicação full-stack para automação de conteúdo no varejo eletrônico: catálogo em PostgreSQL, geração assíncrona com Google Gemini e Pydantic v2, cache Redis com SHA-256, SPA React/Tailwind e métricas experimentais persistidas.
+Aplicação full-stack para automação de conteúdo no varejo eletrônico: catálogo em PostgreSQL, geração assíncrona com provedores compatíveis com OpenAI configurados pelo usuário, cache Redis com SHA-256, SPA React/Tailwind e métricas experimentais persistidas.
 
 **Instituição:** Instituto de Ensino Superior (iCEV)
 
@@ -20,21 +20,19 @@ Pré-requisito: Docker Engine/Desktop em execução, com Docker Compose v2 e sup
 docker compose up --build
 ```
 
-Abra [a aplicação](http://localhost:8080), [a documentação OpenAPI](http://localhost:8080/docs) ou [a prontidão da API](http://localhost:8080/health/ready). O primeiro build baixa dependências. As migrações Alembic são aplicadas automaticamente antes de iniciar a API; o frontend aguarda sua prontidão.
+Abra [a aplicação](http://localhost:8080), [a documentação OpenAPI](http://localhost:8080/docs) ou [a prontidão da API](http://localhost:8080/health/ready). O primeiro build baixa dependências. As migrações Alembic são aplicadas automaticamente antes de iniciar a API; o frontend aguarda sua prontidão. O frontend local usa Vite com hot reload: alterações em `frontend/src` são refletidas no navegador automaticamente, sem rebuild. O Compose monta o código-fonte e mantém as dependências Node em um volume.
 
-Sem configuração adicional, a aplicação usa **modo demonstrativo (`LLM_PROVIDER=mock`)**. Todo o fluxo de catálogo, banco, Redis, histórico e métricas funciona, mas os textos são produzidos por um simulador determinístico, sem consumo de tokens e sem resultados experimentais atribuíveis ao Gemini. O banner da SPA e os relatórios identificam esse modo. O catálogo começa vazio; cadastre um produto ou execute a carga abaixo.
+Sem configurar um provedor, a aplicação usa um simulador determinístico, sem consumo de tokens nem chamadas externas. O catálogo começa vazio; cadastre um produto ou execute a carga abaixo.
 
-### Usar Gemini real
+### Configurar um provedor compatível pela interface
 
-Se ainda não existir `.env`, copie `.env.example` para `.env`. Se já existir, preserve-o e acrescente/ajuste:
+Na aba **Chaves de API**, informe a chave que você obteve, o modelo e a URL HTTPS do endpoint compatível com OpenAI Chat Completions. A chave do provedor é enviada pelo usuário, cifrada no banco e nunca é lida de variáveis de ambiente nem devolvida à interface. Para persistir a credencial cifrada, configure no `.env` apenas a chave mestra Fernet:
 
-```dotenv
-LLM_PROVIDER=gemini
-GEMINI_API_KEY=sua_chave_google
-GEMINI_MODEL=gemini-2.5-flash
+```sh
+docker compose exec api python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
 ```
 
-Depois execute novamente `docker compose up --build`. O modelo é configurável; disponibilidade e cota dependem da sua conta. A aplicação não troca silenciosamente de modelo nem usa mock quando o provedor falha. A chave Gemini fica exclusivamente na API. Seu `.env` é ignorado pelo Git e excluído do contexto de build.
+Copie o resultado para `SETTINGS_ENCRYPTION_KEY` no `.env` e reinicie os serviços. Mantenha essa chave mestra em segurança e não a troque: sem ela, as chaves de provedor salvas não podem ser recuperadas. A interface aceita provedores compatíveis com OpenAI; a URL deve usar HTTPS e resolver apenas para endereços públicos.
 
 ### Popular 10 produtos e gerar o benchmark
 
@@ -53,13 +51,13 @@ Somente carga, reutilizando os SKUs conhecidos:
 docker compose exec api python seed_and_benchmark.py --url http://localhost:8000 --output /tmp/benchmarks --seed-only --reuse-catalog
 ```
 
-O padrão usa novos IDs/SKUs para obter um cenário inicial sem cache sem apagar dados anteriores. `--reuse-catalog` permite que a primeira rodada seja HIT; os relatórios sempre usam o status efetivamente observado. Em modo Gemini as chamadas consomem sua cota. Para experimentos, use uma base dedicada e registre configuração e data; veja [o protocolo experimental](docs/BENCHMARK.md).
+O padrão usa novos IDs/SKUs para obter um cenário inicial sem cache sem apagar dados anteriores. `--reuse-catalog` permite que a primeira rodada seja HIT; os relatórios sempre usam o status efetivamente observado. Com um provedor real configurado pela interface, as chamadas podem consumir sua cota. Para experimentos, use uma base dedicada e registre configuração e data; veja [o protocolo experimental](docs/BENCHMARK.md).
 
 ## O que foi implementado
 
 - **Catálogo:** criação, consulta, pesquisa por nome/SKU, paginação, edição por substituição completa e exclusão com remoção das copies dependentes.
 - **Contratos:** campos extras proibidos, tipos de texto sem coerção numérica, normalização Unicode NFC, limites de tamanho, atributos obrigatórios, benefícios sem duplicatas e quatro tons de voz.
-- **Geração:** SDK `google-genai` assíncrono, JSON Schema derivado de Pydantic, revalidação local da resposta, limites SEO, timeout e retentativas limitadas com backoff exponencial e jitter para 429/503.
+- **Geração:** API assíncrona compatível com OpenAI Chat Completions, schema derivado de Pydantic, revalidação local da resposta e limites SEO.
 - **Cache:** Redis assíncrono, `GET`/`SETEX`, TTL configurável, chaves `copy:sha256:{hash}`, lock distribuído `SET NX EX` e liberação Lua condicionada ao proprietário.
 - **Persistência:** SQLAlchemy 2.0/asyncpg, PostgreSQL JSONB, FK, índices, snapshot da entrada de cada geração e migração Alembic versionada. Nenhuma criação automática de tabelas em produção.
 - **SPA:** React/TypeScript/Tailwind, validação Zod, editor de produtos, histórico de copies, prévias Instagram/WhatsApp/SEO, botão de cópia com toast, estados de carregamento e erros, layout responsivo.
@@ -74,7 +72,7 @@ Navegador React + Tailwind
          ▼
 Nginx :8080 ──► FastAPI /api/v1
                   ├── routers ─► schemas Pydantic
-                  ├── services ─► Gemini async / Structured Outputs
+                  ├── services ─► provedor OpenAI-compatible / JSON estruturado
                   ├── SQLAlchemy asyncpg ─► PostgreSQL (catálogo, copies, auditoria)
                   └── redis-py async ─────► Redis (TTL e lock por hash)
 ```
@@ -108,7 +106,7 @@ Abra http://localhost:8082 e mantenha o terminal aberto. Para encerrar, pression
 O comando serve frontend e API no mesmo processo, usando SQLite, FakeRedis e IA simulada.
 Não precisa ativar a virtualenv nem executar Node para visualizar o build existente.
 Após alterar o código frontend, gere novamente o build para que as mudanças apareçam.
-Essa demonstração não valida PostgreSQL, Redis ou Gemini reais.
+Essa demonstração não valida PostgreSQL, Redis ou provedores externos reais.
 
 ### Instalação e verificações
 
@@ -124,7 +122,7 @@ pytest -q
 ruff check src tests scripts migrations seed_and_benchmark.py
 ```
 
-Os testes locais isolados usam SQLite e FakeRedis, sem Gemini. No CI, as mesmas rotas são exercitadas com PostgreSQL e Redis reais em bancos de teste dedicados; há também migrações e smoke test do Compose. `TEST_DATABASE_URL` e `TEST_REDIS_URL` são exclusivamente para bases descartáveis: os fixtures recriam tabelas e limpam o banco Redis indicado.
+Os testes locais isolados usam SQLite e FakeRedis, sem chamadas a provedores externos. No CI, as mesmas rotas são exercitadas com PostgreSQL e Redis reais em bancos de teste dedicados; há também migrações e smoke test do Compose. `TEST_DATABASE_URL` e `TEST_REDIS_URL` são exclusivamente para bases descartáveis: os fixtures recriam tabelas e limpam o banco Redis indicado.
 
 ```sh
 cd frontend
@@ -165,10 +163,9 @@ Revisão técnica e pendências para o artigo: [docs/PROJECT_REVIEW.md](docs/PRO
 Responsividade e medições locais: [docs/RESPONSIVENESS.md](docs/RESPONSIVENESS.md). O GitHub Actions também verifica o layout em cinco larguras e guarda as capturas como artefatos da execução.
 ## Atualização de 22/10/2026
 
-- Geração real com Gemini validada localmente, com saídas estruturadas via `response_json_schema` e instruções específicas por canal. Os textos precisam de revisão humana para verificar afirmações não comprovadas.
-- Para executar com Gemini: configurar `GEMINI_API_KEY` no `.env` e abrir `iniciar-gemini.cmd`. Esse modo usa SQLite e cache simulado; não representa validação de PostgreSQL/Redis. As chamadas podem consumir a cota da API.
+- A validação anterior com Gemini foi substituída pela configuração de provedores compatíveis via interface. Chaves de provedores são informadas pelo usuário e não devem ser incluídas no `.env`; textos reais precisam de revisão humana.
 - Para demonstração sem chamadas externas: `iniciar-demo.cmd`.
 - Métricas consultadas automaticamente a cada segundo, com pausa manual e suspensão das consultas quando a aba está oculta. Não há geração artificial de tráfego.
 - Mensagem de conexão orienta reiniciar a API quando estiver desligada.
-- Dez produtos de exemplo estão definidos em `scripts/seed_data.py`. Para popular e gerar exemplos em modo simulado: `python seed_and_benchmark.py --url http://localhost:8082 --reuse-catalog --repeats 1`. Em modo Gemini esse comando faz chamadas reais.
+- Dez produtos de exemplo estão definidos em `scripts/seed_data.py`. Para popular e gerar exemplos em modo simulado: `python seed_and_benchmark.py --url http://localhost:8082 --reuse-catalog --repeats 1`. Com um provedor real configurado, esse comando faz chamadas externas.
 - Banco local, logs e pacotes baixados ficam fora do versionamento; os dados existentes no computador foram preservados.

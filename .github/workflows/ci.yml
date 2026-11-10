@@ -19,7 +19,6 @@ jobs:
         ports: ["6379:6379"]
     env:
       APP_ENV: test
-      LLM_PROVIDER: mock
       DATABASE_URL: postgresql+asyncpg://copy:test_password@localhost:5432/copy_test
       TEST_DATABASE_URL: postgresql+asyncpg://copy:test_password@localhost:5432/copy_test
       TEST_REDIS_URL: redis://localhost:6379/15

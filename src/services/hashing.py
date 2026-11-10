@@ -6,14 +6,16 @@ from src.models import Product
 from src.schemas.products import ProductCreate
 
 
-def canonical_input(product: Product, tone: str, settings: Settings) -> dict:
+def canonical_input(
+    product: Product, tone: str, settings: Settings, model_name: str | None = None
+) -> dict:
     attributes = ProductCreate.model_validate(product).model_dump()
     attributes["key_benefits"] = sorted(attributes["key_benefits"])
     return {
         "product_id": str(product.id),
         "product": attributes,
         "tone_of_voice": tone,
-        "model": settings.model_name,
+        "model": model_name or settings.model_name,
         "prompt_version": settings.prompt_version,
         "output_schema_version": "v1",
         "temperature": 0.2,

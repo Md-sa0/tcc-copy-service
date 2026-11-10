@@ -1,24 +1,26 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import {
-  Activity,
   ArrowUpRight,
   Boxes,
   CheckCircle2,
   ChevronRight,
   Command,
   FileText,
-  KeyRound,
   LayoutDashboard,
   LoaderCircle,
+  PanelLeftClose,
+  PanelLeftOpen,
   Plus,
   Search,
+  Settings2,
   Sparkles,
   Trash2,
   X,
 } from "lucide-react";
-import { api, setAccessKey } from "./api";
+import { api } from "./api";
 import Guide, { type Runtime } from "./Guide";
 import ProductForm from "./ProductForm";
+import ProviderSettings from "./ProviderSettings";
 import Previews from "./Previews";
 import type {
   Copy,
@@ -31,11 +33,12 @@ import type {
 
 const Dashboard = lazy(() => import("./Dashboard"));
 
-type View = "generator" | "catalog" | "metrics" | "guide";
+type View = "generator" | "catalog" | "metrics" | "guide" | "settings";
 export default function App() {
   const [view, setView] = useState<View>(
     window.location.hash === "#como-funciona" ? "guide" : "generator",
   );
+  const [sidebarVisible, setSidebarVisible] = useState(true);
   const [health, setHealth] = useState<Runtime | null>(null);
   const [product, setProduct] = useState<Product | null>(null);
   const [result, setResult] = useState<Generation | null>(null);
@@ -50,8 +53,6 @@ export default function App() {
     [deleteTarget, setDeleteTarget] = useState<Product | null>(null);
   const [history, setHistory] = useState<Copy[]>([]),
     [historyError, setHistoryError] = useState("");
-  const [showKey, setShowKey] = useState(false),
-    [key, setKey] = useState("");
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0 });
   }, [view]);
@@ -159,35 +160,49 @@ export default function App() {
         ? "Catálogo de produtos"
         : view === "guide"
           ? "Como usar o CopyLab"
-          : "Resultados das requisições";
+            : view === "metrics"
+              ? "Resultados das requisições"
+              : "Chaves de API";
   return (
-    <div className="app-shell">
+    <div className={`app-shell${sidebarVisible ? "" : " sidebar-hidden"}`}>
       <aside className="sidebar">
-        <a
-          className="brand"
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            setView("generator");
-          }}
-        >
-          <div className="brand-icon">
-            <Command size={24} />
-          </div>
-          <span>
-            copylab<span className="brand-dot">.</span>
-          </span>
-        </a>
+        <div className="sidebar-brand-row">
+          <a
+            className="brand"
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              setView("generator");
+            }}
+          >
+            <div className="brand-icon">
+              <Command size={24} />
+            </div>
+            <span>
+              copylab<span className="brand-dot">.</span>
+            </span>
+          </a>
+          <button
+            type="button"
+            className="sidebar-toggle"
+            aria-label="Ocultar barra lateral"
+            aria-controls="primary-navigation"
+            aria-expanded={sidebarVisible}
+            title="Ocultar barra lateral"
+            onClick={() => setSidebarVisible(false)}
+          >
+            <PanelLeftClose size={18} />
+          </button>
+        </div>
         <div className="workspace">
           <span className="workspace-icon">M</span>
           <div>
             <strong>Laboratório de conteúdo</strong>
-            <small>Projeto acadêmico · iCEV</small>
           </div>
           <ChevronRight size={15} />
         </div>
         <span className="nav-label">MENU</span>
-        <nav>
+        <nav id="primary-navigation">
           {(
             [
               { id: "generator", label: "Estúdio de criação", Icon: Sparkles },
@@ -198,6 +213,7 @@ export default function App() {
                 label: "Métricas de engenharia",
                 Icon: LayoutDashboard,
               },
+              { id: "settings", label: "Chaves de API", Icon: Settings2 },
             ] as const
           ).map((item) => (
             <button
@@ -212,27 +228,23 @@ export default function App() {
             </button>
           ))}
         </nav>
-        <div className="sidebar-bottom">
-          <div className="architecture-note">
-            <Activity size={18} />
-            <strong>Acompanhe as gerações</strong>
-            <p>
-              Consulte os textos salvos e o tempo de resposta na tela de
-              métricas.
-            </p>
-            <span>FastAPI + Gemini + Redis</span>
-          </div>
-          <div className="academic">
-            <div className="academic-logo">iCEV</div>
-            <span>
-              Engenharia de Software<small>Projeto de conclusão de curso</small>
-            </span>
-          </div>
-        </div>
       </aside>
       <div className="main-shell">
         <header className="topbar">
           <div>
+            {!sidebarVisible && (
+              <button
+                type="button"
+                className="sidebar-toggle sidebar-show-toggle"
+                aria-label="Mostrar barra lateral"
+                aria-controls="primary-navigation"
+                aria-expanded={sidebarVisible}
+                title="Mostrar barra lateral"
+                onClick={() => setSidebarVisible(true)}
+              >
+                <PanelLeftOpen size={18} />
+              </button>
+            )}
             CopyLab <ChevronRight size={14} />
             <strong>
               {view === "generator"
@@ -241,22 +253,12 @@ export default function App() {
                   ? "Catálogo"
                   : view === "guide"
                     ? "Como funciona"
-                    : "Métricas de engenharia"}
+                    : view === "metrics"
+                      ? "Métricas de engenharia"
+                      : "Chaves de API"}
             </strong>
           </div>
           <div>
-            <span className={`connection ${health ? "online" : ""}`}>
-              <i />
-              {health ? "API conectada" : "API indisponível"}
-            </span>
-            <button
-              className="icon-button"
-              aria-label="Configurar chave de acesso"
-              title="Chave de acesso à API"
-              onClick={() => setShowKey(true)}
-            >
-              <KeyRound size={18} />
-            </button>
             <span className="user-avatar">MD</span>
           </div>
         </header>
@@ -265,12 +267,14 @@ export default function App() {
             <div>
               <span className="eyebrow">
                 {view === "generator"
-                  ? "CRIAÇÃO DE TEXTOS"
+                  ? "Criação de conteúdo"
                   : view === "catalog"
-                    ? "BASE DE PRODUTOS"
+                    ? "Sua base de produtos"
                     : view === "guide"
-                      ? "ROTEIRO DE DEMONSTRAÇÃO"
-                      : "OBSERVABILIDADE & PESQUISA"}
+                      ? "Tour da aplicação"
+                      : view === "metrics"
+                        ? "Desempenho do sistema"
+                        : "Configurações de segurança"}
               </span>
               <h1>{title}</h1>
               <p>
@@ -280,22 +284,15 @@ export default function App() {
                     ? "Busque um produto para editar seus dados, gerar textos ou consultar versões anteriores."
                     : view === "guide"
                       ? "Veja por onde começar e faça um teste com um produto de exemplo."
-                      : "Acompanhe desempenho, reaproveitamento e consumo da aplicação."}
+                      : view === "metrics"
+                        ? "Acompanhe desempenho, reaproveitamento e consumo da aplicação."
+                        : "Configure ou substitua a chave do seu provedor de IA com segurança."}
               </p>
             </div>
             <span className="version-tag">
               CopyLab <span>v2.0</span>
             </span>
           </div>
-          {view !== "metrics" && health?.provider === "mock" && (
-            <div className="demo-banner">
-              <Sparkles size={16} />
-              <span>
-                Modo demonstração · IA simulada · Banco: {health.database} ·
-                Cache: {health.cache}.
-              </span>
-            </div>
-          )}
           {view === "generator" && (
             <>
               <div className="flow-strip">
@@ -534,11 +531,13 @@ export default function App() {
               <Dashboard key={revision} />
             </Suspense>
           )}
+          {view === "settings" && (
+            <ProviderSettings onSaved={() => setRevision((value) => value + 1)} />
+          )}
           <footer className="page-footer">
             <span>
               CopyLab · Automação de conteúdo para o varejo eletrônico
             </span>
-            <span>Marcus David Nascimento de Sá · iCEV</span>
           </footer>
         </main>
       </div>
@@ -549,49 +548,6 @@ export default function App() {
           <button aria-label="Fechar notificação" onClick={() => setToast("")}>
             <X size={16} />
           </button>
-        </div>
-      )}
-      {showKey && (
-        <div className="modal-backdrop">
-          <form
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="access-title"
-            className="panel modal"
-            onSubmit={(e) => {
-              e.preventDefault();
-              setAccessKey(key.trim());
-              setShowKey(false);
-              setRevision((v) => v + 1);
-              setToast("Chave de acesso aplicada nesta sessão.");
-            }}
-          >
-            <h2 id="access-title">Acesso à API</h2>
-            <p>
-              Informe a API_KEY configurada no servidor. A chave fica apenas na
-              memória desta aba.
-            </p>
-            <label>
-              Chave de acesso
-              <input
-                autoFocus
-                type="password"
-                autoComplete="off"
-                value={key}
-                onChange={(e) => setKey(e.target.value)}
-              />
-            </label>
-            <div className="form-actions">
-              <button
-                type="button"
-                className="button secondary"
-                onClick={() => setShowKey(false)}
-              >
-                Cancelar
-              </button>
-              <button className="button primary">Aplicar</button>
-            </div>
-          </form>
         </div>
       )}
       {deleteTarget && (

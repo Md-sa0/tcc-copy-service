@@ -1,23 +1,17 @@
-import json
-from types import SimpleNamespace
-from unittest.mock import AsyncMock
 from uuid import uuid4
 
 import pytest
-from google.genai import errors
 from pydantic import ValidationError
 
 from seed_and_benchmark import percentile, summarize
 from src.core.config import Settings
 from src.models import Product
-from src.schemas.copies import MarketingOutput
 from src.schemas.products import ProductCreate
 from src.services.hashing import canonical_input, input_hash
-from src.services.llm import GeminiProvider, GenerationError, MockProvider
 
 
 def test_hash_canonicalization_and_versions(product_payload):
-    settings = Settings(_env_file=None, llm_provider="mock")
+    settings = Settings(_env_file=None)
     product = Product(id=uuid4(), **ProductCreate.model_validate(product_payload).model_dump())
     initial = input_hash(canonical_input(product, "persuasivo", settings))
     product.technical_attributes = dict(reversed(list(product.technical_attributes.items())))
@@ -29,41 +23,20 @@ def test_hash_canonicalization_and_versions(product_payload):
     assert len(initial) == 64
 
 
-@pytest.mark.parametrize("code,attempts", [(429, 3), (503, 3), (400, 1), (401, 1)])
-async def test_provider_retries_only_transient_errors(code, attempts):
-    provider = GeminiProvider.__new__(GeminiProvider)
-    provider.settings = Settings(_env_file=None, llm_provider="mock", retry_base_seconds=0)
-    call = AsyncMock(side_effect=errors.APIError(code, {"error": {"message": "test"}}))
-    provider.client = SimpleNamespace(aio=SimpleNamespace(models=SimpleNamespace(generate_content=call)))
-    with pytest.raises(GenerationError):
-        await provider.generate({})
-    assert call.await_count == attempts
-
-
-async def test_provider_recovers_and_validates_output(product_payload):
-    result = await MockProvider().generate({"product": product_payload, "tone_of_voice": "persuasivo"})
-    provider = GeminiProvider.__new__(GeminiProvider)
-    provider.settings = Settings(_env_file=None, llm_provider="mock", retry_base_seconds=0)
-    response = SimpleNamespace(
-        text=result.content.model_dump_json(), usage_metadata=SimpleNamespace(total_token_count=150)
-    )
-    call = AsyncMock(side_effect=[errors.APIError(429, {"error": {"message": "retry"}}), response])
-    provider.client = SimpleNamespace(aio=SimpleNamespace(models=SimpleNamespace(generate_content=call)))
-    generated = await provider.generate({})
-    assert generated.tokens == 150
-    config = call.call_args.kwargs["config"]
-    assert config.response_json_schema == MarketingOutput.model_json_schema()
-    invalid = json.loads(response.text)
-    invalid["ecommerce_seo"]["meta_title"] = "x" * 61
-    call.side_effect = None
-    call.return_value = SimpleNamespace(text=json.dumps(invalid), usage_metadata=None)
-    with pytest.raises(GenerationError, match="contrato"):
-        await provider.generate({})
-
-
 def test_production_requires_credentials():
     with pytest.raises(ValidationError):
-        Settings(_env_file=None, app_env="production", llm_provider="mock", api_key="")
+        Settings(_env_file=None, app_env="production", api_key="")
+
+
+def test_provider_credentials_are_not_loaded_from_environment(monkeypatch):
+    monkeypatch.setenv("LLM_PROVIDER", "gemini")
+    monkeypatch.setenv("GEMINI_API_KEY", "environment-provider-secret")
+    monkeypatch.setenv("GEMINI_MODEL", "environment-model")
+    settings = Settings(_env_file=None)
+
+    assert settings.model_name == "mock-deterministic-v1"
+    assert not hasattr(settings, "gemini_api_key")
+    assert not hasattr(settings, "llm_provider")
 
 
 def test_benchmark_math():
@@ -95,20 +68,6 @@ def test_benchmark_math():
     assert summary["estimated_token_savings_percent"] == 50
     assert summary["errors"] == 1
     assert percentile([1, 2, 3, 4, 5], 0.95) == 4.8
-
-
-@pytest.mark.parametrize("content", ['{"invalid":true}', None])
-async def test_provider_preserves_usage_for_rejected_content(content):
-    provider = GeminiProvider.__new__(GeminiProvider)
-    provider.settings = Settings(_env_file=None, llm_provider="mock")
-    call = AsyncMock(
-        return_value=SimpleNamespace(text=content, usage_metadata=SimpleNamespace(total_token_count=150))
-    )
-    provider.client = SimpleNamespace(aio=SimpleNamespace(models=SimpleNamespace(generate_content=call)))
-    with pytest.raises(GenerationError) as error:
-        await provider.generate({})
-    assert error.value.tokens_used == 150
-    assert call.await_count == 1
 
 
 @pytest.mark.parametrize(

@@ -37,16 +37,12 @@ services:
       APP_ENV: ${APP_ENV:-development}
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-copy}:${POSTGRES_PASSWORD:-copy_local}@postgres:5432/${POSTGRES_DB:-copy}
       REDIS_URL: redis://:${REDIS_PASSWORD:-redis_local}@redis:6379/0
-      LLM_PROVIDER: ${LLM_PROVIDER:-mock}
-      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
-      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash}
+      SETTINGS_ENCRYPTION_KEY: ${SETTINGS_ENCRYPTION_KEY:-}
       API_KEY: ${API_KEY:-}
-      PROMPT_VERSION: ${PROMPT_VERSION:-retail-v1}
+      PROMPT_VERSION: ${PROMPT_VERSION:-retail-v2}
       CACHE_TTL_SECONDS: ${CACHE_TTL_SECONDS:-86400}
       GENERATION_TIMEOUT_SECONDS: ${GENERATION_TIMEOUT_SECONDS:-90}
-      RETRY_ATTEMPTS: ${RETRY_ATTEMPTS:-3}
-      RETRY_BASE_SECONDS: ${RETRY_BASE_SECONDS:-1}
-      CORS_ORIGINS: '${CORS_ORIGINS:-["http://localhost:8080","http://localhost:5173"]}'
+      CORS_ORIGINS: '${CORS_ORIGINS:-["http://localhost:8080","http://localhost:5173","http://127.0.0.1:8080"]}'
     networks: [data, edge]
     depends_on:
       postgres:
@@ -61,10 +57,18 @@ services:
       start_period: 20s
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      target: build
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "8080", "--strictPort"]
+    environment:
+      API_PROXY_TARGET: http://api:8000
     restart: unless-stopped
     ports:
       - "127.0.0.1:8080:8080"
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
     networks: [edge]
     depends_on:
       api:
@@ -78,6 +82,7 @@ services:
 volumes:
   postgres_data:
   redis_data:
+  frontend_node_modules:
 networks:
   data:
     internal: true
