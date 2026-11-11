@@ -1,3 +1,19 @@
-from src.models.entities import ApiMetric, Base, GeneratedCopy, Product, ProviderCredential
+from src.models.entities import (
+    ApiMetric,
+    AuthSession,
+    Base,
+    GeneratedCopy,
+    Product,
+    ProviderCredential,
+    User,
+)
 
-__all__ = ["ApiMetric", "Base", "GeneratedCopy", "Product", "ProviderCredential"]
+__all__ = [
+    "ApiMetric",
+    "AuthSession",
+    "Base",
+    "GeneratedCopy",
+    "Product",
+    "ProviderCredential",
+    "User",
+]

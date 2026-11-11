@@ -32,8 +32,13 @@ class TelemetryMiddleware(BaseHTTPMiddleware):
         response.headers["X-Cache-Status"] = status
         response.headers["X-Request-ID"] = request_id
         path = request.url.path
-        if path.startswith("/api/v1/") and not path.startswith("/api/v1/metrics"):
+        if (
+            path.startswith("/api/v1/")
+            and not path.startswith("/api/v1/metrics")
+            and not path.startswith("/api/v1/auth")
+        ):
             record = {
+                "user_id": getattr(request.state, "user_id", None),
                 "request_id": request_id,
                 "path": path[:300],
                 "method": request.method,
@@ -54,5 +59,9 @@ class TelemetryMiddleware(BaseHTTPMiddleware):
                     await session.commit()
             except (SQLAlchemyError, TimeoutError):
                 logger.error("metric_write_failed request_id=%s", request_id)
-            logger.info(json.dumps(record, ensure_ascii=False))
+            log_record = {
+                **record,
+                "user_id": str(record["user_id"]) if record["user_id"] else None,
+            }
+            logger.info(json.dumps(log_record, ensure_ascii=False))
         return response

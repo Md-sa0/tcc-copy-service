@@ -3,14 +3,14 @@ import ipaddress
 import socket
 from urllib.parse import urlsplit
 
-from cryptography.fernet import Fernet
+from cryptography.fernet import Fernet, InvalidToken
 from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel, ConfigDict, Field, SecretStr
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.core.dependencies import get_session
 from src.models import ProviderCredential
-from src.services.llm import OpenAICompatibleProvider
 
 router = APIRouter(prefix="/settings", tags=["Settings"])
 
@@ -89,15 +89,27 @@ async def validate_provider_url(value: str) -> str:
 
 @router.get("/provider")
 async def provider_status(request: Request, session: AsyncSession = Depends(get_session)):
-    credential = await session.get(ProviderCredential, 1)
+    credential = await session.scalar(
+        select(ProviderCredential).where(ProviderCredential.owner_id == request.state.user.id)
+    )
+    locked = False
+    error = None
+    if credential:
+        try:
+            encryption_fernet(request).decrypt(credential.encrypted_api_key.encode("ascii"))
+        except (HTTPException, InvalidToken, UnicodeEncodeError):
+            locked = True
+            error = (
+                "A chave criptografada não pode ser recuperada. "
+                "Verifique SETTINGS_ENCRYPTION_KEY."
+            )
     return {
-        "configured": credential is not None
-        and request.app.state.provider_config_error is None,
-        "locked": request.app.state.provider_config_error is not None,
-        "provider": request.app.state.runtime_provider,
-        "model": request.app.state.runtime_model_name,
+        "configured": credential is not None and not locked,
+        "locked": locked,
+        "provider": "openai-compatible" if credential else request.app.state.runtime_provider,
+        "model": credential.model if credential else request.app.state.runtime_model_name,
         "base_url": credential.base_url if credential else None,
-        "error": request.app.state.provider_config_error,
+        "error": error,
     }
 
 
@@ -116,10 +128,12 @@ async def update_provider(
         raise HTTPException(422, "Informe a chave e o modelo do provedor.")
 
     encrypted_key = fernet.encrypt(api_key.encode("utf-8")).decode("ascii")
-    credential = await session.get(ProviderCredential, 1)
+    credential = await session.scalar(
+        select(ProviderCredential).where(ProviderCredential.owner_id == request.state.user.id)
+    )
     if credential is None:
         credential = ProviderCredential(
-            id=1,
+            owner_id=request.state.user.id,
             encrypted_api_key=encrypted_key,
             base_url=base_url,
             model=model,
@@ -131,20 +145,34 @@ async def update_provider(
         credential.model = model
     await session.commit()
 
-    provider = OpenAICompatibleProvider(
-        api_key=api_key,
-        base_url=base_url,
-        model=model,
-    )
-    await request.app.state.provider_manager.replace(provider)
-    request.app.state.provider_config_error = None
-    request.app.state.runtime_provider = "openai-compatible"
-    request.app.state.runtime_model_name = model
     return {
         "configured": True,
         "locked": False,
         "provider": "openai-compatible",
         "model": model,
         "base_url": base_url,
+        "error": None,
+    }
+
+
+@router.delete("/provider")
+async def delete_provider(
+    request: Request,
+    session: AsyncSession = Depends(get_session),
+):
+    require_same_origin(request)
+    credential = await session.scalar(
+        select(ProviderCredential).where(ProviderCredential.owner_id == request.state.user.id)
+    )
+    if credential is not None:
+        await session.delete(credential)
+        await session.commit()
+
+    return {
+        "configured": False,
+        "locked": False,
+        "provider": request.app.state.runtime_provider,
+        "model": request.app.state.runtime_model_name,
+        "base_url": None,
         "error": None,
     }

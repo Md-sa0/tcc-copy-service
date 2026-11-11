@@ -2,7 +2,6 @@ import asyncio
 import logging
 from contextlib import asynccontextmanager
 
-from cryptography.fernet import Fernet, InvalidToken
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
@@ -10,11 +9,11 @@ from sqlalchemy import text
 from src.core.cache import create_cache
 from src.core.config import Settings, get_settings
 from src.core.database import create_database
-from src.core.dependencies import authenticate
+from src.core.dependencies import require_authenticated_user
 from src.core.middleware import TelemetryMiddleware
-from src.models import ProviderCredential
-from src.routers import copies, metrics, products, settings as settings_router
-from src.services.llm import MockProvider, OpenAICompatibleProvider
+from src.routers import auth, copies, metrics, products
+from src.routers import settings as settings_router
+from src.services.llm import MockProvider
 from src.services.provider_manager import ProviderManager
 
 
@@ -38,34 +37,6 @@ def create_app(settings: Settings | None = None, *, sessions=None, cache=None, p
         provider_instance = provider if provider is not None else MockProvider()
         app.state.runtime_provider = "mock"
         app.state.runtime_model_name = settings.model_name
-        app.state.provider_config_error = None
-        async with app.state.sessions() as session:
-            credential = await session.get(ProviderCredential, 1)
-            if credential is not None:
-                encryption_key = settings.settings_encryption_key.get_secret_value()
-                if not encryption_key:
-                    app.state.provider_config_error = (
-                        "A chave criptografada do provedor não pode ser carregada. "
-                        "Configure SETTINGS_ENCRYPTION_KEY no .env e reinicie a API."
-                    )
-                else:
-                    try:
-                        api_key = Fernet(encryption_key.encode("ascii")).decrypt(
-                            credential.encrypted_api_key.encode("ascii")
-                        ).decode("utf-8")
-                        provider_instance = OpenAICompatibleProvider(
-                            api_key=api_key,
-                            base_url=credential.base_url,
-                            model=credential.model,
-                        )
-                        app.state.runtime_provider = "openai-compatible"
-                        app.state.runtime_model_name = credential.model
-                    except (ValueError, UnicodeEncodeError, InvalidToken) as exc:
-                        app.state.provider_config_error = (
-                            "A chave criptografada não pôde ser descriptografada. "
-                            "Verifique SETTINGS_ENCRYPTION_KEY."
-                        )
-                        logging.error("provider_configuration_decryption_failed")
         app.state.provider_manager = ProviderManager(provider_instance)
         try:
             yield
@@ -82,10 +53,12 @@ def create_app(settings: Settings | None = None, *, sessions=None, cache=None, p
         CORSMiddleware,
         allow_origins=settings.cors_origins,
         allow_methods=["GET", "POST", "PUT", "DELETE"],
-        allow_headers=["Content-Type", "X-API-Key"],
+        allow_headers=["Content-Type", "X-CSRF-Token"],
+        allow_credentials=True,
         expose_headers=["X-Process-Time", "X-Cache-Status", "X-Request-ID"],
     )
-    api = APIRouter(prefix="/api/v1", dependencies=[Depends(authenticate)])
+    app.include_router(auth.router, prefix="/api/v1")
+    api = APIRouter(prefix="/api/v1", dependencies=[Depends(require_authenticated_user)])
     api.include_router(products.router)
     api.include_router(copies.router)
     api.include_router(metrics.router)

@@ -1,17 +1,13 @@
-import { ArrowRight, LoaderCircle, Save, X } from "lucide-react";
+import { LoaderCircle, Save, X } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import { ZodError } from "zod";
 import { parseAttributes, productSchema } from "./validation";
-import type { Product, ProductInput, Tone } from "./types";
+import type { Product, ProductInput } from "./types";
 
 interface Props {
   product: Product | null;
   busy: boolean;
-  onSave: (
-    product: ProductInput,
-    tone: Tone,
-    generate: boolean,
-  ) => Promise<void>;
+  onSave: (product: ProductInput) => Promise<void>;
   onClear: () => void;
 }
 const initial = {
@@ -25,7 +21,6 @@ const initial = {
 
 export default function ProductForm({ product, busy, onSave, onClear }: Props) {
   const [form, setForm] = useState(initial);
-  const [tone, setTone] = useState<Tone>("persuasivo");
   const [error, setError] = useState("");
   useEffect(() => {
     setForm(
@@ -55,10 +50,7 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
         technical_attributes: parseAttributes(attributes),
         key_benefits: benefits.split("\n").filter((v) => v.trim()),
       });
-      const generate =
-        (event.nativeEvent as SubmitEvent).submitter?.getAttribute("value") !==
-        "save";
-      await onSave(data, tone, generate);
+      await onSave(data);
     } catch (e) {
       setError(
         e instanceof ZodError
@@ -168,48 +160,6 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
             Um benefício por linha. Use apenas informações verificadas.
           </small>
         </label>
-        <div className="tone-heading">
-          <span className="eyebrow">Estilo do texto</span>
-          <span>Tom de voz</span>
-        </div>
-        <div className="tone-grid">
-          {(
-            [
-              "persuasivo",
-              "descontraído",
-              "institucional",
-              "promocional",
-            ] as Tone[]
-          ).map((t) => (
-            <label
-              className={`tone-option ${tone === t ? "selected" : ""}`}
-              key={t}
-            >
-              <input
-                type="radio"
-                name="tone"
-                value={t}
-                checked={tone === t}
-                onChange={() => setTone(t)}
-              />
-              {t}
-            </label>
-          ))}
-        </div>
-        <p className="field-explanation" aria-live="polite">
-          {
-            {
-              persuasivo:
-                "Persuasivo: destaca os benefícios para incentivar a compra.",
-              descontraído:
-                "Descontraído: usa uma linguagem informal e próxima do leitor.",
-              institucional:
-                "Institucional: apresenta o produto de forma objetiva e formal.",
-              promocional:
-                "Promocional: dá destaque à oferta, sem inventar preços ou descontos.",
-            }[tone]
-          }
-        </p>
         {error && (
           <div className="error-box" role="alert">
             {error}
@@ -218,25 +168,17 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
         <div className="form-actions">
           <button
             type="submit"
-            value="save"
-            className="button secondary"
-            title="Salvar sem gerar"
+            className="button primary"
+            disabled={busy}
           >
-            <Save size={16} /> Salvar
-          </button>
-          <button type="submit" value="generate" className="button primary">
-            {busy ? (
-              <LoaderCircle size={18} className="spin" />
-            ) : (
-              <ArrowRight size={18} />
-            )}{" "}
-            {busy ? "Processando…" : "Gerar conteúdo"}
+            {busy ? <LoaderCircle size={18} className="spin" /> : <Save size={16} />}
+            {busy ? "Salvando…" : "Salvar produto"}
           </button>
         </div>
       </fieldset>
       <p className="form-note">
-        Salvar guarda apenas o cadastro. Gerar conteúdo salva o produto e
-        solicita os três textos.
+        O cadastro do produto é independente da geração de textos. Depois de
+        salvar, escolha o produto no catálogo para criar conteúdo.
       </p>
     </form>
   );

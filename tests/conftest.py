@@ -45,11 +45,17 @@ async def stack(tmp_path):
         await cache.flushdb()
     else:
         cache = FakeRedis(decode_responses=True)
-    settings = Settings(_env_file=None, app_env="test", api_key="")
+    settings = Settings(_env_file=None, app_env="test")
     provider = CountingProvider()
     app = create_app(settings, sessions=sessions, cache=cache, provider=provider)
     async with app.router.lifespan_context(app):
         async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+            response = await client.post(
+                "/api/v1/auth/register",
+                json={"email": "test@example.com", "password": "test-account-password"},
+            )
+            assert response.status_code == 201, response.text
+            client.headers["X-CSRF-Token"] = client.cookies["copylab_csrf"]
             yield client, app, provider, cache
     await engine.dispose()
 

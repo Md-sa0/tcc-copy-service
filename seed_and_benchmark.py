@@ -66,12 +66,19 @@ def summarize(rows: list[dict]) -> dict:
 
 
 async def run(args):
+    if not args.email or not args.password:
+        raise SystemExit("Defina COPYLAB_EMAIL e COPYLAB_PASSWORD de uma conta existente.")
     run_id = uuid4().hex[:12]
     folder = Path(args.output) / run_id
     folder.mkdir(parents=True, exist_ok=False)
-    headers = {"X-API-Key": os.getenv("API_KEY", "")}
     started = datetime.now(UTC).isoformat()
-    async with httpx.AsyncClient(base_url=args.url.rstrip("/"), headers=headers, timeout=270) as client:
+    async with httpx.AsyncClient(base_url=args.url.rstrip("/"), timeout=270) as client:
+        login = await client.post(
+            "/api/v1/auth/login",
+            json={"email": args.email, "password": args.password},
+        )
+        login.raise_for_status()
+        client.headers["X-CSRF-Token"] = client.cookies["copylab_csrf"]
         health_response = await client.get("/health")
         health_response.raise_for_status()
         health = health_response.json()
@@ -205,6 +212,8 @@ async def run(args):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--url", default="http://localhost:8080")
+    parser.add_argument("--email", default=os.getenv("COPYLAB_EMAIL"))
+    parser.add_argument("--password", default=os.getenv("COPYLAB_PASSWORD"))
     parser.add_argument("--concurrency", type=int, default=2)
     parser.add_argument("--repeats", type=int, default=3)
     parser.add_argument("--pause", type=float, default=0.25)

@@ -10,7 +10,6 @@ class Settings(BaseSettings):
     app_env: Literal["development", "production", "test"] = "development"
     database_url: str = "postgresql+asyncpg://copy:copy_local@localhost:5432/copy"
     redis_url: str = "redis://localhost:6379/0"
-    api_key: SecretStr = SecretStr("")
     settings_encryption_key: SecretStr = SecretStr("")
     prompt_version: str = "retail-v2"
     cache_ttl_seconds: int = Field(default=86400, ge=1, le=2592000)
@@ -24,8 +23,6 @@ class Settings(BaseSettings):
     @model_validator(mode="after")
     def validate_environment(self):
         if self.app_env == "production":
-            if len(self.api_key.get_secret_value()) < 32:
-                raise ValueError("Produção exige API_KEY com pelo menos 32 caracteres")
             if "*" in self.cors_origins:
                 raise ValueError("Produção exige origens CORS explícitas")
         return self

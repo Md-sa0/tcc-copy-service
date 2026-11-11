@@ -1,12 +1,14 @@
 import json
 import socket
+from uuid import UUID
 
 import httpx
 from cryptography.fernet import Fernet
 from pydantic import SecretStr
+from sqlalchemy import select
 
 from src.models import ProviderCredential
-from src.services.llm import OpenAICompatibleProvider, TONE_INSTRUCTIONS
+from src.services.llm import TONE_INSTRUCTIONS, OpenAICompatibleProvider
 
 
 async def test_provider_key_is_encrypted_and_never_returned(stack, monkeypatch):
@@ -50,9 +52,12 @@ async def test_provider_key_is_encrypted_and_never_returned(stack, monkeypatch):
     assert secret not in saved.text
     assert saved.json()["configured"] is True
     assert saved.json()["model"] == payload["model"]
+    user = (await client.get("/api/v1/auth/me")).json()
 
     async with app.state.sessions() as session:
-        credential = await session.get(ProviderCredential, 1)
+        credential = await session.scalar(
+            select(ProviderCredential).where(ProviderCredential.owner_id == UUID(user["id"]))
+        )
         assert credential is not None
         assert secret not in credential.encrypted_api_key
         first_ciphertext = credential.encrypted_api_key
@@ -66,7 +71,9 @@ async def test_provider_key_is_encrypted_and_never_returned(stack, monkeypatch):
     assert rotated.status_code == 200
     assert replacement not in rotated.text
     async with app.state.sessions() as session:
-        credential = await session.get(ProviderCredential, 1)
+        credential = await session.scalar(
+            select(ProviderCredential).where(ProviderCredential.owner_id == UUID(user["id"]))
+        )
         assert credential is not None
         assert credential.encrypted_api_key != first_ciphertext
         assert replacement not in credential.encrypted_api_key
@@ -79,6 +86,53 @@ async def test_provider_key_is_encrypted_and_never_returned(stack, monkeypatch):
     summary = await client.get("/api/v1/metrics/summary")
     assert summary.json()["provider"] == "openai-compatible"
     assert summary.json()["model_name"] == payload["model"]
+
+    deleted = await client.delete(
+        "/api/v1/settings/provider",
+        headers={"Origin": "http://127.0.0.1:8080"},
+    )
+    assert deleted.status_code == 200
+    assert deleted.json()["configured"] is False
+    assert deleted.json()["provider"] == "mock"
+    async with app.state.sessions() as session:
+        credential = await session.scalar(
+            select(ProviderCredential).where(ProviderCredential.owner_id == UUID(user["id"]))
+        )
+        assert credential is None
+
+
+async def test_locked_provider_key_can_be_deleted(stack):
+    client, app, _, _ = stack
+    user = (await client.get("/api/v1/auth/me")).json()
+    async with app.state.sessions() as session:
+        session.add(
+            ProviderCredential(
+                owner_id=UUID(user["id"]),
+                encrypted_api_key="not-decryptable",
+                base_url="https://api.openai.com/v1",
+                model="gpt-4o-mini",
+            )
+        )
+        await session.commit()
+
+    status = await client.get("/api/v1/settings/provider")
+    assert status.json()["locked"] is True
+
+    denied = await client.delete(
+        "/api/v1/settings/provider",
+        headers={"Origin": "https://attacker.example"},
+    )
+    assert denied.status_code == 403
+
+    deleted = await client.delete(
+        "/api/v1/settings/provider",
+        headers={"Origin": "http://127.0.0.1:8080"},
+    )
+    assert deleted.status_code == 200
+    assert deleted.json()["configured"] is False
+    status = await client.get("/api/v1/settings/provider")
+    assert status.json()["locked"] is False
+    assert status.json()["provider"] == "mock"
 
 
 async def test_openai_compatible_provider_parses_structured_response():

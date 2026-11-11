@@ -7,11 +7,17 @@ import httpx
 
 
 async def run():
+    email = os.getenv("COPYLAB_EMAIL")
+    password = os.getenv("COPYLAB_PASSWORD")
+    if not email or not password:
+        raise SystemExit("Defina COPYLAB_EMAIL e COPYLAB_PASSWORD de uma conta existente.")
     async with httpx.AsyncClient(
         base_url=os.getenv("API_URL", "http://localhost:8080"),
-        headers={"X-API-Key": os.getenv("API_KEY", "")},
         timeout=15,
     ) as client:
+        login = await client.post("/api/v1/auth/login", json={"email": email, "password": password})
+        login.raise_for_status()
+        client.headers["X-CSRF-Token"] = client.cookies["copylab_csrf"]
         for route, payload in (
             ("products", {"sku": "INCOMPLETO"}),
             ("copies/generate", {}),

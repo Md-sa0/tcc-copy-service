@@ -1,4 +1,10 @@
-import { KeyRound, LoaderCircle, LockKeyhole, ShieldCheck } from "lucide-react";
+import {
+  KeyRound,
+  LoaderCircle,
+  LockKeyhole,
+  ShieldCheck,
+  Trash2,
+} from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import { api } from "./api";
 
@@ -60,6 +66,35 @@ export default function ProviderSettings({
     }
   }
 
+  async function removeKey() {
+    if (
+      !window.confirm(
+        "Excluir a chave salva? A geração deixará de usar esse provedor até uma nova chave ser configurada.",
+      )
+    ) {
+      return;
+    }
+
+    setBusy(true);
+    setError("");
+    setSaved(false);
+    try {
+      const current = await api<ProviderStatus>("/api/v1/settings/provider", {
+        method: "DELETE",
+      });
+      setStatus(current);
+      setApiKey("");
+      setBaseUrl("https://api.openai.com/v1");
+      setModel("");
+      setSaved(true);
+      onSaved();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Não foi possível excluir a chave.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <div className="provider-settings">
       <section className="panel settings-status">
@@ -68,7 +103,13 @@ export default function ProviderSettings({
         </div>
         <div>
           <span className="eyebrow">PROVEDOR DE INFERÊNCIA</span>
-          <h2>{status?.configured ? "Uma chave está configurada" : "Configure sua chave de IA"}</h2>
+          <h2>
+            {status?.locked
+              ? "A chave salva não pode ser recuperada"
+              : status?.configured
+                ? "Uma chave está configurada"
+                : "Configure sua chave de IA"}
+          </h2>
           <p>
             {status?.configured
               ? `Provedor atual: ${status.provider} · Modelo: ${status.model}`
@@ -87,7 +128,7 @@ export default function ProviderSettings({
         <div className="panel-heading">
           <div>
             <span className="eyebrow">ACESSO DO PROVEDOR</span>
-            <h2>{status?.configured ? "Substituir chave de API" : "Adicionar chave de API"}</h2>
+            <h2>{status?.configured ? "Trocar chave da API" : "Adicionar chave de API"}</h2>
           </div>
           <LockKeyhole size={19} />
         </div>
@@ -95,9 +136,8 @@ export default function ProviderSettings({
           <div className="settings-security-note">
             <ShieldCheck size={18} />
             <p>
-              A chave é enviada diretamente à API, armazenada criptografada no
-              banco e nunca volta para o navegador. Para trocá-la, informe a
-              nova chave abaixo.
+              A chave nova substitui a configuração atual ao ser salva. Ela é
+              armazenada criptografada e nunca volta para o navegador.
             </p>
           </div>
           <label>
@@ -137,16 +177,50 @@ export default function ProviderSettings({
             />
           </label>
           {error && <div className="error-box" role="alert">{error}</div>}
-          {saved && <div className="success-box" role="status">Chave atualizada e armazenada com segurança.</div>}
+          {saved && (
+            <div className="success-box" role="status">
+              {status?.configured
+                ? "Nova chave salva e configuração atualizada."
+                : "Chave removida. A geração usará a configuração padrão até uma nova chave ser salva."}
+            </div>
+          )}
           <div className="provider-form-footer">
             <span>
-              A chave permanece ativa até você substituí-la. Ela não é salva no
-              navegador ou no código-fonte.
+              A chave não é exibida novamente nem salva no navegador.
             </span>
-            <button className="button primary" type="submit" disabled={busy || !apiKey.trim()}>
-              {busy ? <LoaderCircle size={16} className="spin" /> : <KeyRound size={16} />}
-              {busy ? "Salvando…" : status?.configured ? "Substituir chave" : "Salvar chave"}
-            </button>
+            <div className="provider-actions">
+              {(status?.configured || status?.locked) && (
+                <button
+                  className="button danger"
+                  type="button"
+                  disabled={busy}
+                  onClick={() => void removeKey()}
+                >
+                  {busy ? (
+                    <LoaderCircle size={16} className="spin" />
+                  ) : (
+                    <Trash2 size={16} />
+                  )}
+                  Excluir chave salva
+                </button>
+              )}
+              <button
+                className="button primary"
+                type="submit"
+                disabled={busy || !apiKey.trim()}
+              >
+                {busy ? (
+                  <LoaderCircle size={16} className="spin" />
+                ) : (
+                  <KeyRound size={16} />
+                )}
+                {busy
+                  ? "Salvando…"
+                  : status?.configured
+                    ? "Trocar chave"
+                    : "Salvar chave"}
+              </button>
+            </div>
           </div>
         </div>
       </form>

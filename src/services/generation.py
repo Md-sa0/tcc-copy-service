@@ -3,15 +3,17 @@ import logging
 import time
 from uuid import uuid4
 
+from cryptography.fernet import Fernet, InvalidToken
 from fastapi import HTTPException, Request
 from pydantic import ValidationError
 from redis.exceptions import RedisError
+from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 
-from src.models import GeneratedCopy, Product
+from src.models import GeneratedCopy, Product, ProviderCredential
 from src.schemas.copies import CopyRead, GenerateResponse
 from src.services.hashing import canonical_input, input_hash
-from src.services.llm import GenerationError
+from src.services.llm import GenerationError, OpenAICompatibleProvider
 
 logger = logging.getLogger(__name__)
 RELEASE_LOCK = """
@@ -58,48 +60,81 @@ async def generate_copy(request: Request, session, payload) -> GenerateResponse:
 
 
 async def _generate_copy(request: Request, session, payload) -> GenerateResponse:
-    if request.app.state.provider_config_error:
-        raise HTTPException(503, request.app.state.provider_config_error)
-    product = await session.get(Product, payload.product_id)
+    owner_id = request.state.user.id
+    product = await session.scalar(
+        select(Product).where(Product.id == payload.product_id, Product.owner_id == owner_id)
+    )
     if product is None:
         raise HTTPException(404, "Produto não encontrado")
+    credential = await session.scalar(
+        select(ProviderCredential).where(ProviderCredential.owner_id == owner_id)
+    )
     settings = request.app.state.settings
+    model_name = credential.model if credential else request.app.state.runtime_model_name
     snapshot = canonical_input(
         product,
         payload.tone_of_voice,
         settings,
-        request.app.state.runtime_model_name,
+        model_name,
     )
     digest = input_hash(snapshot)
     request.state.input_hash = digest
-    request.state.model_name = request.app.state.runtime_model_name
+    request.state.model_name = model_name
     cache = request.app.state.cache
     key = f"copy:sha256:{digest}"
     lock_key = f"lock:{key}"
     owner = str(uuid4())
     acquired = False
+    provider = None
     # Release the read transaction before potentially waiting on the remote provider.
     await session.rollback()
     try:
-        cached = await read_cached(cache, key, snapshot)
-        if cached:
-            return hit(request, cached)
+        if not payload.force_regenerate:
+            cached = await read_cached(cache, key, snapshot)
+            if cached:
+                return hit(request, cached)
         while not acquired:
             acquired = await cache.set(lock_key, owner, nx=True, ex=settings.generation_timeout_seconds + 15)
             if acquired:
                 break
             await asyncio.sleep(0.1)
+            if not payload.force_regenerate:
+                cached = await read_cached(cache, key, snapshot)
+                if cached:
+                    return hit(request, cached)
+
+        # Another worker can have completed between our first GET and lock acquisition.
+        if not payload.force_regenerate:
             cached = await read_cached(cache, key, snapshot)
             if cached:
                 return hit(request, cached)
-
-        # Another worker can have completed between our first GET and lock acquisition.
-        cached = await read_cached(cache, key, snapshot)
-        if cached:
-            return hit(request, cached)
         request.state.cache_status = "MISS"
         started = time.perf_counter()
-        result = await request.app.state.provider_manager.generate(snapshot)
+        if credential:
+            encryption_key = settings.settings_encryption_key.get_secret_value()
+            if not encryption_key:
+                raise HTTPException(
+                    503,
+                    "A chave criptografada do provedor não pode ser carregada. "
+                    "Configure SETTINGS_ENCRYPTION_KEY.",
+                )
+            try:
+                api_key = Fernet(encryption_key.encode("ascii")).decrypt(
+                    credential.encrypted_api_key.encode("ascii")
+                ).decode("utf-8")
+            except (ValueError, UnicodeEncodeError, InvalidToken) as exc:
+                logger.error("provider_configuration_decryption_failed")
+                raise HTTPException(
+                    503, "A chave criptografada do provedor não pôde ser recuperada."
+                ) from exc
+            provider = OpenAICompatibleProvider(
+                api_key=api_key,
+                base_url=credential.base_url,
+                model=credential.model,
+            )
+            result = await provider.generate(snapshot)
+        else:
+            result = await request.app.state.provider_manager.generate(snapshot)
         request.state.tokens_used = result.tokens
         row = GeneratedCopy(
             product_id=payload.product_id,
@@ -109,7 +144,7 @@ async def _generate_copy(request: Request, session, payload) -> GenerateResponse
             instagram_copy=result.content.instagram.model_dump(),
             whatsapp_copy=result.content.whatsapp.model_dump(),
             seo_copy=result.content.ecommerce_seo.model_dump(),
-            model_name=request.app.state.runtime_model_name,
+            model_name=model_name,
             inference_time_ms=(time.perf_counter() - started) * 1000,
             tokens_used=result.tokens,
         )
@@ -137,8 +172,12 @@ async def _generate_copy(request: Request, session, payload) -> GenerateResponse
         request.state.tokens_used = exc.tokens_used
         raise HTTPException(exc.status_code, exc.message) from exc
     finally:
-        if acquired:
-            try:
-                await cache.eval(RELEASE_LOCK, 1, lock_key, owner)
-            except RedisError:
-                logger.warning("cache_lock_release_failed")
+        try:
+            if provider is not None:
+                await provider.close()
+        finally:
+            if acquired:
+                try:
+                    await cache.eval(RELEASE_LOCK, 1, lock_key, owner)
+                except RedisError:
+                    logger.warning("cache_lock_release_failed")

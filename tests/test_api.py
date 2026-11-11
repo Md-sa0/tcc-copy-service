@@ -4,7 +4,6 @@ from unittest.mock import AsyncMock
 from uuid import uuid4
 
 import pytest
-from pydantic import SecretStr
 from redis.exceptions import ConnectionError as RedisConnectionError
 
 from src.services.llm import GenerationError
@@ -69,6 +68,63 @@ async def test_generation_cache_persistence_and_metrics(stack, product_payload):
     assert history["total"] == 2
     assert all(row["input_hash"] == digest for row in history["items"])
     assert all(row["request_id"] for row in history["items"])
+
+
+async def test_force_generation_bypasses_cache_and_refreshes_cached_copy(stack, product_payload):
+    client, _, provider, _ = stack
+    product = await create(client, product_payload)
+    payload = {"product_id": product["id"], "tone_of_voice": "persuasivo"}
+    first = await client.post("/api/v1/copies/generate", json=payload)
+    assert first.status_code == 200 and first.json()["cache_status"] == "MISS"
+
+    forced = await client.post(
+        "/api/v1/copies/generate", json={**payload, "force_regenerate": True}
+    )
+    assert forced.status_code == 200, forced.text
+    assert forced.json()["cache_status"] == "MISS"
+    assert forced.json()["copy"]["id"] != first.json()["copy"]["id"]
+    assert provider.calls == 2
+
+    cached = await client.post("/api/v1/copies/generate", json=payload)
+    assert cached.json()["cache_status"] == "HIT"
+    assert cached.json()["copy"]["id"] == forced.json()["copy"]["id"]
+    assert provider.calls == 2
+    assert (await client.get("/api/v1/copies")).json()["total"] == 2
+
+
+async def test_copy_edit_creates_validated_revision_and_preserves_original(stack, product_payload):
+    client, _, provider, _ = stack
+    product = await create(client, product_payload)
+    generated = await client.post(
+        "/api/v1/copies/generate", json={"product_id": product["id"]}
+    )
+    original = generated.json()["copy"]
+    edits = {
+        "instagram_copy": {
+            **original["instagram_copy"],
+            "caption": "Legenda revisada manualmente.",
+        },
+        "whatsapp_copy": original["whatsapp_copy"],
+        "seo_copy": original["seo_copy"],
+    }
+
+    revision = await client.post(
+        f"/api/v1/copies/{original['id']}/revisions", json=edits
+    )
+    assert revision.status_code == 201, revision.text
+    assert revision.json()["id"] != original["id"]
+    assert revision.json()["instagram_copy"]["caption"] == "Legenda revisada manualmente."
+    assert (await client.get(f"/api/v1/copies/{original['id']}")).json() == original
+    assert (await client.get("/api/v1/copies")).json()["total"] == 2
+    assert provider.calls == 1
+
+    invalid = {
+        **edits,
+        "instagram_copy": {**edits["instagram_copy"], "hashtags": ["sem-hashtag"]},
+    }
+    assert (
+        await client.post(f"/api/v1/copies/{original['id']}/revisions", json=invalid)
+    ).status_code == 422
 
 
 async def test_same_hash_concurrency_calls_provider_once(stack, product_payload):
@@ -166,11 +222,7 @@ async def test_provider_timeout_returns_504_without_lock_leak(stack, product_pay
 
 
 async def test_auth_and_deletion_cascade(stack, product_payload):
-    client, app, _, _ = stack
-    app.state.settings.api_key = SecretStr("test-secret")
-    assert (await client.get("/api/v1/products")).status_code == 401
-    assert (await client.get("/health")).status_code == 200
-    client.headers["X-API-Key"] = "test-secret"
+    client, _, _, _ = stack
     product = await create(client, product_payload)
     await client.post("/api/v1/copies/generate", json={"product_id": product["id"]})
     await client.delete(f"/api/v1/products/{product['id']}")
@@ -178,6 +230,10 @@ async def test_auth_and_deletion_cascade(stack, product_payload):
     assert (
         await client.post("/api/v1/copies/generate", json={"product_id": product["id"]})
     ).status_code == 404
+    logged_out = await client.post("/api/v1/auth/logout")
+    assert logged_out.status_code == 204
+    assert (await client.get("/api/v1/products")).status_code == 401
+    assert (await client.get("/health")).status_code == 200
 
 
 @pytest.mark.parametrize(

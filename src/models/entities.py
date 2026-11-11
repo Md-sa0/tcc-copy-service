@@ -1,7 +1,20 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import JSON, DateTime, Float, ForeignKey, Index, Integer, String, Text, Uuid, func
+from sqlalchemy import (
+    JSON,
+    Boolean,
+    DateTime,
+    Float,
+    ForeignKey,
+    Index,
+    Integer,
+    String,
+    Text,
+    UniqueConstraint,
+    Uuid,
+    func,
+)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
@@ -13,10 +26,38 @@ class Base(DeclarativeBase):
 json_type = JSON().with_variant(JSONB(), "postgresql")
 
 
+class User(Base):
+    __tablename__ = "users"
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    email: Mapped[str] = mapped_column(String(254), unique=True, index=True)
+    password_hash: Mapped[str] = mapped_column(String(255))
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, server_default="true")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class AuthSession(Base):
+    __tablename__ = "auth_sessions"
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        Uuid, ForeignKey("users.id", ondelete="CASCADE"), index=True
+    )
+    token_hash: Mapped[str] = mapped_column(String(64), unique=True, index=True)
+    csrf_token_hash: Mapped[str] = mapped_column(String(64))
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
 class Product(Base):
     __tablename__ = "products"
+    __table_args__ = (
+        UniqueConstraint("owner_id", "sku", name="uq_products_owner_sku"),
+        Index("ix_products_sku", "sku"),
+    )
     id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
-    sku: Mapped[str] = mapped_column(String(64), unique=True, index=True)
+    owner_id: Mapped[uuid.UUID] = mapped_column(
+        Uuid, ForeignKey("users.id", ondelete="CASCADE"), index=True
+    )
+    sku: Mapped[str] = mapped_column(String(64))
     name: Mapped[str] = mapped_column(String(200))
     category: Mapped[str] = mapped_column(String(100))
     target_audience: Mapped[str] = mapped_column(String(500))
@@ -51,6 +92,9 @@ class ApiMetric(Base):
     __tablename__ = "api_metrics"
     __table_args__ = (Index("ix_metrics_created_kind", "created_at", "kind"),)
     id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    user_id: Mapped[uuid.UUID | None] = mapped_column(
+        Uuid, ForeignKey("users.id", ondelete="CASCADE"), nullable=True, index=True
+    )
     request_id: Mapped[str] = mapped_column(String(36), index=True)
     path: Mapped[str] = mapped_column(String(300))
     method: Mapped[str] = mapped_column(String(10))
@@ -67,7 +111,10 @@ class ApiMetric(Base):
 
 class ProviderCredential(Base):
     __tablename__ = "provider_credentials"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, default=1)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    owner_id: Mapped[uuid.UUID] = mapped_column(
+        Uuid, ForeignKey("users.id", ondelete="CASCADE"), unique=True, index=True
+    )
     encrypted_api_key: Mapped[str] = mapped_column(Text)
     base_url: Mapped[str] = mapped_column(String(500))
     model: Mapped[str] = mapped_column(String(200))

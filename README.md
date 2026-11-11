@@ -24,6 +24,25 @@ Abra [a aplicação](http://localhost:8080), [a documentação OpenAPI](http://l
 
 Sem configurar um provedor, a aplicação usa um simulador determinístico, sem consumo de tokens nem chamadas externas. O catálogo começa vazio; cadastre um produto ou execute a carga abaixo.
 
+No modo mock, abra **Catálogo de produtos** e use **Criar produtos de exemplo** para adicionar três itens à conta atual. Eles ficam salvos no catálogo e podem ser usados para testar a geração simulada; SKUs de exemplo já existentes não são duplicados.
+
+Na página **Gerar textos**, **Editar texto** permite revisar o canal selecionado e salvar uma nova versão sem chamada ao provedor. **Gerar nova versão** ignora o cache e pede confirmação antes da chamada; provedores reais podem cobrar créditos conforme modelo e plano. No modo mock não há custo.
+
+### Credencial de teste local
+
+Conta criada no banco local do Docker Compose para testar o login:
+
+- **E-mail:** `teste@copylab.test`
+- **Senha:** `CopyLab-Local-Teste-2026!`
+
+Esta é uma credencial compartilhada e pública, exclusiva para desenvolvimento local. **Não a use nem leve o banco local para produção.** Antes de implantar, use uma base de produção nova e remova qualquer dado de teste. Para excluir somente esta conta do banco local (e os dados associados a ela), execute:
+
+```sh
+docker compose exec -T postgres psql -U copy -d copy -c "DELETE FROM users WHERE email = 'teste@copylab.test';"
+```
+
+Se você personalizou `POSTGRES_USER` ou `POSTGRES_DB` no `.env`, ajuste os parâmetros `-U` e `-d`.
+
 ### Configurar um provedor compatível pela interface
 
 Na aba **Chaves de API**, informe a chave que você obteve, o modelo e a URL HTTPS do endpoint compatível com OpenAI Chat Completions. A chave do provedor é enviada pelo usuário, cifrada no banco e nunca é lida de variáveis de ambiente nem devolvida à interface. Para persistir a credencial cifrada, configure no `.env` apenas a chave mestra Fernet:
@@ -60,7 +79,7 @@ O padrão usa novos IDs/SKUs para obter um cenário inicial sem cache sem apagar
 - **Geração:** API assíncrona compatível com OpenAI Chat Completions, schema derivado de Pydantic, revalidação local da resposta e limites SEO.
 - **Cache:** Redis assíncrono, `GET`/`SETEX`, TTL configurável, chaves `copy:sha256:{hash}`, lock distribuído `SET NX EX` e liberação Lua condicionada ao proprietário.
 - **Persistência:** SQLAlchemy 2.0/asyncpg, PostgreSQL JSONB, FK, índices, snapshot da entrada de cada geração e migração Alembic versionada. Nenhuma criação automática de tabelas em produção.
-- **SPA:** React/TypeScript/Tailwind, validação Zod, editor de produtos, histórico de copies, prévias Instagram/WhatsApp/SEO, botão de cópia com toast, estados de carregamento e erros, layout responsivo.
+- **SPA:** React/TypeScript/Tailwind, validação Zod, páginas separadas para cadastro/edição de produtos e geração de textos, histórico de copies, prévias Instagram/WhatsApp/SEO, botão de cópia com toast, estados de carregamento e erros, layout responsivo.
 - **Métricas:** tempo interno, status HTTP/cache, ID da requisição, hash, modelo e tokens. Gráficos HIT × MISS e tabela paginada. Dados de mock e modelo real não se misturam no resumo.
 - **Operação:** quatro contêineres, volumes persistentes, redes separadas, serviços de dados sem portas públicas, usuários não root na API e Nginx, healthchecks, API key opcional em desenvolvimento e obrigatória em produção, limite de requisições no Nginx e pipeline de CI.
 

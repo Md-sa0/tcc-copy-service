@@ -1,6 +1,7 @@
 import { chromium } from 'playwright';
 import { mkdir, writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
+import { randomUUID } from 'node:crypto';
 process.chdir(import.meta.dirname);
 const browser = await chromium.launch();
 const base = process.env.E2E_BASE_URL || 'http://localhost:8082';
@@ -22,6 +23,7 @@ try {
       const response = await fetch('/health');
       return response.ok;
     });
+    await page.getByRole('button', { name: 'Criar conta', exact: true }).waitFor();
     await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
     const readyMs = performance.now() - start;
     const metrics = await page.evaluate(() => ({ paints: performance.getEntriesByType('paint').map(e => ({ name: e.name, ms: e.startTime })), jsBytes: performance.getEntriesByType('resource').filter(e => e.name.endsWith('.js')).reduce((a,e)=>a+e.decodedBodySize,0), longTasks: window.reviewLongTasks }));
@@ -30,8 +32,28 @@ try {
   }
   const page = await browser.newPage();
   page.on('pageerror', e => report.errors.push(e.message));
+  await page.goto(base);
+  await page.getByRole('button', { name: 'Criar conta', exact: true }).click();
+  await page.getByLabel('E-mail').fill(`responsive-${randomUUID()}@example.com`);
+  await page.getByLabel('Senha').fill(`CopyLab-responsive-${randomUUID()}`);
+  await page.getByRole('button', { name: 'Criar conta', exact: true }).click();
+  await page.getByRole('heading', { name: 'Gerar textos' }).waitFor();
+  await page.locator('nav').getByRole('button', { name: 'Cadastrar produto', exact: true }).click();
+  await page.getByLabel('SKU', { exact: true }).fill(`RESP-${Date.now()}`);
+  await page.getByLabel('Categoria', { exact: true }).fill('Teste');
+  await page.getByLabel('Nome do produto').fill('Produto de responsividade');
+  await page.getByLabel('Público-alvo').fill('Pessoas que fazem testes de interface');
+  await page.getByLabel('Atributos técnicos').fill('Material: aço');
+  await page.getByLabel('Benefícios comprovados').fill('Uso no dia a dia');
+  await page.getByRole('button', { name: 'Salvar produto', exact: true }).click();
+  await page.getByText('Produto salvo no catálogo.', { exact: true }).waitFor();
+  const productCard = page.locator('.catalog-card').filter({ hasText: 'Produto de responsividade' });
+  await productCard.getByRole('button', { name: 'Gerar textos' }).click();
+  await page.locator('.generation-tone').getByRole('button', { name: 'Gerar textos', exact: true }).click();
+  await page.getByRole('heading', { name: 'Textos por canal' }).waitFor();
   const screens = [
-    ['Estúdio de criação', 'Gerar textos para um produto'],
+    ['Gerar textos', 'Gerar textos'],
+    ['Cadastrar produto', 'Cadastrar produto'],
     ['Catálogo de produtos', 'Catálogo de produtos'],
     ['Como funciona', 'Como usar o CopyLab'],
     ['Métricas de engenharia', 'Resultados das requisições'],
@@ -46,7 +68,7 @@ try {
     for (const [button, title] of screens) {
       const start = performance.now();
       await page.getByRole('button', { name: button, exact: true }).click();
-      await page.getByRole('heading', { name: title, exact: true }).waitFor();
+      await page.getByRole('heading', { name: title, exact: true, level: 1 }).waitFor();
       if (button === 'Métricas de engenharia') await page.locator('tbody tr').first().waitFor();
       if (button === 'Catálogo de produtos') await page.locator('.catalog-card').first().waitFor();
       await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));

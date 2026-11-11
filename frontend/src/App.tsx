@@ -8,6 +8,7 @@ import {
   FileText,
   LayoutDashboard,
   LoaderCircle,
+  LogOut,
   PanelLeftClose,
   PanelLeftOpen,
   Plus,
@@ -17,13 +18,15 @@ import {
   Trash2,
   X,
 } from "lucide-react";
-import { api } from "./api";
+import { api, ApiError } from "./api";
+import Login, { type AuthUser } from "./Login";
 import Guide, { type Runtime } from "./Guide";
 import ProductForm from "./ProductForm";
 import ProviderSettings from "./ProviderSettings";
 import Previews from "./Previews";
 import type {
   Copy,
+  CopyEdits,
   Generation,
   Page,
   Product,
@@ -33,8 +36,38 @@ import type {
 
 const Dashboard = lazy(() => import("./Dashboard"));
 
-type View = "generator" | "catalog" | "metrics" | "guide" | "settings";
+const MOCK_PRODUCTS: ProductInput[] = [
+  {
+    sku: "DEMO-FONE",
+    name: "Fone Bluetooth Aura",
+    category: "Eletrônicos",
+    target_audience: "Pessoas que ouvem música na rotina",
+    technical_attributes: { conectividade: "Bluetooth 5.3", autonomia: "24 horas" },
+    key_benefits: ["Uso sem fios", "Estojo para transporte"],
+  },
+  {
+    sku: "DEMO-TECLADO",
+    name: "Teclado compacto Pixel",
+    category: "Informática",
+    target_audience: "Profissionais com mesas pequenas",
+    technical_attributes: { layout: "ABNT2", conexão: "USB", formato: "60%" },
+    key_benefits: ["Ocupa menos espaço", "Conexão por cabo"],
+  },
+  {
+    sku: "DEMO-GARRAFA",
+    name: "Garrafa inox Trilhas",
+    category: "Casa e lazer",
+    target_audience: "Pessoas que transportam água diariamente",
+    technical_attributes: { volume: "600 ml", material: "aço inox" },
+    key_benefits: ["Recipiente reutilizável", "Tampa rosqueável"],
+  },
+];
+
+type View = "generator" | "product" | "catalog" | "metrics" | "guide" | "settings";
 export default function App() {
+  const [account, setAccount] = useState<AuthUser | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [authError, setAuthError] = useState("");
   const [view, setView] = useState<View>(
     window.location.hash === "#como-funciona" ? "guide" : "generator",
   );
@@ -42,6 +75,8 @@ export default function App() {
   const [health, setHealth] = useState<Runtime | null>(null);
   const [product, setProduct] = useState<Product | null>(null);
   const [result, setResult] = useState<Generation | null>(null);
+  const [tone, setTone] = useState<Tone>("persuasivo");
+  const [confirmRegenerate, setConfirmRegenerate] = useState(false);
   const [busy, setBusy] = useState(false),
     [toast, setToast] = useState("");
   const [query, setQuery] = useState(""),
@@ -57,16 +92,82 @@ export default function App() {
     window.scrollTo({ top: 0, left: 0 });
   }, [view]);
   useEffect(() => {
-    api<Runtime>("/health")
-      .then(setHealth)
+    let active = true;
+    api<AuthUser>("/api/v1/auth/me")
+      .then((user) => {
+        if (active) setAccount(user);
+      })
+      .catch((error: unknown) => {
+        if (!active) return;
+        setAccount(null);
+        if (error instanceof ApiError && error.status === 401) {
+          setAuthError("");
+        } else {
+          setAuthError(
+            error instanceof Error ? error.message : "Não foi possível verificar sua sessão.",
+          );
+        }
+      })
+      .finally(() => {
+        if (active) setAuthLoading(false);
+      });
+    const handleUnauthorized = () => {
+      setAccount(null);
+      setAuthError("Sua sessão expirou. Entre novamente para continuar.");
+    };
+    window.addEventListener("copylab:unauthorized", handleUnauthorized);
+    return () => {
+      active = false;
+      window.removeEventListener("copylab:unauthorized", handleUnauthorized);
+    };
+  }, []);
+  useEffect(() => {
+    if (!account) {
+      setHealth(null);
+      return;
+    }
+    Promise.all([
+      api<Runtime>("/health"),
+      api<{ configured: boolean; locked: boolean; provider: string; model: string }>(
+        "/api/v1/settings/provider",
+      ),
+    ])
+      .then(([runtime, provider]) =>
+        setHealth({
+          ...runtime,
+          provider: provider.locked
+            ? "unavailable"
+            : provider.configured
+              ? provider.provider
+              : "mock",
+          model: provider.configured ? provider.model : runtime.model,
+        }),
+      )
       .catch(() => setHealth(null));
-  }, [revision]);
+  }, [account?.id, revision]);
   useEffect(() => {
     if (!toast) return;
     const id = window.setTimeout(() => setToast(""), 4500);
     return () => clearTimeout(id);
   }, [toast]);
+  async function logout() {
+    try {
+      await api<void>("/api/v1/auth/logout", { method: "POST" });
+    } catch (error) {
+      setAuthError(error instanceof Error ? error.message : "Não foi possível encerrar a sessão.");
+    } finally {
+      setAccount(null);
+      setProduct(null);
+      setResult(null);
+      setCatalog(null);
+    }
+  }
   useEffect(() => {
+    if (!account) {
+      setCatalog(null);
+      setCatalogLoading(false);
+      return;
+    }
     const controller = new AbortController();
     setCatalogLoading(true);
     const id = window.setTimeout(() => {
@@ -87,7 +188,7 @@ export default function App() {
       clearTimeout(id);
       controller.abort();
     };
-  }, [query, offset, revision]);
+  }, [account?.id, query, offset, revision]);
   useEffect(() => {
     setHistory([]);
     setHistoryError("");
@@ -102,7 +203,7 @@ export default function App() {
       });
     return () => controller.abort();
   }, [product, revision]);
-  async function save(data: ProductInput, tone: Tone, generate: boolean) {
+  async function save(data: ProductInput) {
     setBusy(true);
     try {
       const saved = await api<Product>(
@@ -112,19 +213,94 @@ export default function App() {
       setProduct(saved);
       setResult(null);
       setRevision((v) => v + 1);
-      if (generate) {
-        const generated = await api<Generation>("/api/v1/copies/generate", {
+      setView("catalog");
+      setToast("Produto salvo no catálogo.");
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function createMockProducts() {
+    setBusy(true);
+    let created = 0;
+    let alreadyPresent = 0;
+    try {
+      for (const sample of MOCK_PRODUCTS) {
+        const existing = await api<Page<Product>>(
+          `/api/v1/products?sku=${encodeURIComponent(sample.sku)}&limit=1`,
+        );
+        if (existing.total > 0) {
+          alreadyPresent += 1;
+          continue;
+        }
+        await api<Product>("/api/v1/products", {
           method: "POST",
-          body: JSON.stringify({ product_id: saved.id, tone_of_voice: tone }),
+          body: JSON.stringify(sample),
         });
-        setResult(generated);
-        setRevision((v) => v + 1);
-        setToast(
-          generated.cache_status === "HIT"
+        created += 1;
+      }
+      setQuery("");
+      setOffset(0);
+      setRevision((value) => value + 1);
+      setToast(
+        created
+          ? `${created} produto${created === 1 ? "" : "s"} de exemplo adicionado${created === 1 ? "" : "s"}${alreadyPresent ? `; ${alreadyPresent} já existia${alreadyPresent === 1 ? "" : "m"}` : ""}.`
+          : "Os produtos de exemplo já estão no catálogo.",
+      );
+    } catch (error) {
+      if (created) {
+        setQuery("");
+        setOffset(0);
+        setRevision((value) => value + 1);
+      }
+      setToast(
+        created
+          ? `${created} produto${created === 1 ? "" : "s"} ${created === 1 ? "foi adicionado" : "foram adicionados"} antes da falha: ${error instanceof Error ? error.message : "erro inesperado"}.`
+          : error instanceof Error
+            ? error.message
+            : "Não foi possível criar os produtos de exemplo.",
+      );
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function generateCopy(forceRegenerate = false) {
+    if (!product) return;
+    setBusy(true);
+    try {
+      const generated = await api<Generation>("/api/v1/copies/generate", {
+        method: "POST",
+        body: JSON.stringify({
+          product_id: product.id,
+          tone_of_voice: tone,
+          force_regenerate: forceRegenerate,
+        }),
+      });
+      setResult(generated);
+      setRevision((v) => v + 1);
+      setToast(
+        forceRegenerate
+          ? "Nova versão gerada. A chamada pode gerar custos no provedor de IA."
+          : generated.cache_status === "HIT"
             ? "Conteúdo recuperado do cache."
             : "Conteúdo gerado e salvo no histórico.",
-        );
-      } else setToast("Produto salvo no catálogo.");
+      );
+    } catch (error) {
+      setToast(error instanceof Error ? error.message : "Falha ao gerar conteúdo.");
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function saveCopyEdit(edits: CopyEdits) {
+    if (!result) return;
+    setBusy(true);
+    try {
+      const saved = await api<Copy>(`/api/v1/copies/${result.copy.id}/revisions`, {
+        method: "POST",
+        body: JSON.stringify(edits),
+      });
+      setResult({ copy: saved, cache_status: "MISS" });
+      setRevision((value) => value + 1);
+      setToast("Edição salva como uma nova versão do histórico.");
     } finally {
       setBusy(false);
     }
@@ -153,9 +329,18 @@ export default function App() {
     setResult(null);
     setView("generator");
   }
+  function editProduct(item: Product | null) {
+    setProduct(item);
+    setResult(null);
+    setView("product");
+  }
   const title =
     view === "generator"
-      ? "Gerar textos para um produto"
+      ? "Gerar textos"
+      : view === "product"
+        ? product
+          ? "Editar produto"
+          : "Cadastrar produto"
       : view === "catalog"
         ? "Catálogo de produtos"
         : view === "guide"
@@ -163,6 +348,25 @@ export default function App() {
             : view === "metrics"
               ? "Resultados das requisições"
               : "Chaves de API";
+  if (authLoading) {
+    return (
+      <main className="auth-loading" aria-label="Verificando sessão">
+        <LoaderCircle className="spin" size={24} />
+      </main>
+    );
+  }
+  if (!account) {
+    return (
+      <Login
+        onAuthenticated={(user) => {
+          setAuthError("");
+          setAccount(user);
+        }}
+        onAttempt={() => setAuthError("")}
+        statusMessage={authError}
+      />
+    );
+  }
   return (
     <div className={`app-shell${sidebarVisible ? "" : " sidebar-hidden"}`}>
       <aside className="sidebar">
@@ -205,7 +409,8 @@ export default function App() {
         <nav id="primary-navigation">
           {(
             [
-              { id: "generator", label: "Estúdio de criação", Icon: Sparkles },
+              { id: "generator", label: "Gerar textos", Icon: Sparkles },
+              { id: "product", label: "Cadastrar produto", Icon: Plus },
               { id: "catalog", label: "Catálogo de produtos", Icon: Boxes },
               { id: "guide", label: "Como funciona", Icon: FileText },
               {
@@ -220,7 +425,9 @@ export default function App() {
               disabled={busy}
               key={item.id}
               className={view === item.id ? "selected" : ""}
-              onClick={() => setView(item.id)}
+              onClick={() =>
+                item.id === "product" ? editProduct(null) : setView(item.id)
+              }
             >
               <item.Icon size={19} />
               {item.label}
@@ -248,7 +455,9 @@ export default function App() {
             CopyLab <ChevronRight size={14} />
             <strong>
               {view === "generator"
-                ? "Estúdio de criação"
+                ? "Gerar textos"
+                : view === "product"
+                  ? "Produto"
                 : view === "catalog"
                   ? "Catálogo"
                   : view === "guide"
@@ -259,7 +468,11 @@ export default function App() {
             </strong>
           </div>
           <div>
-            <span className="user-avatar">MD</span>
+            <span className="account-email">{account.email}</span>
+            <button type="button" className="logout-button" onClick={logout}>
+              <LogOut size={16} />
+              Sair
+            </button>
           </div>
         </header>
         <main>
@@ -268,6 +481,8 @@ export default function App() {
               <span className="eyebrow">
                 {view === "generator"
                   ? "Criação de conteúdo"
+                  : view === "product"
+                    ? "Cadastro de produto"
                   : view === "catalog"
                     ? "Sua base de produtos"
                     : view === "guide"
@@ -279,7 +494,9 @@ export default function App() {
               <h1>{title}</h1>
               <p>
                 {view === "generator"
-                  ? "Cadastre o produto, escolha o tom e gere textos para Instagram, WhatsApp e sua loja."
+                  ? "Escolha um produto do catálogo, defina o estilo do texto e gere conteúdo para seus canais."
+                  : view === "product"
+                    ? "Cadastre ou atualize os dados do produto. A geração de conteúdo acontece em uma página separada."
                   : view === "catalog"
                     ? "Busque um produto para editar seus dados, gerar textos ou consultar versões anteriores."
                     : view === "guide"
@@ -297,31 +514,88 @@ export default function App() {
             <>
               <div className="flow-strip">
                 <span className="flow-step">
-                  <b>1</b> Cadastre o produto
+                  <b>1</b> Escolha o produto
                 </span>
                 <ChevronRight size={14} />
                 <span className="flow-step">
-                  <b>2</b> Escolha o tom
+                  <b>2</b> Defina o estilo de texto
                 </span>
                 <ChevronRight size={14} />
                 <span className="flow-step">
-                  <b>3</b> Gere o conteúdo
+                  <b>3</b> Gere os textos
                 </span>
-                <span className="flow-end">
-                  <CheckCircle2 size={14} /> Três canais. Um fluxo.
-                </span>
+                <span className="flow-end"><CheckCircle2 size={14} /> Instagram · WhatsApp · E-commerce</span>
               </div>
               <div className="studio-grid">
                 <div>
-                  <ProductForm
-                    product={product}
-                    busy={busy}
-                    onSave={save}
-                    onClear={() => {
-                      setProduct(null);
-                      setResult(null);
-                    }}
-                  />
+                  <section className="panel generation-controls">
+                    <div className="panel-heading">
+                      <div>
+                        <span className="eyebrow">PRODUTO PARA ESTA GERAÇÃO</span>
+                        <h2>{product ? product.name : "Nenhum produto selecionado"}</h2>
+                      </div>
+                    </div>
+                    {product ? (
+                      <div className="selected-product-details">
+                        <span className="badge">{product.category}</span>
+                        <span>SKU: {product.sku}</span>
+                        <button className="button secondary" onClick={() => setView("catalog")}>
+                          Trocar produto
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="generation-no-product">
+                        <p>Para começar, escolha um produto cadastrado ou crie um novo.</p>
+                        <div className="form-actions">
+                          <button className="button secondary" onClick={() => setView("catalog")}>
+                            <Boxes size={16} /> Abrir catálogo
+                          </button>
+                          <button className="button primary" onClick={() => editProduct(null)}>
+                            <Plus size={16} /> Cadastrar produto
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    {product && (
+                      <fieldset className="generation-tone" disabled={busy}>
+                        <legend className="eyebrow">ESTILO DO TEXTO</legend>
+                        <div className="tone-grid">
+                          {(["persuasivo", "descontraído", "institucional", "promocional"] as Tone[]).map((option) => (
+                            <label
+                              className={`tone-option ${tone === option ? "selected" : ""}`}
+                              key={option}
+                            >
+                              <input
+                                type="radio"
+                                name="generation-tone"
+                                value={option}
+                                checked={tone === option}
+                                onChange={() => setTone(option)}
+                              />
+                              {option}
+                            </label>
+                          ))}
+                        </div>
+                        <p className="field-explanation" aria-live="polite">
+                          {{
+                            persuasivo: "Destaca os benefícios para incentivar a compra.",
+                            descontraído: "Usa uma linguagem informal e próxima do leitor.",
+                            institucional: "Apresenta o produto de forma objetiva e formal.",
+                            promocional: "Dá destaque à oferta, sem inventar preços ou descontos.",
+                          }[tone]}
+                        </p>
+                        <button
+                          type="button"
+                          className="button primary"
+                          disabled={busy}
+                          onClick={() => void generateCopy()}
+                        >
+                          {busy ? <LoaderCircle size={18} className="spin" /> : <Sparkles size={17} />}
+                          {busy ? "Gerando textos…" : "Gerar textos"}
+                        </button>
+                      </fieldset>
+                    )}
+                  </section>
                   {historyError && (
                     <div className="error-box" role="alert">
                       {historyError}
@@ -359,7 +633,12 @@ export default function App() {
                 <div className="output-column">
                   {result ? (
                     <>
-                      <Previews copy={result.copy} notify={setToast} />
+                      <Previews
+                        copy={result.copy}
+                        notify={setToast}
+                        onSaveEdit={saveCopyEdit}
+                        onRegenerate={() => setConfirmRegenerate(true)}
+                      />
                       <div className="hash-card">
                         <DatabaseBadge status={result.cache_status} />
                         <code>{result.copy.input_hash}</code>
@@ -396,7 +675,9 @@ export default function App() {
                       <p>
                         {busy
                           ? "Aguarde a resposta. Os textos serão salvos no histórico do produto."
-                          : "Preencha os campos do produto e clique em Gerar conteúdo. Depois, selecione o canal para ler e copiar o texto."}
+                          : product
+                            ? "Defina o estilo do texto e gere o conteúdo. Depois, selecione o canal para ler e copiar."
+                            : "Escolha um produto no catálogo para começar a gerar conteúdo."}
                       </p>
                       {busy && <LoaderCircle className="spin" size={24} />}
                       <div className="channel-pills">
@@ -425,6 +706,16 @@ export default function App() {
               </div>
             </>
           )}
+          {view === "product" && (
+            <div className="product-page">
+              <ProductForm
+                product={product}
+                busy={busy}
+                onSave={save}
+                onClear={() => setProduct(null)}
+              />
+            </div>
+          )}
           {view === "catalog" && (
             <>
               <div className="section-toolbar">
@@ -441,15 +732,28 @@ export default function App() {
                 </label>
                 <button
                   className="button primary"
-                  onClick={() => {
-                    setProduct(null);
-                    setResult(null);
-                    setView("generator");
-                  }}
+                  disabled={busy}
+                  onClick={() => editProduct(null)}
                 >
                   <Plus size={17} /> Novo produto
                 </button>
+                {health?.provider === "mock" && (
+                  <button
+                    className="button secondary"
+                    disabled={busy}
+                    onClick={createMockProducts}
+                    title="Adiciona produtos de exemplo à sua conta sem chamar um provedor de IA"
+                  >
+                    {busy ? <LoaderCircle size={16} className="spin" /> : <Sparkles size={16} />}
+                    {busy ? "Criando exemplos…" : "Criar produtos de exemplo"}
+                  </button>
+                )}
               </div>
+              {health?.provider === "mock" && (
+                <p className="mock-products-note">
+                  Os exemplos ficam salvos no catálogo da sua conta. A geração usa o simulador e não chama um provedor pago.
+                </p>
+              )}
               {catalogError && (
                 <div className="error-box" role="alert">
                   {catalogError}
@@ -480,7 +784,10 @@ export default function App() {
                       className="button secondary"
                       onClick={() => selectProduct(item)}
                     >
-                      Editar e gerar <ArrowUpRight size={16} />
+                      Gerar textos <ArrowUpRight size={16} />
+                    </button>
+                    <button className="button catalog-edit" onClick={() => editProduct(item)}>
+                      Editar produto
                     </button>
                   </article>
                 ))}
@@ -496,7 +803,7 @@ export default function App() {
                   <p>
                     {query
                       ? "Experimente outro nome ou SKU."
-                      : "Cadastre um produto no estúdio ou execute o script de carga."}
+                      : "Cadastre um produto ou execute o script de carga."}
                   </p>
                 </div>
               )}
@@ -577,6 +884,47 @@ export default function App() {
                 onClick={remove}
               >
                 Excluir produto
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {confirmRegenerate && (
+        <div className="modal-backdrop">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="regenerate-title"
+            aria-describedby="regenerate-description"
+            className="panel modal regenerate-modal"
+          >
+            <h2 id="regenerate-title">Gerar uma nova versão?</h2>
+            <p id="regenerate-description">
+              Vamos solicitar novos textos para Instagram, WhatsApp e E-commerce
+              com o estilo selecionado. Essa ação ignora o cache.
+            </p>
+            <p className="regenerate-warning">
+              Uma chamada a um provedor de IA pode consumir créditos e gerar
+              cobrança conforme o modelo e o plano contratado. No modo simulado,
+              não há custo.
+            </p>
+            <div className="form-actions">
+              <button
+                className="button secondary"
+                disabled={busy}
+                onClick={() => setConfirmRegenerate(false)}
+              >
+                Cancelar
+              </button>
+              <button
+                className="button primary"
+                disabled={busy}
+                onClick={() => {
+                  setConfirmRegenerate(false);
+                  void generateCopy(true);
+                }}
+              >
+                {busy ? "Gerando…" : "Confirmar e gerar"}
               </button>
             </div>
           </div>

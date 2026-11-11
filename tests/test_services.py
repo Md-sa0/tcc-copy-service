@@ -23,9 +23,9 @@ def test_hash_canonicalization_and_versions(product_payload):
     assert len(initial) == 64
 
 
-def test_production_requires_credentials():
+def test_production_rejects_wildcard_cors():
     with pytest.raises(ValidationError):
-        Settings(_env_file=None, app_env="production", api_key="")
+        Settings(_env_file=None, app_env="production", cors_origins=["*"])
 
 
 def test_provider_credentials_are_not_loaded_from_environment(monkeypatch):

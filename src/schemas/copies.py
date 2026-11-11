@@ -42,6 +42,13 @@ class MarketingOutput(StrictSchema):
 class GenerateRequest(StrictSchema):
     product_id: UUID
     tone_of_voice: Tone = "persuasivo"
+    force_regenerate: bool = False
+
+
+class CopyRevisionRequest(StrictSchema):
+    instagram_copy: InstagramCopy
+    whatsapp_copy: WhatsAppCopy
+    seo_copy: SEOCopy
 
 
 class CopyRead(StrictSchema):

@@ -13,18 +13,36 @@ export async function api<T>(
 ): Promise<T> {
   const headers = new Headers(options.headers);
   if (options.body) headers.set("Content-Type", "application/json");
+  const csrfToken = document.cookie
+    .split("; ")
+    .find((cookie) => cookie.startsWith("copylab_csrf="))
+    ?.slice("copylab_csrf=".length);
+  if (
+    csrfToken &&
+    ["POST", "PUT", "PATCH", "DELETE"].includes(
+      (options.method ?? "GET").toUpperCase(),
+    )
+  ) {
+    headers.set("X-CSRF-Token", decodeURIComponent(csrfToken));
+  }
   let response: Response;
   try {
     response = await fetch(path, {
-    ...options,
-    headers,
-    signal: options.signal ?? AbortSignal.timeout(270000),
-  });
+      ...options,
+      headers,
+      credentials: "include",
+      signal: options.signal ?? AbortSignal.timeout(270000),
+    });
   } catch (error) {
     if (options.signal?.aborted) throw error;
-    throw new Error("Não foi possível conectar à API. Na demonstração local, abra iniciar-demo.cmd na pasta do projeto, mantenha a janela aberta e atualize esta página.");
+    throw new Error(
+      "Não foi possível conectar ao serviço. Verifique sua conexão e tente novamente.",
+    );
   }
   if (!response.ok) {
+    if (response.status === 401 && !path.startsWith("/api/v1/auth/")) {
+      window.dispatchEvent(new Event("copylab:unauthorized"));
+    }
     const body = await response.json().catch(() => ({}));
     const detail = body.detail;
     const message = Array.isArray(detail)

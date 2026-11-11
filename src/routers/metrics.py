@@ -6,7 +6,7 @@ from sqlalchemy import case, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.core.dependencies import get_session
-from src.models import ApiMetric
+from src.models import ApiMetric, ProviderCredential
 from src.schemas.metrics import MetricPage, MetricSummary
 
 router = APIRouter(prefix="/metrics", tags=["Métricas"])
@@ -18,10 +18,14 @@ async def summary(
     hours: int = Query(default=24, ge=1, le=8760),
     session: AsyncSession = Depends(get_session),
 ):
-    model_name = request.app.state.runtime_model_name
+    credential = await session.scalar(
+        select(ProviderCredential).where(ProviderCredential.owner_id == request.state.user.id)
+    )
+    model_name = credential.model if credential else request.app.state.runtime_model_name
     cutoff = datetime.now(UTC) - timedelta(hours=hours)
     # Include schema/auth failures with no model in the error count; never mix successful models.
     filters = [
+        ApiMetric.user_id == request.state.user.id,
         ApiMetric.kind == "generation",
         ApiMetric.created_at >= cutoff,
         (ApiMetric.model_name == model_name) | ApiMetric.model_name.is_(None),
@@ -46,7 +50,7 @@ async def summary(
     return {
         "hours": hours,
         "model_name": model_name,
-        "provider": request.app.state.runtime_provider,
+        "provider": "openai-compatible" if credential else request.app.state.runtime_provider,
         "generation_requests": row.total,
         "successful_generations": row.successes or 0,
         "errors": row.total - (row.successes or 0),
@@ -67,13 +71,17 @@ async def summary(
 
 @router.get("/requests", response_model=MetricPage)
 async def history(
+    request: Request,
     hours: int = Query(default=24, ge=1, le=8760),
     kind: Literal["all", "generation", "api"] = "all",
     offset: int = Query(default=0, ge=0),
     limit: int = Query(default=20, ge=1, le=100),
     session: AsyncSession = Depends(get_session),
 ):
-    filters = [ApiMetric.created_at >= datetime.now(UTC) - timedelta(hours=hours)]
+    filters = [
+        ApiMetric.user_id == request.state.user.id,
+        ApiMetric.created_at >= datetime.now(UTC) - timedelta(hours=hours),
+    ]
     if kind != "all":
         filters.append(ApiMetric.kind == kind)
     total = await session.scalar(select(func.count()).select_from(ApiMetric).where(*filters))

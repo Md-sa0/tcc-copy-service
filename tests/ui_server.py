@@ -29,7 +29,7 @@ async def main(port: int = 8000, serve_frontend: bool = False):
     async with engine.begin() as connection:
         await connection.run_sync(Base.metadata.create_all)
     app = create_app(
-        Settings(_env_file=None, app_env="test", api_key="", prompt_version="retail-v2"),
+        Settings(_env_file=None, app_env="test", prompt_version="retail-v2"),
         sessions=async_sessionmaker(engine, expire_on_commit=False),
         cache=FakeRedis(decode_responses=True),
     )

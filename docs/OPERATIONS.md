@@ -7,18 +7,19 @@
 | APP_ENV | development | development, test ou production |
 | SETTINGS_ENCRYPTION_KEY | vazio | Chave mestra Fernet estável para cifrar credenciais cadastradas na interface |
 | PROMPT_VERSION | retail-v2 | Invalidar semanticamente o cache após mudar prompt |
-| API_KEY | vazio | Proteção X-API-Key da própria API; produção exige >=32 caracteres |
 | CACHE_TTL_SECONDS | 86400 | 1–2592000 segundos |
 | GENERATION_TIMEOUT_SECONDS | 90 | 5–240; limite da seção crítica |
 | DATABASE_URL | localhost | SQLAlchemy URL; Compose define host postgres |
 | REDIS_URL | localhost | Redis URL; Compose define host redis e senha |
 | POSTGRES_USER / DB / PASSWORD | copy / copy / copy_local | Credenciais locais do Compose |
 | REDIS_PASSWORD | redis_local | Senha local do Compose |
-| CORS_ORIGINS | localhost:8080 e :5173 | Lista JSON; produção proíbe wildcard |
+| CORS_ORIGINS | localhost:8080, localhost:5173 e 127.0.0.1:8080 | Lista JSON; produção proíbe wildcard |
 
 Ao personalizar senhas com caracteres reservados de URL (`@`, `:`, `/`, `#`, `%`), use URL percent-encoded nas URLs e um override apropriado do Compose; para uso direto da interpolação entregue, prefira segredos aleatórios alfanuméricos longos. Trocar `POSTGRES_PASSWORD` em um volume já inicializado não altera a senha da role existente: faça rotação no banco e ajuste a aplicação em conjunto. `SETTINGS_ENCRYPTION_KEY` protege credenciais cadastradas na interface e deve permanecer estável; ela não é a chave do provedor.
 
-`APP_ENV=production` exige API_KEY forte. Isso é uma validação básica de configuração, não um sistema de identidade empresarial. O controle implementado usa chave compartilhada, sem usuários, papéis, tenants ou revogação individual. Para acesso por equipes, substitua/estenda por OIDC/OAuth2 e RBAC antes da exposição pública. A chave de um provedor de IA é sempre informada pelo usuário na interface; não a configure em `.env`.
+O cadastro público cria contas independentes. Senhas são armazenadas com scrypt e salt aleatório; sessões usam tokens aleatórios com hash no banco, cookie `HttpOnly` e proteção CSRF. Catálogo, históricos, métricas e credenciais de IA são isolados por usuário. Use HTTPS em produção para proteger cookies e credenciais em trânsito. A chave do provedor é sempre informada pelo usuário na interface; não a configure em `.env`.
+
+A migração `0003` associa os registros existentes a uma conta legada inativa para que não sejam expostos automaticamente ao primeiro usuário que se cadastrar. Esses registros permanecem no banco, mas não aparecem nas contas novas; exporte-os antes da implantação se precisar reatribuir o conteúdo.
 
 ## Comandos comuns
 
@@ -68,9 +69,9 @@ Não há retenção automática de métricas ou histórico: estabeleça polític
 - **docker não encontrado:** instalar Docker Desktop/Engine e habilitar Compose v2; no Windows, usar o backend Linux/WSL2 conforme o ambiente.
 - **Porta 8080 ocupada:** alterar apenas o mapeamento do frontend e ajustar URLs/CORS.
 - **API não fica pronta:** examinar logs e estado de PostgreSQL/Redis; confirmar senha e migração Alembic.
-- **401 na SPA:** informar a `API_KEY` do servidor no ícone de chave. Recarregar a página apaga a chave da memória.
+- **401 na SPA:** faça login novamente; as sessões duram sete dias e são revogadas no logout.
 - **422:** conferir nomes, campos obrigatórios, limites, UUID e tom de voz.
-- **409 no cadastro:** SKU é único; editar o produto existente ou usar outro SKU.
+- **409 no cadastro:** e-mail já cadastrado ou SKU já usado no catálogo da conta.
 - **503 após quota:** reduzir concorrência, verificar quota e aguardar; o serviço não muda de modelo para ocultar a falha.
 - **Falha no provedor de IA:** confira modelo, endpoint, chave/permissão e compatibilidade com OpenAI Chat Completions. O erro público é sanitizado para não expor dados do provedor.
 - **Cache indisponível:** consultas históricas seguem possíveis; novas gerações falham cedo para evitar duplicação de inferências.

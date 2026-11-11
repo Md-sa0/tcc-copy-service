@@ -41,6 +41,11 @@ export interface Generation {
   copy: Copy;
   cache_status: "HIT" | "MISS";
 }
+export interface CopyEdits {
+  instagram_copy: Copy["instagram_copy"];
+  whatsapp_copy: Copy["whatsapp_copy"];
+  seo_copy: Copy["seo_copy"];
+}
 export interface Metric {
   id: string;
   request_id: string;

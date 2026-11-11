@@ -56,7 +56,17 @@ export default function Guide({
     };
     try {
       // Check again before mutations; never intentionally run the tour against a paid provider.
-      const fresh = await api<Runtime>("/health");
+      const [health, provider] = await Promise.all([
+        api<Runtime>("/health"),
+        api<{ configured: boolean; locked: boolean; provider: string; model: string }>(
+          "/api/v1/settings/provider",
+        ),
+      ]);
+      const fresh = {
+        ...health,
+        provider: provider.locked ? "unavailable" : provider.configured ? provider.provider : "mock",
+        model: provider.configured ? provider.model : health.model,
+      };
       if (fresh.provider !== "mock")
         throw new Error(
           "Esta demonstração automática exige modo mock. Use o estúdio para inferência real.",
@@ -186,10 +196,9 @@ export default function Guide({
           </span>
         </div>
         <p>
-          O cadastro e o histórico são gravados no banco informado acima. No
-          ambiente local sem Docker, o cache é simulado e reinicia com o
-          servidor. Os tempos desta sessão não representam o desempenho do
-          Gemini.
+          O cadastro e o histórico ficam salvos na sua conta. O cache pode
+          reaproveitar resultados recentes, e os tempos variam conforme o
+          provedor de IA e as condições de uso.
         </p>
       </details>
       <section className="panel guide-section">
@@ -197,21 +206,29 @@ export default function Guide({
         <h2>Como cadastrar um produto e gerar os textos</h2>
         <ol className="guide-steps">
           <li>
-            <strong>1. Preencha o cadastro</strong>
+            <strong>1. Cadastre o produto</strong>
             <p>
-              Abra Estúdio de criação. Preencha todos os campos: código do
+              Abra Cadastrar produto e preencha todos os campos: código do
               produto, nome, categoria, público, características e benefícios.
+              Salvar o cadastro não gera textos.
             </p>
           </li>
           <li>
-            <strong>2. Escolha o tom</strong>
+            <strong>2. Selecione o produto para gerar</strong>
             <p>
-              Escolha como o texto deve se comunicar: persuasivo, descontraído,
-              institucional ou promocional. Clique em Gerar conteúdo.
+              Abra o Catálogo de produtos e clique em Gerar textos no produto
+              desejado.
             </p>
           </li>
           <li>
-            <strong>3. Confira e copie</strong>
+            <strong>3. Defina o estilo de texto</strong>
+            <p>
+              Escolha o estilo de comunicação: persuasivo, descontraído,
+              institucional ou promocional. Clique em Gerar textos.
+            </p>
+          </li>
+          <li>
+            <strong>4. Confira e copie</strong>
             <p>
               Selecione Instagram, WhatsApp ou E-commerce / SEO. Leia o
               resultado e use Copiar texto para colar no canal escolhido. O
@@ -219,11 +236,11 @@ export default function Guide({
             </p>
           </li>
           <li>
-            <strong>4. Consulte as versões</strong>
+            <strong>5. Consulte as versões</strong>
             <p>
-              No Catálogo de produtos, clique em Editar e gerar para abrir um
-              produto salvo. As versões anteriores aparecem abaixo do
-              formulário. Consulte os tempos na tela Métricas de engenharia.
+              As versões anteriores aparecem na página Gerar textos quando um
+              produto está selecionado. Edite dados pela página Cadastrar
+              produto e consulte os tempos em Métricas de engenharia.
             </p>
           </li>
         </ol>

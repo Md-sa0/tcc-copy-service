@@ -56,7 +56,8 @@ jobs:
       - run: docker compose config --quiet
       - run: docker compose up --build --wait --wait-timeout 240
       - run: curl --fail http://localhost:8080/health/ready
-      - run: docker compose exec -T api python seed_and_benchmark.py --url http://localhost:8000 --output /tmp/benchmark --repeats 1
+      - run: curl --fail --header 'Content-Type: application/json' --data '{"email":"benchmark@example.com","password":"ci-benchmark-password"}' http://localhost:8080/api/v1/auth/register
+      - run: docker compose exec -T -e COPYLAB_EMAIL=benchmark@example.com -e COPYLAB_PASSWORD=ci-benchmark-password api python seed_and_benchmark.py --url http://localhost:8000 --output /tmp/benchmark --repeats 1
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
