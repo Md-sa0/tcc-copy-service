@@ -181,6 +181,7 @@ async def test_openai_compatible_provider_parses_structured_response():
             {
                 "product": {"name": "Produto"},
                 "tone_of_voice": "persuasivo",
+                "temperature": 0.7,
             }
         )
     finally:
@@ -209,10 +210,12 @@ async def test_openai_compatible_provider_sends_selected_tone_instruction():
     }
     instructions = []
     requested_tones = []
+    temperatures = []
 
     async def handler(request: httpx.Request) -> httpx.Response:
         body = json.loads(request.content)
         instructions.append(body["messages"][0]["content"])
+        temperatures.append(body["temperature"])
         snapshot = json.loads(body["messages"][1]["content"])
         requested_tones.append(snapshot["tone_of_voice"])
         return httpx.Response(
@@ -235,6 +238,7 @@ async def test_openai_compatible_provider_sends_selected_tone_instruction():
             await provider.generate(
                 {
                     "tone_of_voice": tone,
+                    "temperature": 0.7,
                     "product": {"name": "Produto", "key_benefits": ["Benefício"]},
                 }
             )
@@ -242,6 +246,11 @@ async def test_openai_compatible_provider_sends_selected_tone_instruction():
         await provider.close()
 
     assert requested_tones == list(TONE_INSTRUCTIONS)
+    assert temperatures == [0.7] * len(TONE_INSTRUCTIONS)
     for tone, instruction in zip(requested_tones, instructions, strict=True):
         assert f"tom de voz solicitado é {tone}" in instruction
         assert TONE_INSTRUCTIONS[tone] in instruction
+        assert "450 a 800 caracteres" in instruction
+        assert "250 a 500 caracteres" in instruction
+        assert "500 a 900 caracteres" in instruction
+        assert "textos próprios" in instruction

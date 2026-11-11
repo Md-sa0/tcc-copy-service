@@ -8,6 +8,7 @@ from src.core.config import Settings
 from src.models import Product
 from src.schemas.products import ProductCreate
 from src.services.hashing import canonical_input, input_hash
+from src.services.llm import TONE_INSTRUCTIONS, MockProvider
 
 
 def test_hash_canonicalization_and_versions(product_payload):
@@ -21,6 +22,24 @@ def test_hash_canonicalization_and_versions(product_payload):
     settings.prompt_version = "v2"
     assert input_hash(canonical_input(product, "persuasivo", settings)) != initial
     assert len(initial) == 64
+
+
+async def test_mock_generates_distinct_long_copy_for_each_tone(product_payload):
+    product = ProductCreate.model_validate(product_payload).model_dump()
+    provider = MockProvider()
+    generated = {}
+    for tone in TONE_INSTRUCTIONS:
+        generated[tone] = (
+            await provider.generate({"product": product, "tone_of_voice": tone})
+        ).content
+
+    assert len({copy.instagram.caption for copy in generated.values()}) == 4
+    assert len({copy.whatsapp.message for copy in generated.values()}) == 4
+    assert len({copy.ecommerce_seo.long_description for copy in generated.values()}) == 4
+    for copy in generated.values():
+        assert len(copy.instagram.caption) >= 450
+        assert len(copy.whatsapp.message) >= 250
+        assert len(copy.ecommerce_seo.long_description) >= 500
 
 
 def test_production_rejects_wildcard_cors():

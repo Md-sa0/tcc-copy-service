@@ -52,7 +52,7 @@ SKU: 1–64 caracteres alfanuméricos, ponto, hífen e sublinhado; começa com l
 }
 ```
 
-Substitua o UUID pelo `id` retornado no cadastro. Tons: `persuasivo`, `descontraído`, `institucional`, `promocional`. O tom padrão é `persuasivo`. Com `force_regenerate: true`, a API ignora o cache e solicita uma nova inferência, que pode consumir créditos/cobrar no provedor configurado. Omitir o campo ou usar `false` mantém o comportamento normal.
+Substitua o UUID pelo `id` retornado no cadastro. Tons: `persuasivo`, `descontraído`, `institucional`, `promocional`; cada um orienta linguagem e abordagem próprias em Instagram, WhatsApp e SEO. Os prompts pedem legendas de Instagram com cerca de 450–800 caracteres, mensagens de WhatsApp com 250–500 e descrições SEO com 500–900, respeitando os limites máximos dos schemas e sem inventar fatos. O tom padrão é `persuasivo`. Com `force_regenerate: true`, a API ignora o cache e solicita uma nova inferência, que pode consumir créditos/cobrar no provedor configurado. Omitir o campo ou usar `false` mantém o comportamento normal.
 
 Para salvar uma edição, envie `instagram_copy`, `whatsapp_copy` e `seo_copy` completos a `POST /copies/{uuid}/revisions`. Os mesmos limites e contratos de validação da resposta gerada são aplicados. A edição cria uma nova linha de histórico; a versão anterior permanece intacta. Editar não chama o provedor e não consome tokens.
 

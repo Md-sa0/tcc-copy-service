@@ -6,7 +6,7 @@
 |---|---|---|
 | APP_ENV | development | development, test ou production |
 | SETTINGS_ENCRYPTION_KEY | vazio | Chave mestra Fernet estável para cifrar credenciais cadastradas na interface |
-| PROMPT_VERSION | retail-v2 | Invalidar semanticamente o cache após mudar prompt |
+| PROMPT_VERSION | retail-v3 | Invalidar semanticamente o cache após mudar prompt |
 | CACHE_TTL_SECONDS | 86400 | 1–2592000 segundos |
 | GENERATION_TIMEOUT_SECONDS | 90 | 5–240; limite da seção crítica |
 | DATABASE_URL | localhost | SQLAlchemy URL; Compose define host postgres |

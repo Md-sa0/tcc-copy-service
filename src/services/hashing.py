@@ -18,7 +18,7 @@ def canonical_input(
         "model": model_name or settings.model_name,
         "prompt_version": settings.prompt_version,
         "output_schema_version": "v1",
-        "temperature": 0.2,
+        "temperature": 0.7,
     }
 
 
