@@ -4101,14 +4101,33 @@ td {
   }
 
   .sidebar nav {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
     min-width: 0;
-    justify-content: space-between;
+    justify-content: stretch;
   }
 
   .sidebar nav button {
-    min-width: 44px;
-    min-height: 44px;
-    padding: 8px;
+    justify-content: flex-start;
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    padding: 7px;
+    font-size: 10px;
+    line-height: 1.25;
+    text-align: left;
+  }
+
+  .sidebar nav button svg {
+    flex: 0 0 16px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .sidebar nav .nav-dot {
+    display: none;
   }
 
   .section-toolbar > div {
@@ -4194,6 +4213,11 @@ td {
   input,
   textarea,
   select {
+    font-size: 16px;
+  }
+
+  .auth-form input,
+  .section-toolbar select {
     font-size: 16px;
   }
 }
