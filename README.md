@@ -142,7 +142,9 @@ O código está completo no repositório, sem blocos omitidos. Entradas principa
 
 ## Testes e desenvolvimento local
 
-### Demonstração sem Docker neste computador
+### Demonstração alternativa sem Docker (opcional)
+
+Esta é uma forma alternativa e simplificada de executar o projeto, separada da aplicação principal do Docker. Ela usa SQLite, FakeRedis e IA simulada; não é o endereço usado pelo Compose nem precisa ser executada se você já iniciou o app com `docker compose up`.
 
 Neste computador, também é possível dar dois cliques em `iniciar-demo.cmd` na pasta do projeto.
 A página **Como funciona** identifica os componentes ativos e executa uma demonstração de validação, cache e mudança de tom, com relatório JSON para download.
@@ -154,7 +156,7 @@ Com a `.venv` e o build em `frontend/dist` já preparados, abra o terminal do VS
 .\.venv\Scripts\python.exe -m tests.ui_server --port 8082 --serve-frontend
 ```
 
-Abra http://localhost:8082 e mantenha o terminal aberto. Para encerrar, pressione Ctrl+C.
+Somente para essa demonstração alternativa, abra http://localhost:8082 e mantenha o terminal aberto. Para a aplicação principal via Docker, use https://localhost:8443 no próprio computador ou https://<IP-do-Mac>:8443 nos outros aparelhos da rede. Para encerrar a demonstração alternativa, pressione Ctrl+C.
 O comando serve frontend e API no mesmo processo, usando SQLite, FakeRedis e IA simulada.
 Não precisa ativar a virtualenv nem executar Node para visualizar o build existente.
 Após alterar o código frontend, gere novamente o build para que as mudanças apareçam.
