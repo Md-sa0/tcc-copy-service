@@ -262,29 +262,31 @@ export default function Dashboard() {
             <tbody>
               {history?.items.map((row) => (
                 <tr key={row.id}>
-                  <td>{new Date(row.created_at).toLocaleString("pt-BR")}</td>
-                  <td>
+                  <td data-label="Data e hora">{new Date(row.created_at).toLocaleString("pt-BR")}</td>
+                  <td data-label="Status">
                     <span
                       className={`badge ${row.status_code < 300 ? "green" : "red"}`}
                     >
                       {row.status_code}
                     </span>
                   </td>
-                  <td>
+                  <td data-label="Cache">
                     <span
                       className={`badge ${row.cache_status === "HIT" ? "green" : ""}`}
                     >
                       {row.cache_status}
                     </span>
                   </td>
-                  <td>{number(row.latency_ms, " ms")}</td>
-                  <td>
-                    <code title={row.input_hash ?? ""}>
-                      {row.input_hash ?? "Sem hash: validação ou autenticação"}
-                    </code>
-                    <small>{row.model_name ?? "—"}</small>
+                  <td data-label="Latência">{number(row.latency_ms, " ms")}</td>
+                  <td data-label="SHA-256 / modelo">
+                    <span className="table-cell-detail">
+                      <code title={row.input_hash ?? ""}>
+                        {row.input_hash ?? "Sem hash: validação ou autenticação"}
+                      </code>
+                      <small>{row.model_name ?? "—"}</small>
+                    </span>
                   </td>
-                  <td>{row.tokens_used}</td>
+                  <td data-label="Tokens">{row.tokens_used}</td>
                 </tr>
               ))}
             </tbody>

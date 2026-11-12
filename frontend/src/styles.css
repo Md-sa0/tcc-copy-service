@@ -4079,3 +4079,121 @@ td {
     white-space: nowrap;
   }
 }
+
+@media (max-width: 600px) {
+  .sidebar {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  .sidebar-brand-row,
+  .sidebar nav {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .sidebar-brand-row {
+    flex-direction: row;
+  }
+
+  .sidebar-brand-row .brand {
+    justify-content: flex-start;
+  }
+
+  .sidebar nav {
+    min-width: 0;
+    justify-content: space-between;
+  }
+
+  .sidebar nav button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 8px;
+  }
+
+  .section-toolbar > div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    min-width: 0;
+  }
+
+  .section-toolbar > div > button:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .section-toolbar select,
+  .section-toolbar .button {
+    width: 100%;
+    min-width: 0;
+    white-space: normal;
+    justify-content: center;
+  }
+
+  .table-scroll {
+    overflow: visible;
+  }
+
+  .table-scroll table,
+  .table-scroll tbody {
+    display: block;
+    width: 100%;
+  }
+
+  .table-scroll thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .table-scroll tbody tr {
+    display: block;
+    margin: 0 12px 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #101316;
+  }
+
+  .table-scroll tbody td {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    text-align: right;
+  }
+
+  .table-scroll tbody td::before {
+    flex: 0 1 42%;
+    color: #a4a8ae;
+    content: attr(data-label);
+    font-weight: 600;
+    text-align: left;
+  }
+
+  .table-scroll tbody td > * {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .table-scroll tbody td .table-cell-detail {
+    max-width: 58%;
+    text-align: right;
+  }
+
+  .table-scroll tbody td code {
+    max-width: 100%;
+    text-align: right;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
