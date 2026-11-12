@@ -1,0 +1,7 @@
+[server_cert]
+basicConstraints=critical,CA:FALSE
+keyUsage=critical,digitalSignature,keyEncipherment
+extendedKeyUsage=serverAuth
+subjectAltName=IP:192.168.3.83,DNS:localhost,IP:127.0.0.1
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer

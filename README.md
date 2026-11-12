@@ -24,20 +24,34 @@ Antes da primeira execução, gere o certificado HTTPS local na seção abaixo. 
 
 ### Acessar em celulares e outros computadores da mesma rede
 
-O Compose serve o frontend por HTTPS na rede local, para proteger os cookies de sessão. Na primeira execução, gere um certificado local (é ignorado pelo Git e não deve ser compartilhado):
+O Compose serve o frontend por HTTPS na rede local, para proteger os cookies de sessão. Na primeira execução, crie uma CA local e um certificado do servidor. A chave da CA fica fora da pasta montada no container e nunca deve ser compartilhada:
 
 ```sh
-mkdir -p frontend/certs
-openssl req -x509 -newkey rsa:2048 -sha256 -nodes -days 365 \
+mkdir -p frontend/certs .local-certs
+openssl req -x509 -newkey rsa:2048 -sha256 -nodes -days 3650 \
+  -keyout .local-certs/lan-ca-key.pem \
+  -out frontend/certs/lan-ca.pem \
+  -subj "/CN=CopyLab Local CA" \
+  -addext "basicConstraints=critical,CA:TRUE,pathlen:0" \
+  -addext "keyUsage=critical,keyCertSign,cRLSign"
+openssl req -new -newkey rsa:2048 -sha256 -nodes \
   -keyout frontend/certs/lan-key.pem \
-  -out frontend/certs/lan-cert.pem \
+  -out frontend/certs/lan.csr \
   -subj "/CN=192.168.3.83" \
   -addext "subjectAltName=IP:192.168.3.83,DNS:localhost,IP:127.0.0.1"
+openssl x509 -req -in frontend/certs/lan.csr \
+  -CA frontend/certs/lan-ca.pem -CAkey .local-certs/lan-ca-key.pem \
+  -CAcreateserial -out frontend/certs/lan-cert.pem -days 365 -sha256 \
+  -extfile frontend/certs/lan-server.ext -extensions server_cert
+openssl x509 -in frontend/certs/lan-ca.pem -outform DER \
+  -out frontend/certs/lan-ca.cer
 ```
 
-Se o IP do Mac mudar, substitua `192.168.3.83` pelo resultado de `ipconfig getifaddr en0` nos dois lugares do comando e na lista `CORS_ORIGINS` do `.env`. Depois inicie o app com `docker compose up -d --build`.
+Instale e confie no certificado público `frontend/certs/lan-ca.cer` em cada aparelho (não instale nem compartilhe `lan-ca-key.pem`). No Mac, importe-o no Acesso às Chaves e marque confiança para este certificado; Chrome e Safari usam as chaves confiáveis do sistema/usuário. No Windows, importe-o em **Autoridades de Certificação Raiz Confiáveis** do usuário atual. No iPhone/iPad, transfira e instale o certificado e depois habilite confiança total em **Ajustes > Geral > Sobre > Ajustes de Confiança de Certificados**. No Android, instale-o como certificado de CA em **Configurações > Segurança > Criptografia e credenciais**. Os nomes dos menus podem variar por versão.
 
-Nos outros dispositivos conectados à mesma rede Wi-Fi, abra `https://<IP-do-Mac>:8443` (por exemplo, `https://192.168.3.83:8443`). Como o certificado é local e não emitido por uma autoridade pública, o navegador mostrará um aviso na primeira visita; prossiga somente se estiver na sua rede doméstica e o endereço estiver correto. Não use `localhost` no celular: esse nome aponta para o próprio aparelho. Mantenha o Mac ligado e o Docker rodando. Para parar, use `docker compose down`. Se não conectar, confira se o celular não está em uma rede de convidados com isolamento de dispositivos.
+Se o IP do Mac mudar, gere novamente o certificado do servidor usando o novo IP no `-subj`, nos dois valores de `subjectAltName` e em `frontend/certs/lan-server.ext`; atualize também esse IP em `CORS_ORIGINS` no `.env`. A CA instalada permanece a mesma. Depois inicie o app com `docker compose up -d --build`.
+
+Nos outros dispositivos conectados à mesma rede Wi-Fi, abra `https://<IP-do-Mac>:8443` (por exemplo, `https://192.168.3.83:8443`). Não use `localhost` no celular: esse nome aponta para o próprio aparelho. Mantenha o Mac ligado e o Docker rodando. Para parar, use `docker compose down`. Se não conectar, confira se o celular não está em uma rede de convidados com isolamento de dispositivos.
 
 Esse endereço só funciona dentro da rede local da casa e não cria uma hospedagem pública nem cobra por acesso. Para alguém acessar de fora da rede, seria necessário outro tipo de hospedagem.
 

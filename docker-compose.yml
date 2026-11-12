@@ -71,7 +71,8 @@ services:
     volumes:
       - ./frontend:/app
       - frontend_node_modules:/app/node_modules
-      - ./frontend/certs:/certs:ro
+      - ./frontend/certs/lan-cert.pem:/certs/lan-cert.pem:ro
+      - ./frontend/certs/lan-key.pem:/certs/lan-key.pem:ro
     networks: [edge]
     depends_on:
       api:

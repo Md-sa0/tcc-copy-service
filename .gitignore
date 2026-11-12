@@ -9,7 +9,11 @@ node_modules/
 
 frontend/dist/
 *.tsbuildinfo
-frontend/certs/
+frontend/certs/*.pem
+frontend/certs/*.csr
+frontend/certs/*.srl
+frontend/certs/*.cer
+.local-certs/
 
 # Configura��es privadas e novos dados locais de execu��o
 .env.*
