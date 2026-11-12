@@ -1,0 +1,53 @@
+services:
+  - type: web
+    name: copylab-api
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health/ready
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: APP_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: copylab-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: copylab-cache
+          property: connectionString
+      - key: SETTINGS_ENCRYPTION_KEY
+        generateValue: true
+      - key: PROMPT_VERSION
+        value: retail-v3
+      - key: CORS_ORIGINS
+        value: '["https://copylab-web.onrender.com"]'
+  - type: web
+    name: copylab-web
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    healthCheckPath: /
+    envVars:
+      - key: API_URL
+        fromService:
+          type: web
+          name: copylab-api
+          property: url
+      - key: PORT
+        value: 8080
+  - type: keyvalue
+    name: copylab-cache
+    plan: free
+    region: oregon
+
+databases:
+  - name: copylab-db
+    plan: free
+    region: oregon

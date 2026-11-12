@@ -22,6 +22,16 @@ docker compose up --build
 
 Abra [a aplicação](http://localhost:8080), [a documentação OpenAPI](http://localhost:8080/docs) ou [a prontidão da API](http://localhost:8080/health/ready). O primeiro build baixa dependências. As migrações Alembic são aplicadas automaticamente antes de iniciar a API; o frontend aguarda sua prontidão. O frontend local usa Vite com hot reload: alterações em `frontend/src` são refletidas no navegador automaticamente, sem rebuild. O Compose monta o código-fonte e mantém as dependências Node em um volume.
 
+### Publicar um link para acesso externo (Render)
+
+O endereço `localhost` só funciona na máquina que está executando o app; endereços `192.168.x.x` só funcionam na rede local. Para o professor acessar de outro lugar, publique o projeto:
+
+1. Envie as alterações do projeto para o GitHub.
+2. No Render, escolha **New > Blueprint**, conecte este repositório e confirme a implantação do `render.yaml`.
+3. Aguarde o banco, o cache e os serviços ficarem prontos. Abra o endereço público de `copylab-web` no painel do Render e crie uma conta de teste pela própria tela de cadastro para compartilhar com o professor.
+
+A implantação usa o modo mock, sem chamadas pagas a provedores de IA, e configura banco/cache gerenciados. Nos planos gratuitos, o site pode levar cerca de um minuto para acordar após 15 minutos sem acesso, e o banco Postgres gratuito expira após 30 dias. Confira as [condições atuais do Render](https://render.com/docs/free) antes de usar com dados importantes. Não use credenciais reais nem dados pessoais no ambiente de demonstração.
+
 Sem configurar um provedor, a aplicação usa um simulador determinístico, sem consumo de tokens nem chamadas externas. O catálogo começa vazio; cadastre um produto ou execute a carga abaixo.
 
 No modo mock, abra **Catálogo de produtos** e use **Criar produtos de exemplo** para adicionar três itens à conta atual. Eles ficam salvos no catálogo e podem ser usados para testar a geração simulada; SKUs de exemplo já existentes não são duplicados.
