@@ -9,8 +9,9 @@ node_modules/
 
 frontend/dist/
 *.tsbuildinfo
+frontend/certs/
 
-# Configurações privadas e novos dados locais de execução
+# Configuraï¿½ï¿½es privadas e novos dados locais de execuï¿½ï¿½o
 .env.*
 !.env.example
 *.db

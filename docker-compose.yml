@@ -41,7 +41,7 @@ services:
       PROMPT_VERSION: ${PROMPT_VERSION:-retail-v3}
       CACHE_TTL_SECONDS: ${CACHE_TTL_SECONDS:-86400}
       GENERATION_TIMEOUT_SECONDS: ${GENERATION_TIMEOUT_SECONDS:-90}
-      CORS_ORIGINS: '${CORS_ORIGINS:-["http://localhost:8080","http://localhost:5173","http://127.0.0.1:8080","http://192.168.3.83:8080"]}'
+      CORS_ORIGINS: '${CORS_ORIGINS:-["https://localhost:8443","https://127.0.0.1:8443","https://192.168.3.83:8443"]}'
     networks: [data, edge]
     depends_on:
       postgres:
@@ -59,21 +59,25 @@ services:
     build:
       context: ./frontend
       target: build
-    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "8080", "--strictPort"]
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "8443", "--strictPort"]
     environment:
       API_PROXY_TARGET: http://api:8000
+      APP_PUBLIC_SCHEME: https
+      DEV_TLS_CERT: /certs/lan-cert.pem
+      DEV_TLS_KEY: /certs/lan-key.pem
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - "8443:8443"
     volumes:
       - ./frontend:/app
       - frontend_node_modules:/app/node_modules
+      - ./frontend/certs:/certs:ro
     networks: [edge]
     depends_on:
       api:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8080/"]
+      test: ["CMD", "node", "-e", "require('https').get('https://127.0.0.1:8443/', {rejectUnauthorized:false}, r => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
       interval: 10s
       timeout: 3s
       retries: 5

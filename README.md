@@ -20,19 +20,24 @@ Pré-requisito: Docker Engine/Desktop em execução, com Docker Compose v2 e sup
 docker compose up --build
 ```
 
-Abra [a aplicação](http://localhost:8080), [a documentação OpenAPI](http://localhost:8080/docs) ou [a prontidão da API](http://localhost:8080/health/ready). O primeiro build baixa dependências. As migrações Alembic são aplicadas automaticamente antes de iniciar a API; o frontend aguarda sua prontidão. O frontend local usa Vite com hot reload: alterações em `frontend/src` são refletidas no navegador automaticamente, sem rebuild. O Compose monta o código-fonte e mantém as dependências Node em um volume.
+Antes da primeira execução, gere o certificado HTTPS local na seção abaixo. Depois abra [a aplicação](https://localhost:8443). O primeiro build baixa dependências. As migrações Alembic são aplicadas automaticamente antes de iniciar a API; o frontend aguarda sua prontidão. O frontend local usa Vite com hot reload: alterações em `frontend/src` são refletidas no navegador automaticamente, sem rebuild. O Compose monta o código-fonte e mantém as dependências Node em um volume.
 
 ### Acessar em celulares e outros computadores da mesma rede
 
-O Compose publica a porta do frontend na rede local. Em um Mac, descubra o endereço IP com:
+O Compose serve o frontend por HTTPS na rede local, para proteger os cookies de sessão. Na primeira execução, gere um certificado local (é ignorado pelo Git e não deve ser compartilhado):
 
 ```sh
-ipconfig getifaddr en0
+mkdir -p frontend/certs
+openssl req -x509 -newkey rsa:2048 -sha256 -nodes -days 365 \
+  -keyout frontend/certs/lan-key.pem \
+  -out frontend/certs/lan-cert.pem \
+  -subj "/CN=192.168.3.83" \
+  -addext "subjectAltName=IP:192.168.3.83,DNS:localhost,IP:127.0.0.1"
 ```
 
-Nos outros dispositivos conectados à mesma rede Wi-Fi, abra `http://<IP-do-Mac>:8080` (por exemplo, `http://192.168.3.83:8080`). Não use `localhost` no celular: esse nome aponta para o próprio aparelho. Mantenha o Mac ligado e o Docker rodando; inicie o app com `docker compose up -d --build` e pare-o com `docker compose down`. Se não conectar, confira se o celular não está em uma rede de convidados com isolamento de dispositivos.
+Se o IP do Mac mudar, substitua `192.168.3.83` pelo resultado de `ipconfig getifaddr en0` nos dois lugares do comando e na lista `CORS_ORIGINS` do `.env`. Depois inicie o app com `docker compose up -d --build`.
 
-Se o endereço IP do Mac mudar, atualize esse IP também na lista `CORS_ORIGINS` do `.env` antes de reiniciar o serviço `api`.
+Nos outros dispositivos conectados à mesma rede Wi-Fi, abra `https://<IP-do-Mac>:8443` (por exemplo, `https://192.168.3.83:8443`). Como o certificado é local e não emitido por uma autoridade pública, o navegador mostrará um aviso na primeira visita; prossiga somente se estiver na sua rede doméstica e o endereço estiver correto. Não use `localhost` no celular: esse nome aponta para o próprio aparelho. Mantenha o Mac ligado e o Docker rodando. Para parar, use `docker compose down`. Se não conectar, confira se o celular não está em uma rede de convidados com isolamento de dispositivos.
 
 Esse endereço só funciona dentro da rede local da casa e não cria uma hospedagem pública nem cobra por acesso. Para alguém acessar de fora da rede, seria necessário outro tipo de hospedagem.
 

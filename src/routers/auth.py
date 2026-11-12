@@ -121,7 +121,10 @@ def validate_request_origin(request: Request) -> None:
 
 
 def set_session_cookies(response: Response, session_token: str, csrf_token: str, request: Request):
-    secure = request.app.state.settings.app_env == "production"
+    secure = (
+        request.app.state.settings.app_env == "production"
+        or request.url.scheme == "https"
+    )
     response.set_cookie(
         "copylab_session",
         session_token,
@@ -214,6 +217,9 @@ async def logout(
     auth_session = request.state.auth_session
     await session.delete(auth_session)
     await session.commit()
-    secure = request.app.state.settings.app_env == "production"
+    secure = (
+        request.app.state.settings.app_env == "production"
+        or request.url.scheme == "https"
+    )
     response.delete_cookie("copylab_session", path="/", secure=secure, httponly=True, samesite="lax")
     response.delete_cookie("copylab_csrf", path="/", secure=secure, httponly=False, samesite="lax")

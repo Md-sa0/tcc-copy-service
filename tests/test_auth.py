@@ -62,14 +62,35 @@ async def test_login_is_case_insensitive_and_logout_revokes_session(stack):
     assert (await client.get("/api/v1/auth/me")).status_code == 401
 
 
-async def test_login_allows_home_network_origin(stack):
+async def test_login_allows_https_home_network_origin(stack):
     client, _, _, _ = stack
     response = await client.post(
         "/api/v1/auth/login",
         json={"email": "test@example.com", "password": "test-account-password"},
-        headers={"Origin": "http://192.168.3.83:8080"},
+        headers={"Origin": "https://192.168.3.83:8443"},
     )
     assert response.status_code == 200
+
+
+async def test_https_login_sets_secure_session_cookies(stack):
+    _, app, _, _ = stack
+    async with AsyncClient(
+        transport=ASGITransport(app=app),
+        base_url="https://test",
+    ) as client:
+        response = await client.post(
+            "/api/v1/auth/login",
+            json={"email": "test@example.com", "password": "test-account-password"},
+        )
+        client.headers["X-CSRF-Token"] = client.cookies["copylab_csrf"]
+        logout = await client.post("/api/v1/auth/logout")
+
+    assert response.status_code == 200
+    assert "copylab_session=" in response.headers["set-cookie"]
+    assert "copylab_csrf=" in response.headers["set-cookie"]
+    assert response.headers["set-cookie"].lower().count("; secure") == 2
+    assert logout.status_code == 204
+    assert logout.headers["set-cookie"].lower().count("; secure") == 2
 
 
 async def test_login_failures_are_scoped_to_email_and_cleared_on_success(stack):
