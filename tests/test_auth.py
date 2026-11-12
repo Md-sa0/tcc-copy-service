@@ -62,6 +62,16 @@ async def test_login_is_case_insensitive_and_logout_revokes_session(stack):
     assert (await client.get("/api/v1/auth/me")).status_code == 401
 
 
+async def test_login_allows_home_network_origin(stack):
+    client, _, _, _ = stack
+    response = await client.post(
+        "/api/v1/auth/login",
+        json={"email": "test@example.com", "password": "test-account-password"},
+        headers={"Origin": "http://192.168.3.83:8080"},
+    )
+    assert response.status_code == 200
+
+
 async def test_login_failures_are_scoped_to_email_and_cleared_on_success(stack):
     client, _, _, cache = stack
     await client.post(
