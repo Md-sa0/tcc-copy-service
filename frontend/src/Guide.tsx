@@ -24,6 +24,14 @@ interface Report {
   observations: Observation[];
 }
 
+function createDemoSku() {
+  const identifier =
+    typeof globalThis.crypto?.randomUUID === "function"
+      ? globalThis.crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  return `GUIA-${identifier}`;
+}
+
 export default function Guide({
   runtime,
   onBusy,
@@ -75,7 +83,7 @@ export default function Guide({
       const saved = await api<Product>("/api/v1/products", {
         method: "POST",
         body: JSON.stringify({
-          sku: `GUIA-${crypto.randomUUID()}`,
+          sku: createDemoSku(),
           name: "Fone Bluetooth Aura · Demonstração",
           category: "Eletrônicos",
           target_audience: "Estudantes e profissionais",
