@@ -2850,8 +2850,7 @@ label small,
   background: #ffffff04;
 }
 
-.editorial-note,
-.settings-footnote {
+.editorial-note {
   color: #c4c9ce;
   border: 1px solid #292f34;
   background: #101316;
@@ -3108,9 +3107,7 @@ td {
   flex: 0 0 auto;
 }
 
-.settings-security-note p,
-.provider-form-footer > span,
-.settings-footnote p {
+.settings-security-note p {
   color: #aab0b6;
   font-size: 12px;
   line-height: 1.7;
@@ -3365,10 +3362,6 @@ td {
   }
 }
 
-.provider-form-footer > span {
-  max-width: 480px;
-}
-
 .provider-form-footer .button {
   flex: 0 0 auto;
 }
@@ -3378,25 +3371,6 @@ td {
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 10px;
-}
-
-.settings-footnote {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 16px 18px;
-  border-radius: 10px;
-}
-
-.settings-footnote svg {
-  flex: 0 0 auto;
-  color: #a9b0b7;
-  margin-top: 2px;
-}
-
-.settings-footnote code {
-  color: #dfff52;
-  font-size: 11px;
 }
 
 @media (max-width: 740px) {
@@ -3468,12 +3442,56 @@ td {
   color: #d3ff00;
 }
 
-.sidebar-hidden .sidebar {
+.sidebar {
+  transition: width 180ms ease, padding 180ms ease;
+}
+
+.sidebar-collapsed .sidebar {
+  width: 74px;
+  padding-right: 12px;
+  padding-left: 12px;
+}
+
+.sidebar-collapsed .main-shell {
+  margin-left: 74px;
+}
+
+.sidebar-collapsed .sidebar-brand-row {
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+}
+
+.sidebar-collapsed .sidebar-brand-row .brand {
+  justify-content: center;
+}
+
+.sidebar-collapsed .sidebar-brand-row .brand > span,
+.sidebar-collapsed .workspace,
+.sidebar-collapsed .nav-label,
+.sidebar-collapsed .nav-item-label {
   display: none;
 }
 
-.sidebar-hidden .main-shell {
-  margin-left: 0;
+.sidebar-collapsed .sidebar nav {
+  margin-top: 24px;
+}
+
+.sidebar-collapsed .sidebar nav button {
+  position: relative;
+  justify-content: center;
+  gap: 0;
+  padding-right: 0;
+  padding-left: 0;
+  font-size: 0;
+}
+
+.sidebar-collapsed .sidebar nav button svg {
+  flex: 0 0 auto;
+}
+
+.sidebar-collapsed .sidebar nav .nav-dot {
+  display: none;
 }
 
 .main-shell {
@@ -3498,23 +3516,61 @@ td {
     gap: 8px;
   }
 
-  .sidebar-hidden .sidebar {
-    display: none;
+  .sidebar-collapsed .sidebar {
+    width: 100%;
+    padding: 12px 16px;
   }
 
-  .sidebar-hidden .main-shell {
+  .sidebar-collapsed .main-shell {
     margin: 0;
   }
 
-  .sidebar-show-toggle {
-    width: 32px;
-    height: 32px;
+  .sidebar-collapsed .sidebar-brand-row {
+    flex-direction: row;
+    width: auto;
+    justify-content: space-between;
+  }
+
+  .sidebar-collapsed .sidebar nav {
+    display: flex;
+    flex: 1;
+    width: auto;
+    margin: 0;
+    gap: 6px;
+    justify-content: flex-end;
+  }
+
+  .sidebar-collapsed .sidebar nav button {
+    width: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 9px;
   }
 }
 
 @media (max-width: 340px) {
   .sidebar-brand-row .brand {
     width: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .sidebar-collapsed .sidebar {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  .sidebar-collapsed .sidebar-brand-row {
+    flex: 0 0 auto;
+    width: auto;
+  }
+
+  .sidebar-collapsed .sidebar nav {
+    display: flex;
+    flex: 1 1 100%;
+    width: 100%;
+    grid-template-columns: none;
+    justify-content: space-around;
   }
 }
 

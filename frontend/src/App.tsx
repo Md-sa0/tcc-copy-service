@@ -71,7 +71,7 @@ export default function App() {
   const [view, setView] = useState<View>(
     window.location.hash === "#como-funciona" ? "guide" : "generator",
   );
-  const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [sidebarExpanded, setSidebarExpanded] = useState(true);
   const [health, setHealth] = useState<Runtime | null>(null);
   const [product, setProduct] = useState<Product | null>(null);
   const [result, setResult] = useState<Generation | null>(null);
@@ -368,7 +368,7 @@ export default function App() {
     );
   }
   return (
-    <div className={`app-shell${sidebarVisible ? "" : " sidebar-hidden"}`}>
+    <div className={`app-shell${sidebarExpanded ? "" : " sidebar-collapsed"}`}>
       <aside className="sidebar">
         <div className="sidebar-brand-row">
           <a
@@ -389,13 +389,19 @@ export default function App() {
           <button
             type="button"
             className="sidebar-toggle"
-            aria-label="Ocultar barra lateral"
+            aria-label={
+              sidebarExpanded ? "Recolher barra lateral" : "Expandir barra lateral"
+            }
             aria-controls="primary-navigation"
-            aria-expanded={sidebarVisible}
-            title="Ocultar barra lateral"
-            onClick={() => setSidebarVisible(false)}
+            aria-expanded={sidebarExpanded}
+            title={sidebarExpanded ? "Recolher barra lateral" : "Expandir barra lateral"}
+            onClick={() => setSidebarExpanded((expanded) => !expanded)}
           >
-            <PanelLeftClose size={18} />
+            {sidebarExpanded ? (
+              <PanelLeftClose size={18} />
+            ) : (
+              <PanelLeftOpen size={18} />
+            )}
           </button>
         </div>
         <div className="workspace">
@@ -425,12 +431,14 @@ export default function App() {
               disabled={busy}
               key={item.id}
               className={view === item.id ? "selected" : ""}
+              aria-label={item.label}
+              title={item.label}
               onClick={() =>
                 item.id === "product" ? editProduct(null) : setView(item.id)
               }
             >
               <item.Icon size={19} />
-              {item.label}
+              <span className="nav-item-label">{item.label}</span>
               {view === item.id && <span className="nav-dot" />}
             </button>
           ))}
@@ -439,19 +447,6 @@ export default function App() {
       <div className="main-shell">
         <header className="topbar">
           <div>
-            {!sidebarVisible && (
-              <button
-                type="button"
-                className="sidebar-toggle sidebar-show-toggle"
-                aria-label="Mostrar barra lateral"
-                aria-controls="primary-navigation"
-                aria-expanded={sidebarVisible}
-                title="Mostrar barra lateral"
-                onClick={() => setSidebarVisible(true)}
-              >
-                <PanelLeftOpen size={18} />
-              </button>
-            )}
             CopyLab <ChevronRight size={14} />
             <strong>
               {view === "generator"
@@ -722,7 +717,7 @@ export default function App() {
                 <label className="search-field">
                   <Search size={17} />
                   <input
-                    placeholder="Buscar nome ou SKU"
+                    aria-label="Buscar nome ou SKU"
                     value={query}
                     onChange={(e) => {
                       setQuery(e.target.value);

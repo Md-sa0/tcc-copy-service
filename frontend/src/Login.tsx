@@ -67,7 +67,6 @@ export default function Login({
             maxLength={254}
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            placeholder="voce@empresa.com"
           />
           <label htmlFor="account-password">Senha</label>
           <input
@@ -80,8 +79,13 @@ export default function Login({
             maxLength={128}
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            placeholder={registering ? "Pelo menos 12 caracteres" : "Sua senha"}
+            aria-describedby={registering ? "account-password-hint" : undefined}
           />
+          {registering && (
+            <small id="account-password-hint">
+              Use pelo menos 12 caracteres.
+            </small>
+          )}
           {error && <div className="error-box" role="alert">{error}</div>}
           <button className="button primary auth-submit" type="submit" disabled={busy}>
             {busy ? <LoaderCircle size={17} className="spin" /> : <ArrowRight size={17} />}

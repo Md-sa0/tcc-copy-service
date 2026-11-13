@@ -146,7 +146,6 @@ export default function ProviderSettings({
               type="password"
               name="provider-api-key"
               autoComplete="new-password"
-              placeholder="Cole sua chave; ela não será exibida novamente"
               value={apiKey}
               onChange={(event) => setApiKey(event.target.value)}
               required
@@ -160,7 +159,6 @@ export default function ProviderSettings({
               type="url"
               value={baseUrl}
               onChange={(event) => setBaseUrl(event.target.value)}
-              placeholder="https://api.openai.com/v1"
               required
               maxLength={500}
             />
@@ -171,7 +169,6 @@ export default function ProviderSettings({
             <input
               value={model}
               onChange={(event) => setModel(event.target.value)}
-              placeholder="Ex.: gpt-4o-mini"
               required
               maxLength={200}
             />
@@ -185,9 +182,6 @@ export default function ProviderSettings({
             </div>
           )}
           <div className="provider-form-footer">
-            <span>
-              A chave não é exibida novamente nem salva no navegador.
-            </span>
             <div className="provider-actions">
               {(status?.configured || status?.locked) && (
                 <button
@@ -225,14 +219,6 @@ export default function ProviderSettings({
         </div>
       </form>
 
-      <section className="settings-footnote">
-        <LockKeyhole size={16} />
-        <p>
-          A criptografia persistente requer <code>SETTINGS_ENCRYPTION_KEY</code>
-          {" "}configurada no <code>.env</code> do servidor. Nunca compartilhe
-          essa chave mestra.
-        </p>
-      </section>
     </div>
   );
 }

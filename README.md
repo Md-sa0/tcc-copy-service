@@ -198,7 +198,7 @@ npm run dev
 npx playwright install chromium
 npm run test:e2e
 ```
-
+       
 Esse servidor é apenas um auxiliar de QA com SQLite/FakeRedis, jamais o runtime de produção. O teste de navegador cria, gera, verifica cache, copia texto, muda de canal, consulta métricas, pesquisa, edita/seleciona, exclui e verifica o layout móvel. Capturas ficam em `artifacts/screenshots/`.
 
 ## Limite da garantia

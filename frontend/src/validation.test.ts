@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { parseAttributes, productSchema } from "./validation";
+import {
+  formatProductValidationError,
+  parseAttributes,
+  productSchema,
+} from "./validation";
 
 const valid = {
   sku: "SKU-01",
@@ -37,7 +41,19 @@ describe("contrato do catálogo", () => {
   });
   it("preserva dois pontos nos valores e rejeita chaves duplicadas", () => {
     expect(parseAttributes("horário: 10:30")).toEqual({ horário: "10:30" });
-    expect(() => parseAttributes("cor: azul\n cor: verde")).toThrow();
-    expect(() => parseAttributes("sem separador")).toThrow();
+    expect(() => parseAttributes("cor: azul\n cor: verde")).toThrow(
+      "Há atributos repetidos.",
+    );
+    expect(() => parseAttributes("cor: azul\nsem separador")).toThrow(
+      "Linha 2:",
+    );
+    expect(() => parseAttributes("cor: ")).toThrow("informe o valor depois");
+  });
+  it("explica erros do cadastro sem expor mensagens técnicas", () => {
+    const invalid = productSchema.safeParse({ ...valid, sku: "SKU inválido" });
+    if (invalid.success) throw new Error("O SKU deveria ser rejeitado.");
+    expect(formatProductValidationError(invalid.error)).toContain(
+      "Confira o SKU",
+    );
   });
 });

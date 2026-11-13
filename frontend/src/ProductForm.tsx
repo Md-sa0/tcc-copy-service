@@ -1,7 +1,11 @@
 import { LoaderCircle, Save, X } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import { ZodError } from "zod";
-import { parseAttributes, productSchema } from "./validation";
+import {
+  formatProductValidationError,
+  parseAttributes,
+  productSchema,
+} from "./validation";
 import type { Product, ProductInput } from "./types";
 
 interface Props {
@@ -54,7 +58,7 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
     } catch (e) {
       setError(
         e instanceof ZodError
-          ? e.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join(" · ")
+          ? formatProductValidationError(e)
           : e instanceof Error
             ? e.message
             : "Falha ao salvar produto.",
@@ -70,7 +74,7 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
     };
   }
   return (
-    <form className="panel product-form" onSubmit={submit}>
+    <form className="panel product-form" onSubmit={submit} noValidate>
       <div className="panel-heading">
         <div>
           <span className="eyebrow">Informações do produto</span>
@@ -96,7 +100,6 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
             <input
               required
               maxLength={64}
-              placeholder="FONE-001"
               aria-label="SKU"
               {...field("sku")}
             />
@@ -108,7 +111,6 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
               required
               minLength={2}
               maxLength={100}
-              placeholder="Eletrônicos"
               {...field("category")}
             />
           </label>
@@ -119,7 +121,6 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
             required
             minLength={2}
             maxLength={200}
-            placeholder="Ex.: Fone Bluetooth Aura"
             {...field("name")}
           />
         </label>
@@ -129,7 +130,6 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
             required
             minLength={3}
             maxLength={500}
-            placeholder="Para quem é esse produto?"
             {...field("target_audience")}
           />
         </label>
@@ -138,7 +138,6 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
           <textarea
             required
             rows={3}
-            placeholder={"Conectividade: Bluetooth 5.3\nAutonomia: 24 horas"}
             {...field("attributes")}
           />
           <small>
@@ -151,9 +150,6 @@ export default function ProductForm({ product, busy, onSave, onClear }: Props) {
           <textarea
             required
             rows={3}
-            placeholder={
-              "Liberdade para ouvir sem fios\nConforto para a rotina"
-            }
             {...field("benefits")}
           />
           <small>

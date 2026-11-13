@@ -4,6 +4,7 @@ venv/
 __pycache__/
 .pytest_cache/
 .ruff_cache/
+.DS_Store
 frontend/node_modules/
 node_modules/
 
@@ -15,7 +16,7 @@ frontend/certs/*.srl
 frontend/certs/*.cer
 .local-certs/
 
-# Configura��es privadas e novos dados locais de execu��o
+# Configuracoes privadas e novos dados locais de execucao
 .env.*
 !.env.example
 *.db
