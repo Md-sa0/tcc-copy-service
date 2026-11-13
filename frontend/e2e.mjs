@@ -64,7 +64,8 @@ try {
     /Fone Bluetooth Aura/,
   );
   await page.getByRole("tab", { name: "WhatsApp", exact: true }).click();
-  await page.locator(".wa-bubble strong").waitFor();
+  await page.locator(".wa-bubble").waitFor();
+  assert.match(await page.locator(".wa-bubble").innerText(), /Fone Bluetooth Aura/);
   await page.getByRole("tab", { name: "E-commerce / SEO" }).click();
   await page.locator(".seo-title").waitFor();
   await page

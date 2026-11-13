@@ -24,6 +24,8 @@ def external_transport(stack, monkeypatch):
         calls.append(str(request.url))
         snapshot = json.loads(json.loads(request.content)["messages"][1]["content"])
         content = (await MockProvider().generate(snapshot)).content.model_dump()
+        if getattr(app.state, "invalid_test_provider_response", False):
+            content = {"unexpected": "invalid structured output"}
         return httpx.Response(200, json={
             "choices": [{"message": {"content": json.dumps(content)}}],
             "usage": {"total_tokens": 0},
@@ -79,4 +81,21 @@ async def test_endpoint_change_same_model_invalidates_cache(stack, product_paylo
     assert a.generated_copy.input_hash != b.generated_copy.input_hash
     assert a.generated_copy.model_name == b.generated_copy.model_name
     assert external_transport == ["https://first.example/v1/chat/completions", "https://second.example/v1/chat/completions"]
+
+
+async def test_authenticated_invalid_provider_schema_is_controlled(stack, product_payload, external_transport):
+    client, app, _, _ = stack
+    await configure(client, "https://first.example/v1")
+    product = (await client.post("/api/v1/products", json=product_payload)).json()
+    payload = {"product_id": product["id"], "tone_of_voice": "persuasivo"}
+    app.state.invalid_test_provider_response = True
+    rejected = await client.post("/api/v1/copies/generate", json=payload)
+    assert rejected.status_code == 502
+    assert (await client.get("/api/v1/copies")).json()["total"] == 0
+    app.state.invalid_test_provider_response = False
+    recovered = await client.post("/api/v1/copies/generate", json=payload)
+    assert recovered.status_code == 200
+    assert recovered.headers["X-Cache-Status"] == "MISS"
+    GenerateResponse.model_validate(recovered.json())
+    assert len(external_transport) == 2
 
