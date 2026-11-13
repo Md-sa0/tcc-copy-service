@@ -16,11 +16,12 @@ async def test_provider_key_is_encrypted_and_never_returned(stack, monkeypatch):
     app.state.settings.settings_encryption_key = SecretStr(
         Fernet.generate_key().decode("ascii")
     )
+    real_getaddrinfo = socket.getaddrinfo
     monkeypatch.setattr(
         "src.routers.settings.socket.getaddrinfo",
         lambda *args, **kwargs: [
             (socket.AF_INET, socket.SOCK_STREAM, 6, "", ("8.8.8.8", 443))
-        ],
+        ] if args[0] == "api.openai.com" else real_getaddrinfo(*args, **kwargs),
     )
     secret = "user-created-test-key-not-for-production"
     payload = {

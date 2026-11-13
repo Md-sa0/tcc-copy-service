@@ -58,6 +58,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix frontend
       - name: Generate ephemeral TLS certificate
         run: |
           mkdir -p frontend/certs
@@ -68,10 +72,6 @@ jobs:
       - run: |
           curl --fail --insecure --header 'Content-Type: application/json' --data '{"email":"benchmark@example.com","password":"ci-benchmark-password"}' https://localhost:8443/api/v1/auth/register
       - run: docker compose exec -T -e COPYLAB_EMAIL=benchmark@example.com -e COPYLAB_PASSWORD=ci-benchmark-password api python seed_and_benchmark.py --url http://localhost:8000 --output /tmp/benchmark --repeats 1
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - run: npm ci --prefix frontend
       - run: npx playwright install --with-deps chromium
         working-directory: frontend
       - run: npm run test:e2e --prefix frontend

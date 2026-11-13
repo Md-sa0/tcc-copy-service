@@ -14,9 +14,10 @@ from src.services.llm import MockProvider, OpenAICompatibleProvider
 def external_transport(stack, monkeypatch):
     _, app, _, _ = stack
     app.state.settings.settings_encryption_key = SecretStr(Fernet.generate_key().decode())
+    real_getaddrinfo = socket.getaddrinfo
     monkeypatch.setattr("src.routers.settings.socket.getaddrinfo", lambda *a, **kw: [
         (socket.AF_INET, socket.SOCK_STREAM, 6, "", ("8.8.8.8", 443))
-    ])
+    ] if a[0] in {"first.example", "second.example"} else real_getaddrinfo(*a, **kw))
     calls = []
 
     async def handler(request):
