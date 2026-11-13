@@ -13,7 +13,8 @@
     "pytest.log": "814c1ef66154b849dbe7277cdd8e629de5d0641020e86cc51933101e1bc3d413",
     "observations.csv": "7ab150fb703bfcdcbed9bcb7c686e637c5ae325b443fff0663440466127eed3a",
     "summary.json": "07baee7a9ade2cf29b9c8edaf0f2f9f6044d6bacc4ce2fa587c3da41995ba01f",
-    "experiment.log": "572fb31eb93badc03f8c64114a50743278ada261e5aa2645d01a1770824d3814"
+    "experiment.log": "572fb31eb93badc03f8c64114a50743278ada261e5aa2645d01a1770824d3814",
+    "responsiveness.json": "00d8501dda8df8896a0e334945443bbda8004943e79383035d6a303e41ae20fe"
   },
   "experiment_code_commit": "c5fe4581e57ab83d598e96f0191a6dd7f9c90960",
   "packages": {
@@ -23,5 +24,15 @@
     "fastapi": "0.141.1",
     "sqlalchemy": "2.0.54",
     "fakeredis": "2.38.0"
+  },
+  "ui_validation": {
+    "commit": "8e275593fc894534a0cf325cb3ea0ef4d6ae6503",
+    "frontend_tests": 5,
+    "build": "passed",
+    "npm_audit_vulnerabilities": 0,
+    "e2e": "passed locally via tests.ui_server on 127.0.0.1:8089",
+    "responsive_layouts": 25,
+    "responsive_overflows": 0,
+    "responsive_errors": 0
   }
 }

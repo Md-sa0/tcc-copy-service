@@ -1,0 +1,282 @@
+{
+  "environment": "Chromium local, API simulada; CPU 4x apenas na amostra indicada",
+  "loads": [
+    {
+      "cpu": 1,
+      "readyMs": 119.99529999999999,
+      "paints": [
+        {
+          "name": "first-paint",
+          "ms": 48
+        },
+        {
+          "name": "first-contentful-paint",
+          "ms": 48
+        }
+      ],
+      "jsBytes": 374919,
+      "longTasks": []
+    },
+    {
+      "cpu": 1,
+      "readyMs": 101.15600000000006,
+      "paints": [
+        {
+          "name": "first-paint",
+          "ms": 20
+        },
+        {
+          "name": "first-contentful-paint",
+          "ms": 72
+        }
+      ],
+      "jsBytes": 374919,
+      "longTasks": []
+    },
+    {
+      "cpu": 1,
+      "readyMs": 102.1232,
+      "paints": [
+        {
+          "name": "first-paint",
+          "ms": 20
+        },
+        {
+          "name": "first-contentful-paint",
+          "ms": 76
+        }
+      ],
+      "jsBytes": 374919,
+      "longTasks": []
+    },
+    {
+      "cpu": 4,
+      "readyMs": 316.6896999999999,
+      "paints": [
+        {
+          "name": "first-paint",
+          "ms": 28
+        },
+        {
+          "name": "first-contentful-paint",
+          "ms": 148
+        }
+      ],
+      "jsBytes": 374919,
+      "longTasks": [
+        74
+      ]
+    }
+  ],
+  "layouts": [
+    {
+      "width": 320,
+      "screen": "Gerar textos",
+      "actionMs": 70.75860000000011,
+      "viewport": 320,
+      "content": 320,
+      "overflowElements": []
+    },
+    {
+      "width": 320,
+      "screen": "Cadastrar produto",
+      "actionMs": 69.61529999999993,
+      "viewport": 320,
+      "content": 320,
+      "overflowElements": []
+    },
+    {
+      "width": 320,
+      "screen": "Catálogo de produtos",
+      "actionMs": 61.19579999999996,
+      "viewport": 320,
+      "content": 320,
+      "overflowElements": []
+    },
+    {
+      "width": 320,
+      "screen": "Como funciona",
+      "actionMs": 64.64730000000009,
+      "viewport": 320,
+      "content": 320,
+      "overflowElements": []
+    },
+    {
+      "width": 320,
+      "screen": "Métricas de engenharia",
+      "actionMs": 858.7406000000001,
+      "viewport": 320,
+      "content": 320,
+      "overflowElements": [
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "width": 390,
+      "screen": "Gerar textos",
+      "actionMs": 71.16309999999976,
+      "viewport": 390,
+      "content": 390,
+      "overflowElements": []
+    },
+    {
+      "width": 390,
+      "screen": "Cadastrar produto",
+      "actionMs": 64.46529999999984,
+      "viewport": 390,
+      "content": 390,
+      "overflowElements": []
+    },
+    {
+      "width": 390,
+      "screen": "Catálogo de produtos",
+      "actionMs": 60.866399999999885,
+      "viewport": 390,
+      "content": 390,
+      "overflowElements": []
+    },
+    {
+      "width": 390,
+      "screen": "Como funciona",
+      "actionMs": 57.699700000000576,
+      "viewport": 390,
+      "content": 390,
+      "overflowElements": []
+    },
+    {
+      "width": 390,
+      "screen": "Métricas de engenharia",
+      "actionMs": 856.3144999999995,
+      "viewport": 390,
+      "content": 390,
+      "overflowElements": [
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "width": 768,
+      "screen": "Gerar textos",
+      "actionMs": 69.41989999999987,
+      "viewport": 768,
+      "content": 768,
+      "overflowElements": []
+    },
+    {
+      "width": 768,
+      "screen": "Cadastrar produto",
+      "actionMs": 59.65780000000086,
+      "viewport": 768,
+      "content": 768,
+      "overflowElements": []
+    },
+    {
+      "width": 768,
+      "screen": "Catálogo de produtos",
+      "actionMs": 70.16090000000077,
+      "viewport": 768,
+      "content": 768,
+      "overflowElements": []
+    },
+    {
+      "width": 768,
+      "screen": "Como funciona",
+      "actionMs": 55.73160000000007,
+      "viewport": 768,
+      "content": 768,
+      "overflowElements": []
+    },
+    {
+      "width": 768,
+      "screen": "Métricas de engenharia",
+      "actionMs": 878.9472999999998,
+      "viewport": 768,
+      "content": 768,
+      "overflowElements": []
+    },
+    {
+      "width": 1024,
+      "screen": "Gerar textos",
+      "actionMs": 70.01020000000062,
+      "viewport": 1024,
+      "content": 1024,
+      "overflowElements": []
+    },
+    {
+      "width": 1024,
+      "screen": "Cadastrar produto",
+      "actionMs": 71.22530000000006,
+      "viewport": 1024,
+      "content": 1024,
+      "overflowElements": []
+    },
+    {
+      "width": 1024,
+      "screen": "Catálogo de produtos",
+      "actionMs": 65.34289999999964,
+      "viewport": 1024,
+      "content": 1024,
+      "overflowElements": []
+    },
+    {
+      "width": 1024,
+      "screen": "Como funciona",
+      "actionMs": 53.349599999999555,
+      "viewport": 1024,
+      "content": 1024,
+      "overflowElements": []
+    },
+    {
+      "width": 1024,
+      "screen": "Métricas de engenharia",
+      "actionMs": 865.0637999999999,
+      "viewport": 1024,
+      "content": 1024,
+      "overflowElements": []
+    },
+    {
+      "width": 1440,
+      "screen": "Gerar textos",
+      "actionMs": 68.5679999999993,
+      "viewport": 1440,
+      "content": 1440,
+      "overflowElements": []
+    },
+    {
+      "width": 1440,
+      "screen": "Cadastrar produto",
+      "actionMs": 55.432300000000396,
+      "viewport": 1440,
+      "content": 1440,
+      "overflowElements": []
+    },
+    {
+      "width": 1440,
+      "screen": "Catálogo de produtos",
+      "actionMs": 56.22619999999915,
+      "viewport": 1440,
+      "content": 1440,
+      "overflowElements": []
+    },
+    {
+      "width": 1440,
+      "screen": "Como funciona",
+      "actionMs": 66.17649999999958,
+      "viewport": 1440,
+      "content": 1440,
+      "overflowElements": []
+    },
+    {
+      "width": 1440,
+      "screen": "Métricas de engenharia",
+      "actionMs": 883.2871999999988,
+      "viewport": 1440,
+      "content": 1440,
+      "overflowElements": []
+    }
+  ],
+  "errors": []
+}
