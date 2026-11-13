@@ -76,7 +76,7 @@ try {
   await page.getByRole("tab", { name: "Instagram", exact: true }).click();
   await page.getByRole("button", { name: "Editar texto", exact: true }).click();
   await page
-    .getByLabel("Legenda", { exact: true })
+    .getByRole("textbox", { name: /^Legenda/ })
     .fill("Legenda revisada no editor do CopyLab.");
   await page.getByRole("button", { name: "Salvar nova versão" }).click();
   await page
@@ -178,6 +178,10 @@ try {
   console.log(
     "E2E passed: CRUD, generation, cache, clipboard, previews, metrics, mobile, guided demonstration and report download.",
   );
+} catch (error) {
+  await page.screenshot({ path: `${output}/failure.png`, fullPage: true });
+  console.error(await page.locator("main").innerText());
+  throw error;
 } finally {
   await browser.close();
 }

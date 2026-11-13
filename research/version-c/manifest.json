@@ -1,18 +1,27 @@
 {
-  "tested_code_commit": "c5fe4581e57ab83d598e96f0191a6dd7f9c90960",
+  "tested_code_commit": "b39fccb4066923a1d524688616d525e166402a22",
   "python": "3.14.7",
-  "test_console_seconds": 17.92,
-  "test_junit_seconds": 17.906,
-  "tests": 56,
+  "test_console_seconds": 17.89,
+  "test_junit_seconds": 17.863,
+  "tests": 57,
   "failures": 0,
   "errors": 0,
   "command": "python -m pytest -q --junitxml=research/version-c/pytest.xml",
   "experiment_command": "python -m scripts.version_c_experiment",
   "files": {
-    "pytest.xml": "7cb99bc610d36886141d03e2a18717ee8e28a11aea0b019844a53bbe633737b9",
-    "pytest.log": "c729319ac604139aaef40e4951c463f258763df224d7c2c3b5b697a6861ada74",
+    "pytest.xml": "1897ae9d51f92a2356309affec002232f64db0c7e6359beb3e016f761ec0711e",
+    "pytest.log": "814c1ef66154b849dbe7277cdd8e629de5d0641020e86cc51933101e1bc3d413",
     "observations.csv": "7ab150fb703bfcdcbed9bcb7c686e637c5ae325b443fff0663440466127eed3a",
     "summary.json": "07baee7a9ade2cf29b9c8edaf0f2f9f6044d6bacc4ce2fa587c3da41995ba01f",
     "experiment.log": "572fb31eb93badc03f8c64114a50743278ada261e5aa2645d01a1770824d3814"
+  },
+  "experiment_code_commit": "c5fe4581e57ab83d598e96f0191a6dd7f9c90960",
+  "packages": {
+    "pytest": "9.1.1",
+    "httpx": "0.28.1",
+    "pydantic": "2.13.5",
+    "fastapi": "0.141.1",
+    "sqlalchemy": "2.0.54",
+    "fakeredis": "2.38.0"
   }
 }

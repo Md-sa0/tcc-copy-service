@@ -1,9 +1,9 @@
 # Evidências da versão C corrigida
 
-Código avaliado: c5fe4581e57ab83d598e96f0191a6dd7f9c90960 (derivado de a492fe4). Os arquivos deste diretório foram depositados em commit posterior, sem alterar o código avaliado.
+Código da coleta: c5fe4581e57ab83d598e96f0191a6dd7f9c90960. Código da suíte final: b39fccb4066923a1d524688616d525e166402a22 (derivado de a492fe4); o fluxo da API e o script da coleta são idênticos entre esses commits. Os arquivos deste diretório foram depositados em commit posterior, sem alterar o código avaliado.
 
-- `pytest.xml`: JUnit de 56 testes aprovados; duração interna 17,906 s.
-- `pytest.log`: saída da mesma execução; duração exibida pelo pytest 17,92 s. As duas fronteiras de medição não são idênticas.
+- `pytest.xml`: JUnit de 57 testes aprovados; duração interna 17,863 s.
+- `pytest.log`: saída da mesma execução; duração exibida pelo pytest 17,89 s. As duas fronteiras de medição não são idênticas.
 - `observations.csv`: 150 requisições pela mesma rota autenticada (75 por braço).
 - `summary.json`: médias, contagens, catálogo, ambiente e ordem sorteada dos braços.
 - `manifest.json`: hashes SHA-256 dos artefatos e comandos.
