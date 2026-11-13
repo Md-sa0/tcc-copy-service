@@ -32,7 +32,12 @@ jobs:
       - run: ruff check src tests scripts migrations seed_and_benchmark.py
       - run: alembic upgrade head
       - run: alembic check
-      - run: pytest -q
+      - run: pytest -q --junitxml=artifacts/pytest.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: backend-junit
+          path: artifacts/pytest.xml
   frontend:
     runs-on: ubuntu-latest
     defaults:
@@ -53,10 +58,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Generate ephemeral TLS certificate
+        run: |
+          mkdir -p frontend/certs
+          openssl req -x509 -newkey rsa:2048 -nodes -days 1 -keyout frontend/certs/lan-key.pem -out frontend/certs/lan-cert.pem -subj '/CN=localhost' -addext 'subjectAltName=DNS:localhost,IP:127.0.0.1'
       - run: docker compose config --quiet
       - run: docker compose up --build --wait --wait-timeout 240
-      - run: curl --fail http://localhost:8080/health/ready
-      - run: curl --fail --header 'Content-Type: application/json' --data '{"email":"benchmark@example.com","password":"ci-benchmark-password"}' http://localhost:8080/api/v1/auth/register
+      - run: curl --fail --insecure https://localhost:8443/health/ready
+      - run: |
+          curl --fail --insecure --header 'Content-Type: application/json' --data '{"email":"benchmark@example.com","password":"ci-benchmark-password"}' https://localhost:8443/api/v1/auth/register
       - run: docker compose exec -T -e COPYLAB_EMAIL=benchmark@example.com -e COPYLAB_PASSWORD=ci-benchmark-password api python seed_and_benchmark.py --url http://localhost:8000 --output /tmp/benchmark --repeats 1
       - uses: actions/setup-node@v4
         with:
@@ -66,10 +76,12 @@ jobs:
         working-directory: frontend
       - run: npm run test:e2e --prefix frontend
         env:
-          E2E_BASE_URL: http://127.0.0.1:8080
+          E2E_IGNORE_HTTPS_ERRORS: "1"
+          E2E_BASE_URL: https://127.0.0.1:8443
       - run: npm run test:responsive --prefix frontend
         env:
-          E2E_BASE_URL: http://127.0.0.1:8080
+          E2E_IGNORE_HTTPS_ERRORS: "1"
+          E2E_BASE_URL: https://127.0.0.1:8443
           REVIEW_LABEL: ci
       - uses: actions/upload-artifact@v4
         if: always()

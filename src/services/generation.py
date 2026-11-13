@@ -71,11 +71,19 @@ async def _generate_copy(request: Request, session, payload) -> GenerateResponse
     )
     settings = request.app.state.settings
     model_name = credential.model if credential else request.app.state.runtime_model_name
+    # Rollback expires ORM attributes even with expire_on_commit=False.
+    # Copy every field used after the transaction before releasing it.
+    credential_data = (
+        (credential.encrypted_api_key, credential.base_url, credential.model)
+        if credential is not None else None
+    )
     snapshot = canonical_input(
         product,
         payload.tone_of_voice,
         settings,
         model_name,
+        provider="openai-compatible" if credential_data else "mock",
+        endpoint=credential_data[1] if credential_data else "",
     )
     digest = input_hash(snapshot)
     request.state.input_hash = digest
@@ -110,7 +118,7 @@ async def _generate_copy(request: Request, session, payload) -> GenerateResponse
                 return hit(request, cached)
         request.state.cache_status = "MISS"
         started = time.perf_counter()
-        if credential:
+        if credential_data is not None:
             encryption_key = settings.settings_encryption_key.get_secret_value()
             if not encryption_key:
                 raise HTTPException(
@@ -120,7 +128,7 @@ async def _generate_copy(request: Request, session, payload) -> GenerateResponse
                 )
             try:
                 api_key = Fernet(encryption_key.encode("ascii")).decrypt(
-                    credential.encrypted_api_key.encode("ascii")
+                    credential_data[0].encode("ascii")
                 ).decode("utf-8")
             except (ValueError, UnicodeEncodeError, InvalidToken) as exc:
                 logger.error("provider_configuration_decryption_failed")
@@ -129,8 +137,8 @@ async def _generate_copy(request: Request, session, payload) -> GenerateResponse
                 ) from exc
             provider = OpenAICompatibleProvider(
                 api_key=api_key,
-                base_url=credential.base_url,
-                model=credential.model,
+                base_url=credential_data[1],
+                model=credential_data[2],
             )
             result = await provider.generate(snapshot)
         else:

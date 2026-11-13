@@ -7,7 +7,7 @@ const baseURL = process.env.E2E_BASE_URL || "http://127.0.0.1:5173";
 const output = "../artifacts/screenshots";
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch({ headless: true });
-const context = await browser.newContext({
+const context = await browser.newContext({ ignoreHTTPSErrors: process.env.E2E_IGNORE_HTTPS_ERRORS === "1",
   viewport: { width: 1440, height: 1080 },
   permissions: ["clipboard-read", "clipboard-write"],
 });

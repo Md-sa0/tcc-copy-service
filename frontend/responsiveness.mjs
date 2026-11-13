@@ -9,7 +9,7 @@ const report = { environment: 'Chromium local, API simulada; CPU 4x apenas na am
 await mkdir('../artifacts/responsiveness', { recursive: true });
 try {
   for (const cpu of [1, 1, 1, 4]) {
-    const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const context = await browser.newContext({ ignoreHTTPSErrors: process.env.E2E_IGNORE_HTTPS_ERRORS === "1", viewport: { width: 390, height: 844 } });
     const page = await context.newPage();
     const cdp = await context.newCDPSession(page);
     await cdp.send('Emulation.setCPUThrottlingRate', { rate: cpu });
@@ -30,7 +30,7 @@ try {
     report.loads.push({ cpu, readyMs, ...metrics });
     await context.close();
   }
-  const page = await browser.newPage();
+  const page = await browser.newPage({ ignoreHTTPSErrors: process.env.E2E_IGNORE_HTTPS_ERRORS === "1" });
   page.on('pageerror', e => report.errors.push(e.message));
   await page.goto(base);
   await page.getByRole('button', { name: 'Criar conta', exact: true }).click();
