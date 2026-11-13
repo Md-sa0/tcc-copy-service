@@ -1,0 +1,114 @@
+{
+  "code_commit": "c5fe4581e57ab83d598e96f0191a6dd7f9c90960",
+  "timestamp_utc": "2026-11-13T12:12:32.290459+00:00",
+  "python": "3.14.7",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "seed": 20261112,
+  "order": [
+    [
+      "forced",
+      "reuse"
+    ],
+    [
+      "forced",
+      "reuse"
+    ],
+    [
+      "reuse",
+      "forced"
+    ]
+  ],
+  "catalog": [
+    {
+      "sku": "C-0",
+      "name": "Fone portátil",
+      "category": "Eletrônicos",
+      "target_audience": "Consumidores adultos",
+      "technical_attributes": {
+        "material": "plástico"
+      },
+      "key_benefits": [
+        "Uso diário",
+        "Transporte prático"
+      ]
+    },
+    {
+      "sku": "C-1",
+      "name": "Necessaire",
+      "category": "Cosméticos",
+      "target_audience": "Consumidores adultos",
+      "technical_attributes": {
+        "material": "tecido"
+      },
+      "key_benefits": [
+        "Uso diário",
+        "Transporte prático"
+      ]
+    },
+    {
+      "sku": "C-2",
+      "name": "Camiseta",
+      "category": "Vestuário",
+      "target_audience": "Consumidores adultos",
+      "technical_attributes": {
+        "material": "algodão"
+      },
+      "key_benefits": [
+        "Uso diário",
+        "Transporte prático"
+      ]
+    },
+    {
+      "sku": "C-3",
+      "name": "Garrafa",
+      "category": "Casa",
+      "target_audience": "Consumidores adultos",
+      "technical_attributes": {
+        "material": "aço"
+      },
+      "key_benefits": [
+        "Uso diário",
+        "Transporte prático"
+      ]
+    },
+    {
+      "sku": "C-4",
+      "name": "Estojo",
+      "category": "Papelaria",
+      "target_audience": "Consumidores adultos",
+      "technical_attributes": {
+        "material": "tecido"
+      },
+      "key_benefits": [
+        "Uso diário",
+        "Transporte prático"
+      ]
+    }
+  ],
+  "provider": "MockTransport + MockProvider (80 ms programmed)",
+  "database": "SQLite file per arm/round",
+  "cache": "FakeRedis per arm/round",
+  "timer": "perf_counter_ns around awaited authenticated HTTPX ASGI request including telemetry; excludes setup and client-side validation",
+  "forced_semantics": "force_regenerate bypasses reads, acquires lock, calls provider, persists and refreshes cache",
+  "warmup": "one unmeasured generation per arm/round, then flush cache; excluded from call counts",
+  "real_tokens": 0,
+  "arms": {
+    "reuse": {
+      "n": 75,
+      "mean_ms": 30.481609333333335,
+      "provider_calls": 15,
+      "hits": 60,
+      "valid": 75,
+      "http_200": 75
+    },
+    "forced": {
+      "n": 75,
+      "mean_ms": 108.861784,
+      "provider_calls": 75,
+      "hits": 0,
+      "valid": 75,
+      "http_200": 75
+    }
+  },
+  "reduction_percent": 71.99971540670936
+}

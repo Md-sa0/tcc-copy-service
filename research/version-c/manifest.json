@@ -1,0 +1,18 @@
+{
+  "tested_code_commit": "c5fe4581e57ab83d598e96f0191a6dd7f9c90960",
+  "python": "3.14.7",
+  "test_console_seconds": 17.92,
+  "test_junit_seconds": 17.906,
+  "tests": 56,
+  "failures": 0,
+  "errors": 0,
+  "command": "python -m pytest -q --junitxml=research/version-c/pytest.xml",
+  "experiment_command": "python -m scripts.version_c_experiment",
+  "files": {
+    "pytest.xml": "7cb99bc610d36886141d03e2a18717ee8e28a11aea0b019844a53bbe633737b9",
+    "pytest.log": "c729319ac604139aaef40e4951c463f258763df224d7c2c3b5b697a6861ada74",
+    "observations.csv": "7ab150fb703bfcdcbed9bcb7c686e637c5ae325b443fff0663440466127eed3a",
+    "summary.json": "07baee7a9ade2cf29b9c8edaf0f2f9f6044d6bacc4ce2fa587c3da41995ba01f",
+    "experiment.log": "572fb31eb93badc03f8c64114a50743278ada261e5aa2645d01a1770824d3814"
+  }
+}

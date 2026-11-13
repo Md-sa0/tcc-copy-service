@@ -1,0 +1,504 @@
+HTTP Request: POST http://test/api/v1/auth/register "HTTP/1.1 201 Created"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "b92f61b2-9d3f-44b1-ab52-8b45c8c80398", "path": "/api/v1/settings/provider", "method": "PUT", "kind": "api", "latency_ms": 28.314399999999296, "cache_status": "BYPASS", "status_code": 200, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: PUT http://test/api/v1/settings/provider "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "1867b4e0-a9df-411f-94ef-bc9c6e9811db", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 12.06569999999374, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "eae68417-51dc-4de7-97d2-03b7b219d5b6", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 7.938200000126017, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "b38df6f2-3fd9-430b-94e4-9b8fa840cc14", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 9.6149000000878, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "40bdae49-d2f0-4a2a-89a4-3ae8619aaf58", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 7.748100000071645, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "6bc27424-a382-4269-935a-efbfc30770a2", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 9.383800000023257, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "0d72fb65-cd0a-4f8d-98cb-1ee83e2290a8", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 109.57260000009228, "cache_status": "MISS", "status_code": 200, "input_hash": "9908e91e41e5eca6b3770b3418e5d5c7c32528a12ca434087a981aa22f519f5b", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "8eaf3223-aef2-4a9d-ad0f-8787fb660d54", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 99.79729999986375, "cache_status": "MISS", "status_code": 200, "input_hash": "9908e91e41e5eca6b3770b3418e5d5c7c32528a12ca434087a981aa22f519f5b", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "df896359-c2e8-4d32-b79e-18ab06ea6d03", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 102.03720000004068, "cache_status": "MISS", "status_code": 200, "input_hash": "9908e91e41e5eca6b3770b3418e5d5c7c32528a12ca434087a981aa22f519f5b", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "590f32ef-e3b1-48fa-b808-50a2e9e5e4ba", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 102.63820000000123, "cache_status": "MISS", "status_code": 200, "input_hash": "9908e91e41e5eca6b3770b3418e5d5c7c32528a12ca434087a981aa22f519f5b", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "de1e292e-697a-44f3-be67-1e9a9d7253fb", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 99.57150000013826, "cache_status": "MISS", "status_code": 200, "input_hash": "9908e91e41e5eca6b3770b3418e5d5c7c32528a12ca434087a981aa22f519f5b", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "3be72985-38dd-4e79-ab84-44a202548509", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 101.8056999998862, "cache_status": "MISS", "status_code": 200, "input_hash": "9908e91e41e5eca6b3770b3418e5d5c7c32528a12ca434087a981aa22f519f5b", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "8e2f1768-9992-4623-9cec-faa03d473655", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 100.22370000001501, "cache_status": "MISS", "status_code": 200, "input_hash": "ffc7c263f8a055cd6d27df19d5316feeca186974e1eb3b71c9a6974942a77dcb", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "8da2466e-6c44-43f6-b710-cb245552c9d2", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 105.26000000004387, "cache_status": "MISS", "status_code": 200, "input_hash": "ffc7c263f8a055cd6d27df19d5316feeca186974e1eb3b71c9a6974942a77dcb", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "3eef0e58-c941-4696-9ee5-ca4e2cf0544a", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 100.71020000009412, "cache_status": "MISS", "status_code": 200, "input_hash": "ffc7c263f8a055cd6d27df19d5316feeca186974e1eb3b71c9a6974942a77dcb", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "bd70bbd9-6287-40a8-8e99-ac53d41780d3", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 106.8179000001237, "cache_status": "MISS", "status_code": 200, "input_hash": "ffc7c263f8a055cd6d27df19d5316feeca186974e1eb3b71c9a6974942a77dcb", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "c1edcad3-fde7-4e1e-a1f7-17455e746c70", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 99.61260000000038, "cache_status": "MISS", "status_code": 200, "input_hash": "ffc7c263f8a055cd6d27df19d5316feeca186974e1eb3b71c9a6974942a77dcb", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "7c4559fb-a073-40f6-8d09-2058554ca07a", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 104.01060000003781, "cache_status": "MISS", "status_code": 200, "input_hash": "052e6bf88b562683c1e660d4b26e85551919ae83eadecef45c7b165f0114c262", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "b52c7b12-c93a-4a9a-8f3a-e5e0baf843b8", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 103.90869999991992, "cache_status": "MISS", "status_code": 200, "input_hash": "052e6bf88b562683c1e660d4b26e85551919ae83eadecef45c7b165f0114c262", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "baff6540-20a4-4d9c-a3a1-cd657cff8a0b", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 98.26440000006187, "cache_status": "MISS", "status_code": 200, "input_hash": "052e6bf88b562683c1e660d4b26e85551919ae83eadecef45c7b165f0114c262", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "6bba88af-2985-4b20-aa88-d1c3ad7ee88e", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 101.74640000013824, "cache_status": "MISS", "status_code": 200, "input_hash": "052e6bf88b562683c1e660d4b26e85551919ae83eadecef45c7b165f0114c262", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "04e3933e-7123-4081-998f-9aeadcaa1f9c", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 100.16270000005534, "cache_status": "MISS", "status_code": 200, "input_hash": "052e6bf88b562683c1e660d4b26e85551919ae83eadecef45c7b165f0114c262", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "07d086c1-f9b2-4e28-93be-ca3812b1ecda", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 104.18090000007396, "cache_status": "MISS", "status_code": 200, "input_hash": "632d2e92af7cbac5fcd0cf23dce5a318893188d025acbf994d8d82144ddd2d9b", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "26f52fb0-d9a6-4b9a-bbeb-bd4717a1c7ce", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 99.76759999995011, "cache_status": "MISS", "status_code": 200, "input_hash": "632d2e92af7cbac5fcd0cf23dce5a318893188d025acbf994d8d82144ddd2d9b", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "3482d362-56b3-4c3d-92d8-d4335e4a760b", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 102.75309999997262, "cache_status": "MISS", "status_code": 200, "input_hash": "632d2e92af7cbac5fcd0cf23dce5a318893188d025acbf994d8d82144ddd2d9b", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "7bc6949a-0478-4fe4-91e2-6ca77ca3bd49", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 101.07969999990019, "cache_status": "MISS", "status_code": 200, "input_hash": "632d2e92af7cbac5fcd0cf23dce5a318893188d025acbf994d8d82144ddd2d9b", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "0af51e2b-8f87-4ee7-95bb-52558e133ee7", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 105.24589999999989, "cache_status": "MISS", "status_code": 200, "input_hash": "632d2e92af7cbac5fcd0cf23dce5a318893188d025acbf994d8d82144ddd2d9b", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "a4722583-dc2c-49c1-8fa0-874c56a1b363", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 102.68029999997452, "cache_status": "MISS", "status_code": 200, "input_hash": "3350056cc9ceea63054945a76b0a9c8b01a51b1b5ec996bb6af16259c158ef2a", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "bb449b98-5e89-4666-aa8d-f4dcd1bf9b42", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 104.00380000010045, "cache_status": "MISS", "status_code": 200, "input_hash": "3350056cc9ceea63054945a76b0a9c8b01a51b1b5ec996bb6af16259c158ef2a", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "fa1f6e2f-2fd1-4e1a-8975-d52f97eb7088", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 98.83420000005572, "cache_status": "MISS", "status_code": 200, "input_hash": "3350056cc9ceea63054945a76b0a9c8b01a51b1b5ec996bb6af16259c158ef2a", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "c82ec0f3-3ee3-4caf-9b76-b5f0eb380e99", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 103.75810000005004, "cache_status": "MISS", "status_code": 200, "input_hash": "3350056cc9ceea63054945a76b0a9c8b01a51b1b5ec996bb6af16259c158ef2a", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "4ab72ef7-35da-441e-a9db-845d4da0a51a", "request_id": "b93a3acb-8169-4ae2-b277-65be70216d94", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 101.22210000008636, "cache_status": "MISS", "status_code": 200, "input_hash": "3350056cc9ceea63054945a76b0a9c8b01a51b1b5ec996bb6af16259c158ef2a", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST http://test/api/v1/auth/register "HTTP/1.1 201 Created"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "a3e072e4-6dfd-4c26-a96c-074d0acbbf28", "path": "/api/v1/settings/provider", "method": "PUT", "kind": "api", "latency_ms": 19.516300000077536, "cache_status": "BYPASS", "status_code": 200, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: PUT http://test/api/v1/settings/provider "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "ec8998e4-139b-4aa8-a451-5dc808433a01", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 8.572300000196265, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "ae01b7a9-11ab-46c4-a107-edb399fab01c", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 7.814399999915622, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "66b1475d-56fd-48fa-93b8-259c648ea9e7", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 7.235699999910139, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "783a0161-4ad4-4a4f-b585-70cbb985f45d", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 7.701799999949799, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "a8bcc596-b9df-480d-aa23-33ecec756aa2", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 9.451099999978396, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "854bce2d-1d59-47af-8ff3-8e7ca892abec", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 104.15510000007089, "cache_status": "MISS", "status_code": 200, "input_hash": "61ac1c6ec50ad97b42a915c1f30a519bae95db62ebfa37d73178d496dc6025ad", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "e73c5d86-8510-43b2-a8ca-72e8d1b42082", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 102.50220000011723, "cache_status": "MISS", "status_code": 200, "input_hash": "61ac1c6ec50ad97b42a915c1f30a519bae95db62ebfa37d73178d496dc6025ad", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "1f62b4d4-04b3-49c1-8bd6-10a547292d3d", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.9298000001508626, "cache_status": "HIT", "status_code": 200, "input_hash": "61ac1c6ec50ad97b42a915c1f30a519bae95db62ebfa37d73178d496dc6025ad", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "e8afaca7-2acd-4197-a82b-c253c2b8b1f3", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.474099999948521, "cache_status": "HIT", "status_code": 200, "input_hash": "61ac1c6ec50ad97b42a915c1f30a519bae95db62ebfa37d73178d496dc6025ad", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "b3428236-d22f-4b0b-b35b-fc23d7d1f804", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.5084000001006643, "cache_status": "HIT", "status_code": 200, "input_hash": "61ac1c6ec50ad97b42a915c1f30a519bae95db62ebfa37d73178d496dc6025ad", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "ad958925-8959-42bf-8e20-6be526790582", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.647800000180723, "cache_status": "HIT", "status_code": 200, "input_hash": "61ac1c6ec50ad97b42a915c1f30a519bae95db62ebfa37d73178d496dc6025ad", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "e4a268ca-0398-4c37-a5ad-c91cf3a80e7a", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 96.71630000002551, "cache_status": "MISS", "status_code": 200, "input_hash": "f15b094c039224fd9f1009777511b10647753f565d4fd23b3601bfea71eb0cc2", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "c85e9729-3406-4af7-8419-db1119f99751", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.865599999926417, "cache_status": "HIT", "status_code": 200, "input_hash": "f15b094c039224fd9f1009777511b10647753f565d4fd23b3601bfea71eb0cc2", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "59725925-aeb7-4c26-8a2a-3d70b2ed447d", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.988599999956932, "cache_status": "HIT", "status_code": 200, "input_hash": "f15b094c039224fd9f1009777511b10647753f565d4fd23b3601bfea71eb0cc2", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "1502496d-fd52-4a6d-8fc6-a4b7cb2723f6", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.601000000116983, "cache_status": "HIT", "status_code": 200, "input_hash": "f15b094c039224fd9f1009777511b10647753f565d4fd23b3601bfea71eb0cc2", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "849a59e6-3645-4138-b3de-c27f54ff754a", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.752899999881265, "cache_status": "HIT", "status_code": 200, "input_hash": "f15b094c039224fd9f1009777511b10647753f565d4fd23b3601bfea71eb0cc2", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "2300c853-df71-4485-b777-26afe3e8feb4", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 106.15690000008726, "cache_status": "MISS", "status_code": 200, "input_hash": "001063bb4e310b8bdd1686e502ec2595ec93c10d342f3e8a5097254ea9316573", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "d3314172-6d57-44bf-95bc-e4df3ed21dca", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.6543999999594234, "cache_status": "HIT", "status_code": 200, "input_hash": "001063bb4e310b8bdd1686e502ec2595ec93c10d342f3e8a5097254ea9316573", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "5b572e30-3df4-4447-b77b-02c747003c73", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.444900000204143, "cache_status": "HIT", "status_code": 200, "input_hash": "001063bb4e310b8bdd1686e502ec2595ec93c10d342f3e8a5097254ea9316573", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "da3277c1-e8d6-4558-a148-329d60e0753a", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.439399999933812, "cache_status": "HIT", "status_code": 200, "input_hash": "001063bb4e310b8bdd1686e502ec2595ec93c10d342f3e8a5097254ea9316573", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "1ae72cce-3bbf-4cb8-89d7-ed14ee542f55", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.4176000001480134, "cache_status": "HIT", "status_code": 200, "input_hash": "001063bb4e310b8bdd1686e502ec2595ec93c10d342f3e8a5097254ea9316573", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "e439d9a2-d6ec-43c8-bcc9-0193f40d1ae6", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 107.7852000000803, "cache_status": "MISS", "status_code": 200, "input_hash": "15fdd6ca4fc5f673587d80fb12aebab4431bff7afd5122cd5be981728fb9c2e4", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "0c3ea442-89f8-41c9-841f-9214c5dddf7b", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.57239999993908, "cache_status": "HIT", "status_code": 200, "input_hash": "15fdd6ca4fc5f673587d80fb12aebab4431bff7afd5122cd5be981728fb9c2e4", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "99717e9d-48c6-4470-9a01-ca855d45c736", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.5832000000937114, "cache_status": "HIT", "status_code": 200, "input_hash": "15fdd6ca4fc5f673587d80fb12aebab4431bff7afd5122cd5be981728fb9c2e4", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "7d60a6bb-5372-4bdd-8275-65dbd7871e31", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.9932000001954293, "cache_status": "HIT", "status_code": 200, "input_hash": "15fdd6ca4fc5f673587d80fb12aebab4431bff7afd5122cd5be981728fb9c2e4", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "59051d00-ec9e-48d4-b924-9a906dba2fc9", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.97730000008778, "cache_status": "HIT", "status_code": 200, "input_hash": "15fdd6ca4fc5f673587d80fb12aebab4431bff7afd5122cd5be981728fb9c2e4", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "caa55b20-9654-471e-b66d-ad11aa92861f", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 107.51740000000609, "cache_status": "MISS", "status_code": 200, "input_hash": "e7cb2382906fde05352fa5fea017dd187e3074c8715d7b218657beff86baacef", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "efe2f9c7-cd9c-4c6a-b805-9270bcf4a3e1", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.7153000000671454, "cache_status": "HIT", "status_code": 200, "input_hash": "e7cb2382906fde05352fa5fea017dd187e3074c8715d7b218657beff86baacef", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "417217fa-dcec-4e1c-9863-377587fc6fd0", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.762099999903512, "cache_status": "HIT", "status_code": 200, "input_hash": "e7cb2382906fde05352fa5fea017dd187e3074c8715d7b218657beff86baacef", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "aaff5129-b68b-482b-803e-131cab37c292", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.5176000001229113, "cache_status": "HIT", "status_code": 200, "input_hash": "e7cb2382906fde05352fa5fea017dd187e3074c8715d7b218657beff86baacef", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "5444c861-e9a9-433f-a7da-a3536ea0ab7f", "request_id": "2c241bb7-fdb4-47b4-bc3a-cffe3193de1b", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.585400000019945, "cache_status": "HIT", "status_code": 200, "input_hash": "e7cb2382906fde05352fa5fea017dd187e3074c8715d7b218657beff86baacef", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST http://test/api/v1/auth/register "HTTP/1.1 201 Created"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "fe1fcdf1-2685-4946-a866-cacc14ae7f6a", "path": "/api/v1/settings/provider", "method": "PUT", "kind": "api", "latency_ms": 18.324699999993754, "cache_status": "BYPASS", "status_code": 200, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: PUT http://test/api/v1/settings/provider "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "07df4f33-73d6-491e-8f5c-69edd697e0f6", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 10.081200000058743, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "42b57b83-c3ff-4ac0-a458-64450408fc49", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 7.720400000152949, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "8f972f87-e655-4214-a53d-b388b9220ebf", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 9.582700000009936, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "ba7d1669-1164-47e4-9fac-ced365bd435b", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 7.574900000008711, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "9f72b069-b7b7-49d2-a73a-7753d63f9587", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 9.29960000007668, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "20c9edf0-9e85-4379-9c80-2db63cfcebb9", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 108.31480000001648, "cache_status": "MISS", "status_code": 200, "input_hash": "e6eabf0533f0f54cd1a6ac78de728e1f5760c27cb91e91a247404844ae8cc534", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "257aaf57-1f2c-4b89-8482-1795bdd4d398", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 103.26069999996434, "cache_status": "MISS", "status_code": 200, "input_hash": "e6eabf0533f0f54cd1a6ac78de728e1f5760c27cb91e91a247404844ae8cc534", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "282c4c8a-1681-41ef-86e6-227c45aa8c0c", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 100.8011000001261, "cache_status": "MISS", "status_code": 200, "input_hash": "e6eabf0533f0f54cd1a6ac78de728e1f5760c27cb91e91a247404844ae8cc534", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "ae990faf-d238-4e36-b01f-aa1f8f58b8cd", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 104.82660000002397, "cache_status": "MISS", "status_code": 200, "input_hash": "e6eabf0533f0f54cd1a6ac78de728e1f5760c27cb91e91a247404844ae8cc534", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "270ddb88-a1d1-4a83-b751-da5fe4a52fa9", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 102.06979999998111, "cache_status": "MISS", "status_code": 200, "input_hash": "e6eabf0533f0f54cd1a6ac78de728e1f5760c27cb91e91a247404844ae8cc534", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "605b71d4-db0a-4e61-82e7-4ad3d9e1f107", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 103.67919999998776, "cache_status": "MISS", "status_code": 200, "input_hash": "e6eabf0533f0f54cd1a6ac78de728e1f5760c27cb91e91a247404844ae8cc534", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "e3a09a42-4511-43a7-bbc6-8279c4b53bdb", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 102.21690000003036, "cache_status": "MISS", "status_code": 200, "input_hash": "a903cf3a9cb2591b5fd464d526870f37492f8d788048df2b8469f525b35c9062", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "06c3b4f8-b52d-49e2-bb05-bd3f555b7f78", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 96.76530000001549, "cache_status": "MISS", "status_code": 200, "input_hash": "a903cf3a9cb2591b5fd464d526870f37492f8d788048df2b8469f525b35c9062", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "3e994448-a39a-43c7-966c-ff24c79b2f92", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 105.30659999994896, "cache_status": "MISS", "status_code": 200, "input_hash": "a903cf3a9cb2591b5fd464d526870f37492f8d788048df2b8469f525b35c9062", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "26e5be2d-1fd4-449b-887b-24db25c3ece4", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 102.4537999999211, "cache_status": "MISS", "status_code": 200, "input_hash": "a903cf3a9cb2591b5fd464d526870f37492f8d788048df2b8469f525b35c9062", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "1fe8f8f8-6d54-4f84-811c-75fb3dc3589e", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 104.01189999993221, "cache_status": "MISS", "status_code": 200, "input_hash": "a903cf3a9cb2591b5fd464d526870f37492f8d788048df2b8469f525b35c9062", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "8a891ace-520a-45b6-bb99-9453efcc8fc2", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 101.48529999992206, "cache_status": "MISS", "status_code": 200, "input_hash": "4840a32f850f47087d252d6ae5eb135802d6f628c359fe811b777f0c839b35a3", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "e1ae41eb-a9a1-4203-9889-c6d4f5328853", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 99.76819999997133, "cache_status": "MISS", "status_code": 200, "input_hash": "4840a32f850f47087d252d6ae5eb135802d6f628c359fe811b777f0c839b35a3", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "b984df53-f062-4f09-87c4-30c449ad2c82", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 101.10169999984464, "cache_status": "MISS", "status_code": 200, "input_hash": "4840a32f850f47087d252d6ae5eb135802d6f628c359fe811b777f0c839b35a3", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "fb4ed4d7-a111-491d-9220-6cb0a7e0e333", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 105.906799999957, "cache_status": "MISS", "status_code": 200, "input_hash": "4840a32f850f47087d252d6ae5eb135802d6f628c359fe811b777f0c839b35a3", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "fa4d4d53-6db6-4e79-824c-6194db60b29a", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 104.72260000005917, "cache_status": "MISS", "status_code": 200, "input_hash": "4840a32f850f47087d252d6ae5eb135802d6f628c359fe811b777f0c839b35a3", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "e3f6595a-4574-43ed-991f-28708f4333bd", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 97.9895000000397, "cache_status": "MISS", "status_code": 200, "input_hash": "53d23ab7821750f01aa2e220d76965ad13498f4de690256422786e855cd1ab95", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "4f7dbf5a-1519-4c38-8a20-908f5c9c7057", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 104.2798999999377, "cache_status": "MISS", "status_code": 200, "input_hash": "53d23ab7821750f01aa2e220d76965ad13498f4de690256422786e855cd1ab95", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "4642eb94-e828-4964-86fa-a5200fca53f7", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 101.63239999997131, "cache_status": "MISS", "status_code": 200, "input_hash": "53d23ab7821750f01aa2e220d76965ad13498f4de690256422786e855cd1ab95", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "5b603b77-888d-4378-b5ad-49d991233a73", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 103.1582000000526, "cache_status": "MISS", "status_code": 200, "input_hash": "53d23ab7821750f01aa2e220d76965ad13498f4de690256422786e855cd1ab95", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "6f52d1ee-121d-4b94-b82a-942069e53a2f", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 100.81700000000637, "cache_status": "MISS", "status_code": 200, "input_hash": "53d23ab7821750f01aa2e220d76965ad13498f4de690256422786e855cd1ab95", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "2dd33e9a-9bc6-41da-9059-f828e4b7fd68", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 104.21980000000985, "cache_status": "MISS", "status_code": 200, "input_hash": "f7f09a2d953dc36fd466ed60fecb55351210ef3dfdbb6e9c40fa7f4d87a5bc84", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "a899601b-c6c4-4ca0-a952-5447101aba67", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 101.78550000000541, "cache_status": "MISS", "status_code": 200, "input_hash": "f7f09a2d953dc36fd466ed60fecb55351210ef3dfdbb6e9c40fa7f4d87a5bc84", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "ccd64664-893d-4c5d-ba2a-1208bb88ef89", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 103.07809999994788, "cache_status": "MISS", "status_code": 200, "input_hash": "f7f09a2d953dc36fd466ed60fecb55351210ef3dfdbb6e9c40fa7f4d87a5bc84", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "755243f7-cfde-4e52-a2a5-d0e93f59c3e7", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 102.52459999992425, "cache_status": "MISS", "status_code": 200, "input_hash": "f7f09a2d953dc36fd466ed60fecb55351210ef3dfdbb6e9c40fa7f4d87a5bc84", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "ebf5d1fe-cf2b-4210-bad0-4780885ab01c", "request_id": "3127f672-73f5-4e85-9639-79bc47091680", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 100.49500000013722, "cache_status": "MISS", "status_code": 200, "input_hash": "f7f09a2d953dc36fd466ed60fecb55351210ef3dfdbb6e9c40fa7f4d87a5bc84", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST http://test/api/v1/auth/register "HTTP/1.1 201 Created"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "4d60c644-a7e4-41ee-af99-07d789975f03", "path": "/api/v1/settings/provider", "method": "PUT", "kind": "api", "latency_ms": 18.25579999990623, "cache_status": "BYPASS", "status_code": 200, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: PUT http://test/api/v1/settings/provider "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "2660d6fc-e05f-4801-bfd3-10c5d4203a73", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 8.319600000049832, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "c00872d9-9962-44f2-9564-6463b4eec227", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 7.755599999882179, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "8ab9b93e-7596-4052-a07e-d52a26274286", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 9.860800000069503, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "e1b80007-5d12-4d09-9f64-33ca89798ed4", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 7.949499999995169, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "ee52fe5b-4394-465d-bb00-9ddd9fc01676", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 9.800999999924898, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "1fb8a4e8-eecf-4703-8e43-fa39a3c025f4", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 107.85090000013042, "cache_status": "MISS", "status_code": 200, "input_hash": "20bd856d26583127f41c0e20a02f5034ad15efa45398ea989d4f8a42ab48a6aa", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "6360f7a0-4775-40e6-8e62-0e8b826d0f01", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 101.719600000024, "cache_status": "MISS", "status_code": 200, "input_hash": "20bd856d26583127f41c0e20a02f5034ad15efa45398ea989d4f8a42ab48a6aa", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "880cd032-38c1-46d4-b4b7-a5c6eeac47e0", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.857400000015332, "cache_status": "HIT", "status_code": 200, "input_hash": "20bd856d26583127f41c0e20a02f5034ad15efa45398ea989d4f8a42ab48a6aa", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "fc12bbf7-cf1d-4ebc-bd41-482b27145d77", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.6986999998589454, "cache_status": "HIT", "status_code": 200, "input_hash": "20bd856d26583127f41c0e20a02f5034ad15efa45398ea989d4f8a42ab48a6aa", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "9a67c5c8-ed25-44a0-ab88-e3b351d99a66", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.6251999999876716, "cache_status": "HIT", "status_code": 200, "input_hash": "20bd856d26583127f41c0e20a02f5034ad15efa45398ea989d4f8a42ab48a6aa", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "4086bc39-3ea1-4b63-b15f-a1be0a61ef9e", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.860499999973399, "cache_status": "HIT", "status_code": 200, "input_hash": "20bd856d26583127f41c0e20a02f5034ad15efa45398ea989d4f8a42ab48a6aa", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "7bdee1fa-f4be-453f-9ef4-dc2c1d325bcf", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 106.87199999983932, "cache_status": "MISS", "status_code": 200, "input_hash": "91400228c9665c8fff10a5567b2dd311f79197ce21517867923ad01d0e653106", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "2bbe5433-8cb5-4f0d-8f46-bf4c36b3c320", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 4.274000000123124, "cache_status": "HIT", "status_code": 200, "input_hash": "91400228c9665c8fff10a5567b2dd311f79197ce21517867923ad01d0e653106", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "cf7f0643-9aaa-45c9-a898-c7ff4b400c32", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.6222999999608874, "cache_status": "HIT", "status_code": 200, "input_hash": "91400228c9665c8fff10a5567b2dd311f79197ce21517867923ad01d0e653106", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "f727132e-8f17-46e2-b62c-cd8ac54f3292", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.462800000079369, "cache_status": "HIT", "status_code": 200, "input_hash": "91400228c9665c8fff10a5567b2dd311f79197ce21517867923ad01d0e653106", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "7330350b-e8b6-40b4-a6d2-725b4bb7d010", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.6222999999608874, "cache_status": "HIT", "status_code": 200, "input_hash": "91400228c9665c8fff10a5567b2dd311f79197ce21517867923ad01d0e653106", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "c2be4e59-e4c9-4b4e-8b4c-898dd407e5b6", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 94.04670000003534, "cache_status": "MISS", "status_code": 200, "input_hash": "2a36bd287123235a255ffe07d7a059ee18e6b2310657159e419da19e3b69fc84", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "b74c83af-ee2a-4d8c-9920-7ee24748dde7", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.8746999998693354, "cache_status": "HIT", "status_code": 200, "input_hash": "2a36bd287123235a255ffe07d7a059ee18e6b2310657159e419da19e3b69fc84", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "3aaee43e-bd66-4246-b2aa-1d5a420b8254", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.56299999998555, "cache_status": "HIT", "status_code": 200, "input_hash": "2a36bd287123235a255ffe07d7a059ee18e6b2310657159e419da19e3b69fc84", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "0ebdf1f8-37bf-4511-9550-47f6420e5143", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.6096000001180073, "cache_status": "HIT", "status_code": 200, "input_hash": "2a36bd287123235a255ffe07d7a059ee18e6b2310657159e419da19e3b69fc84", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "8db8f9d4-8728-4681-a251-c565aa6ef2af", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 6.146400000034191, "cache_status": "HIT", "status_code": 200, "input_hash": "2a36bd287123235a255ffe07d7a059ee18e6b2310657159e419da19e3b69fc84", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "0c613c88-bcca-4f7a-a845-7fb84a1d32d4", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 107.80389999990803, "cache_status": "MISS", "status_code": 200, "input_hash": "bd9d2b8cf386cca05257345ec80aafe4c5f1d8905840f94cab1b7a850fc1e364", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "a0f9176e-60cc-417d-b743-e8218aa09394", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.834800000049654, "cache_status": "HIT", "status_code": 200, "input_hash": "bd9d2b8cf386cca05257345ec80aafe4c5f1d8905840f94cab1b7a850fc1e364", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "fc6b9075-c93c-4bb7-8fea-b9a14aa6fc31", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.838800000039555, "cache_status": "HIT", "status_code": 200, "input_hash": "bd9d2b8cf386cca05257345ec80aafe4c5f1d8905840f94cab1b7a850fc1e364", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "af097f3f-a1f5-42e4-bfc4-faa5d6185771", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.7479000000075757, "cache_status": "HIT", "status_code": 200, "input_hash": "bd9d2b8cf386cca05257345ec80aafe4c5f1d8905840f94cab1b7a850fc1e364", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "3b23ce23-938c-4664-80f2-ec30fd3c8ac5", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.666999999950349, "cache_status": "HIT", "status_code": 200, "input_hash": "bd9d2b8cf386cca05257345ec80aafe4c5f1d8905840f94cab1b7a850fc1e364", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "7a910898-b8f8-42e3-9dff-b7b6db88d746", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 104.70140000006722, "cache_status": "MISS", "status_code": 200, "input_hash": "6ad3dcc7935313446fd48028533b930df03bbd885df6b731d09d00c0fe382573", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "9b5bec5b-7a15-4cf8-8050-e6cfb3e22509", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 5.3207999999358435, "cache_status": "HIT", "status_code": 200, "input_hash": "6ad3dcc7935313446fd48028533b930df03bbd885df6b731d09d00c0fe382573", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "0b6060a7-0415-474b-9e60-278ef6916604", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 4.023200000119687, "cache_status": "HIT", "status_code": 200, "input_hash": "6ad3dcc7935313446fd48028533b930df03bbd885df6b731d09d00c0fe382573", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "c4ccd881-2b2f-48f5-ad23-c0b457dee845", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.755499999897438, "cache_status": "HIT", "status_code": 200, "input_hash": "6ad3dcc7935313446fd48028533b930df03bbd885df6b731d09d00c0fe382573", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "1cebb599-55c4-449c-b72b-7434e100d4a8", "request_id": "604ec9d0-b110-43df-9eda-21f5db314039", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 4.017900000008012, "cache_status": "HIT", "status_code": 200, "input_hash": "6ad3dcc7935313446fd48028533b930df03bbd885df6b731d09d00c0fe382573", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST http://test/api/v1/auth/register "HTTP/1.1 201 Created"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "d386c87d-acc5-4a8e-bcc1-879ab6eebba0", "path": "/api/v1/settings/provider", "method": "PUT", "kind": "api", "latency_ms": 19.208900000194262, "cache_status": "BYPASS", "status_code": 200, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: PUT http://test/api/v1/settings/provider "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "bef74dda-bde9-4557-8e8d-04e699508aa1", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 8.819500000072367, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "ad8a2179-36bd-48bd-9c12-6b274a4f4f83", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 9.666200000083336, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "f41f449f-e4d3-4c76-b5e0-61395ea79c91", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 9.88310000002457, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "e1f38939-1ae3-4918-b3a5-139231a732c2", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 8.039900000085254, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "bc9844d8-1a93-4153-afca-60de92b6e096", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 10.056600000098115, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "4387827d-3454-42b4-b1e5-5a02e76f4a5b", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 98.17950000001474, "cache_status": "MISS", "status_code": 200, "input_hash": "845b0546a215d062d171a4198429df0b2d3206a7678fd3781a2d0a6c8febc5a5", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "a67c70fd-37e7-449c-b257-7298bcc0c14f", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 103.93070000009175, "cache_status": "MISS", "status_code": 200, "input_hash": "845b0546a215d062d171a4198429df0b2d3206a7678fd3781a2d0a6c8febc5a5", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "30cb3543-a0b4-48e4-b112-2b1f1cf8d234", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.849700000046141, "cache_status": "HIT", "status_code": 200, "input_hash": "845b0546a215d062d171a4198429df0b2d3206a7678fd3781a2d0a6c8febc5a5", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "ca6e7326-e050-4ee4-85ea-e2692392dac9", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.7382000000434346, "cache_status": "HIT", "status_code": 200, "input_hash": "845b0546a215d062d171a4198429df0b2d3206a7678fd3781a2d0a6c8febc5a5", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "950904df-fd5d-4a6f-8844-47d40fe943a2", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.5955999999259802, "cache_status": "HIT", "status_code": 200, "input_hash": "845b0546a215d062d171a4198429df0b2d3206a7678fd3781a2d0a6c8febc5a5", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "a915324b-ca2b-47bf-8785-dbfa1b9829b9", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 5.753200000071956, "cache_status": "HIT", "status_code": 200, "input_hash": "845b0546a215d062d171a4198429df0b2d3206a7678fd3781a2d0a6c8febc5a5", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "6e9ed836-a4ab-4d90-9952-1507f1132a39", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 102.46129999995901, "cache_status": "MISS", "status_code": 200, "input_hash": "b8f0c19337475d3b365f9ad9159286dae8d4d2a5efd16e81dd817eced30bb4dd", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "9bdabcd4-47bf-48a4-be4b-1a088d190cbb", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.9906000001792563, "cache_status": "HIT", "status_code": 200, "input_hash": "b8f0c19337475d3b365f9ad9159286dae8d4d2a5efd16e81dd817eced30bb4dd", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "81b5d7d8-4a0e-485d-bdd2-7a0a29d12d5c", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 4.175000000032014, "cache_status": "HIT", "status_code": 200, "input_hash": "b8f0c19337475d3b365f9ad9159286dae8d4d2a5efd16e81dd817eced30bb4dd", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "e89afe3c-71c2-4dde-abd0-f9f07714d8eb", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 4.065699999955541, "cache_status": "HIT", "status_code": 200, "input_hash": "b8f0c19337475d3b365f9ad9159286dae8d4d2a5efd16e81dd817eced30bb4dd", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "6566a10f-1b06-44a9-bed2-21bfcfbcdc80", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.67909999999938, "cache_status": "HIT", "status_code": 200, "input_hash": "b8f0c19337475d3b365f9ad9159286dae8d4d2a5efd16e81dd817eced30bb4dd", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "ef2ea978-2582-4162-9f41-0e9afabd16cf", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 101.36110000007648, "cache_status": "MISS", "status_code": 200, "input_hash": "8af0a225bd8396f3a4b714b90953723c5857791209ea3fb1d8fe82d57359af67", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "f4adcd15-3c7a-4b95-8b4e-8cb74e352116", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.7118999998710933, "cache_status": "HIT", "status_code": 200, "input_hash": "8af0a225bd8396f3a4b714b90953723c5857791209ea3fb1d8fe82d57359af67", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "58981031-3c24-4619-8a2c-24d789e1a88b", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.8156000000526547, "cache_status": "HIT", "status_code": 200, "input_hash": "8af0a225bd8396f3a4b714b90953723c5857791209ea3fb1d8fe82d57359af67", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "796cfabf-5955-4f3d-9431-0958b884f9ee", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 4.045599999926708, "cache_status": "HIT", "status_code": 200, "input_hash": "8af0a225bd8396f3a4b714b90953723c5857791209ea3fb1d8fe82d57359af67", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "57e10cad-a022-4993-ae01-aea869fed1f5", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 4.390800000010131, "cache_status": "HIT", "status_code": 200, "input_hash": "8af0a225bd8396f3a4b714b90953723c5857791209ea3fb1d8fe82d57359af67", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "98c3e197-2746-4f7d-bd14-de0f62e73920", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 100.16200000018216, "cache_status": "MISS", "status_code": 200, "input_hash": "0f92c67f0ce15a9b961992ac696379cbda0cae1273db6f9eeb9b50e2d3df9164", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "9325693b-b4dd-48f8-a70f-145da271af6b", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.999700000122175, "cache_status": "HIT", "status_code": 200, "input_hash": "0f92c67f0ce15a9b961992ac696379cbda0cae1273db6f9eeb9b50e2d3df9164", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "0acb471c-7c10-4b1d-aa31-cb8c450f4c87", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 4.046400000106587, "cache_status": "HIT", "status_code": 200, "input_hash": "0f92c67f0ce15a9b961992ac696379cbda0cae1273db6f9eeb9b50e2d3df9164", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "a583623a-2428-4b29-9c51-e52673121891", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.453100000115228, "cache_status": "HIT", "status_code": 200, "input_hash": "0f92c67f0ce15a9b961992ac696379cbda0cae1273db6f9eeb9b50e2d3df9164", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "5273399a-4207-468a-9a1b-06361fcd91a6", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.5488999999415682, "cache_status": "HIT", "status_code": 200, "input_hash": "0f92c67f0ce15a9b961992ac696379cbda0cae1273db6f9eeb9b50e2d3df9164", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "a4b49c8f-cba6-4cff-b0a4-4139640edd36", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 107.66480000006595, "cache_status": "MISS", "status_code": 200, "input_hash": "cf65d5f7987f2336fa8db0fe6cc2cc4048248646ee1a31f78ed487c5e7c05f65", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "4db2776a-18da-4232-aadf-1b71f46c19bb", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.9241000001766224, "cache_status": "HIT", "status_code": 200, "input_hash": "cf65d5f7987f2336fa8db0fe6cc2cc4048248646ee1a31f78ed487c5e7c05f65", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "269d6a4e-dfb6-4a2e-a86c-2b171b8a5489", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.543000000036045, "cache_status": "HIT", "status_code": 200, "input_hash": "cf65d5f7987f2336fa8db0fe6cc2cc4048248646ee1a31f78ed487c5e7c05f65", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "dfbbc5ca-7f37-4e56-b70c-234c0978c807", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 3.6301000000094064, "cache_status": "HIT", "status_code": 200, "input_hash": "cf65d5f7987f2336fa8db0fe6cc2cc4048248646ee1a31f78ed487c5e7c05f65", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{"user_id": "bce377e3-7dce-4465-a846-61a07d5d2a9c", "request_id": "4ef2b99e-361d-4d4e-9be6-9fe04617a80b", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 4.118599999856087, "cache_status": "HIT", "status_code": 200, "input_hash": "cf65d5f7987f2336fa8db0fe6cc2cc4048248646ee1a31f78ed487c5e7c05f65", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST http://test/api/v1/auth/register "HTTP/1.1 201 Created"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "bdd13c56-334d-47d9-9a1a-704b329a8c65", "path": "/api/v1/settings/provider", "method": "PUT", "kind": "api", "latency_ms": 19.257100000004357, "cache_status": "BYPASS", "status_code": 200, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: PUT http://test/api/v1/settings/provider "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "39648f9a-54a3-4e7b-a845-bcb843080c7d", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 9.021099999927173, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "d41dbb33-8439-4e11-8ce4-12b9cf53f1f2", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 7.7872000001661945, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "c103b606-4ec8-43bb-8d94-ca7e1eb7a303", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 7.665899999892645, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "fe19d2ba-9487-48f5-a2e8-a9e2062fe07e", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 7.840000000214786, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "9a4488ce-deb0-4786-84f0-1e75dbd317f4", "path": "/api/v1/products", "method": "POST", "kind": "api", "latency_ms": 7.769499999994878, "cache_status": "BYPASS", "status_code": 201, "input_hash": null, "model_name": null, "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/products "HTTP/1.1 201 Created"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "a25e8fb0-5b7d-49c9-ab71-2aa1d4620327", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 98.39729999998781, "cache_status": "MISS", "status_code": 200, "input_hash": "45f8688841501464efecd58e4c838a4672405719994eb99a55d8055451aa4a4b", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "6505bf14-8712-4ab3-b095-e38dfafb4ce7", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 98.71019999991404, "cache_status": "MISS", "status_code": 200, "input_hash": "45f8688841501464efecd58e4c838a4672405719994eb99a55d8055451aa4a4b", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "636ac0c1-7372-44b9-be62-39dca52c6bfb", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 101.40400000000227, "cache_status": "MISS", "status_code": 200, "input_hash": "45f8688841501464efecd58e4c838a4672405719994eb99a55d8055451aa4a4b", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "de9d6601-5a17-4dc7-8cab-3b2ad57bfffa", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 104.78250000005573, "cache_status": "MISS", "status_code": 200, "input_hash": "45f8688841501464efecd58e4c838a4672405719994eb99a55d8055451aa4a4b", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "0a3bd474-6c2b-40cc-bf44-42c1edece97b", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 101.04769999998098, "cache_status": "MISS", "status_code": 200, "input_hash": "45f8688841501464efecd58e4c838a4672405719994eb99a55d8055451aa4a4b", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "661700fc-d015-4f4b-a4dd-6b005397b247", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 105.51980000013828, "cache_status": "MISS", "status_code": 200, "input_hash": "45f8688841501464efecd58e4c838a4672405719994eb99a55d8055451aa4a4b", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "3af5bdc2-607b-4f6b-99f5-ac3cb4f98520", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 100.46769999985372, "cache_status": "MISS", "status_code": 200, "input_hash": "dde1637b0b248def54a5c81ac985733450bc7536b0512c2e41780eb41108d36e", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "9d6ef735-fa56-4f85-a7fb-168b5ffbc3a2", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 104.70179999992979, "cache_status": "MISS", "status_code": 200, "input_hash": "dde1637b0b248def54a5c81ac985733450bc7536b0512c2e41780eb41108d36e", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "ab930241-d4ee-475f-925b-552123b1a704", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 99.71039999982168, "cache_status": "MISS", "status_code": 200, "input_hash": "dde1637b0b248def54a5c81ac985733450bc7536b0512c2e41780eb41108d36e", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "d4f2587b-5dd7-4cf0-8eca-416e35e079dc", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 100.12320000009822, "cache_status": "MISS", "status_code": 200, "input_hash": "dde1637b0b248def54a5c81ac985733450bc7536b0512c2e41780eb41108d36e", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "c6fad6bf-480f-4b22-b6b1-0cc8fd7540b2", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 104.76309999990008, "cache_status": "MISS", "status_code": 200, "input_hash": "dde1637b0b248def54a5c81ac985733450bc7536b0512c2e41780eb41108d36e", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "e65678a2-b3d3-4314-bd5b-ef807c5b82ec", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 98.56829999989714, "cache_status": "MISS", "status_code": 200, "input_hash": "24eacda0eeb087042c2bb3a8a0bfce5acf3bbc6ab98856bec4e607d080bf6379", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "3eb7d17f-c9b8-47e8-bb6f-238dbc991201", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 104.06420000003891, "cache_status": "MISS", "status_code": 200, "input_hash": "24eacda0eeb087042c2bb3a8a0bfce5acf3bbc6ab98856bec4e607d080bf6379", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "9d837d02-652e-4558-9624-d6783f632aeb", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 101.70530000004874, "cache_status": "MISS", "status_code": 200, "input_hash": "24eacda0eeb087042c2bb3a8a0bfce5acf3bbc6ab98856bec4e607d080bf6379", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "fc08afd8-df45-4977-b74a-ddc091e5d6a8", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 99.29479999982505, "cache_status": "MISS", "status_code": 200, "input_hash": "24eacda0eeb087042c2bb3a8a0bfce5acf3bbc6ab98856bec4e607d080bf6379", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "56f29a9a-550d-41f5-9ad4-befd282a893c", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 103.92890000002808, "cache_status": "MISS", "status_code": 200, "input_hash": "24eacda0eeb087042c2bb3a8a0bfce5acf3bbc6ab98856bec4e607d080bf6379", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "2a52223e-d15b-408e-99f1-99e55b54aa74", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 100.72349999995822, "cache_status": "MISS", "status_code": 200, "input_hash": "635d250200987677fc345311fe60211f735609b25e320f8c13321f38ebe1130f", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "371cf1eb-7e69-44df-9ac7-ebdaf7a9c6c0", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 103.07220000004236, "cache_status": "MISS", "status_code": 200, "input_hash": "635d250200987677fc345311fe60211f735609b25e320f8c13321f38ebe1130f", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "6bc45e66-b9db-487f-beb0-658c72fbf2af", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 102.33349999998609, "cache_status": "MISS", "status_code": 200, "input_hash": "635d250200987677fc345311fe60211f735609b25e320f8c13321f38ebe1130f", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "1ca3da4c-6730-4d6e-8bd5-7de39a10eb7a", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 99.04030000006969, "cache_status": "MISS", "status_code": 200, "input_hash": "635d250200987677fc345311fe60211f735609b25e320f8c13321f38ebe1130f", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "17a9741f-ef80-4106-bf65-a2affe8d0780", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 105.0354999999854, "cache_status": "MISS", "status_code": 200, "input_hash": "635d250200987677fc345311fe60211f735609b25e320f8c13321f38ebe1130f", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "51822ddc-2f40-4397-9ea8-4dea8ffe6211", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 101.6495000001214, "cache_status": "MISS", "status_code": 200, "input_hash": "b06b1f705d6d0a3fab0c43f7988ad624250016fe31e37171bc41a86c7ee2799a", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "6425496e-721e-4199-8f34-8a023984f687", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 100.41579999983696, "cache_status": "MISS", "status_code": 200, "input_hash": "b06b1f705d6d0a3fab0c43f7988ad624250016fe31e37171bc41a86c7ee2799a", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "11da63e1-0a99-4260-9c08-0e8dc120595d", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 102.4230999998963, "cache_status": "MISS", "status_code": 200, "input_hash": "b06b1f705d6d0a3fab0c43f7988ad624250016fe31e37171bc41a86c7ee2799a", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "061374bd-ae8b-40b3-9965-7d93877328db", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 99.73459999991974, "cache_status": "MISS", "status_code": 200, "input_hash": "b06b1f705d6d0a3fab0c43f7988ad624250016fe31e37171bc41a86c7ee2799a", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+HTTP Request: POST https://mock.example/v1/chat/completions "HTTP/1.1 200 OK"
+{"user_id": "b3565fa9-eaa9-4029-b773-f32f362ad43b", "request_id": "97d2f624-5669-412b-9e74-112c7a1ce609", "path": "/api/v1/copies/generate", "method": "POST", "kind": "generation", "latency_ms": 102.92949999984558, "cache_status": "MISS", "status_code": 200, "input_hash": "b06b1f705d6d0a3fab0c43f7988ad624250016fe31e37171bc41a86c7ee2799a", "model_name": "mock-deterministic-v1", "tokens_used": 0, "tokens_saved": 0}
+HTTP Request: POST http://test/api/v1/copies/generate "HTTP/1.1 200 OK"
+{
+  "reuse": {
+    "n": 75,
+    "mean_ms": 30.481609333333335,
+    "provider_calls": 15,
+    "hits": 60,
+    "valid": 75,
+    "http_200": 75
+  },
+  "forced": {
+    "n": 75,
+    "mean_ms": 108.861784,
+    "provider_calls": 75,
+    "hits": 0,
+    "valid": 75,
+    "http_200": 75
+  }
+}
