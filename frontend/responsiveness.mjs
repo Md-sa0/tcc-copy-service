@@ -67,7 +67,7 @@ try {
     });
     for (const [button, title] of screens) {
       const start = performance.now();
-      await page.getByRole('button', { name: button, exact: true }).click();
+      await page.locator('nav').getByRole('button', { name: button, exact: true }).click();
       await page.getByRole('heading', { name: title, exact: true, level: 1 }).waitFor();
       if (button === 'Métricas de engenharia') await page.locator('tbody tr').first().waitFor();
       if (button === 'Catálogo de produtos') await page.locator('.catalog-card').first().waitFor();
