@@ -10,10 +10,10 @@
   "experiment_command": "python -m scripts.version_c_experiment",
   "files": {
     "pytest.xml": "1897ae9d51f92a2356309affec002232f64db0c7e6359beb3e016f761ec0711e",
-    "pytest.log": "814c1ef66154b849dbe7277cdd8e629de5d0641020e86cc51933101e1bc3d413",
-    "observations.csv": "7ab150fb703bfcdcbed9bcb7c686e637c5ae325b443fff0663440466127eed3a",
-    "summary.json": "07baee7a9ade2cf29b9c8edaf0f2f9f6044d6bacc4ce2fa587c3da41995ba01f",
-    "experiment.log": "572fb31eb93badc03f8c64114a50743278ada261e5aa2645d01a1770824d3814",
+    "pytest.log": "a031005d452e7f0a0afeb389fbffc9a40ae3132063dac11a1772a299b23b16d0",
+    "observations.csv": "2ec1d54634a6d43f136d00ea785dd57bb271a2a8c46be467540eaebb61699cb7",
+    "summary.json": "6544cb35b1d5529843b8d091f9d3b2f1bf1c127b8a9537634cf108482a6c8209",
+    "experiment.log": "6c3e49d678260d4be9bc564d70f557bbe744d0ee2d7a7e89e940d23047d7df35",
     "responsiveness.json": "00d8501dda8df8896a0e334945443bbda8004943e79383035d6a303e41ae20fe"
   },
   "experiment_code_commit": "c5fe4581e57ab83d598e96f0191a6dd7f9c90960",
@@ -34,5 +34,6 @@
     "responsive_layouts": 25,
     "responsive_overflows": 0,
     "responsive_errors": 0
-  }
+  },
+  "hash_scope": "SHA-256 of versioned Git blob bytes (LF), independent of checkout line endings"
 }
